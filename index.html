@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W两个世界 · W Two Worlds Board Game Studio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8d08a;
+    --red: #8b1a1a;
+    --gray: #1e1e1e;
+    --gray2: #2a2a2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Noto Sans SC', 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── LANGUAGE SYSTEM ── */
+  body.lang-en [data-zh] { display: none !important; }
+  body.lang-zh [data-en] { display: none !important; }
+  body.lang-en { font-family: 'Inter', 'Noto Sans SC', sans-serif; }
+
+  /* ── LANG TOGGLE ── */
+  .lang-toggle {
+    display: flex; align-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 2px;
+    overflow: hidden; cursor: pointer; user-select: none; flex-shrink: 0;
+  }
+  .lang-btn {
+    padding: 6px 14px;
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+    color: rgba(245,240,232,0.45); transition: all 0.25s; white-space: nowrap;
+  }
+  .lang-btn.active { background: var(--gold); color: var(--black); }
+  .lang-divider { width: 1px; height: 20px; background: rgba(201,168,76,0.25); }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 60px;
+    background: rgba(10,10,10,0.88); backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(201,168,76,0.15); gap: 20px;
+  }
+  .nav-logo {
+    font-family: 'Noto Serif SC', 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 900; letter-spacing: 0.08em; white-space: nowrap; flex-shrink: 0;
+  }
+  .nav-logo span.w { color: var(--gold); font-style: italic; }
+  .nav-center { display: flex; gap: 32px; list-style: none; }
+  .nav-center a {
+    color: rgba(245,240,232,0.65); text-decoration: none;
+    font-size: 0.82rem; letter-spacing: 0.06em; transition: color 0.3s; white-space: nowrap;
+  }
+  .nav-center a:hover { color: var(--gold); }
+  .nav-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+  .nav-cta {
+    background: var(--gold); color: var(--black);
+    padding: 7px 20px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em;
+    text-decoration: none; white-space: nowrap; transition: background 0.3s;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; background: var(--black);
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 72% 50%, rgba(201,168,76,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 18% 80%, rgba(139,26,26,0.07) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.035) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .corner-deco {
+    position: absolute; width: 55px; height: 55px;
+    border-color: rgba(201,168,76,0.25); border-style: solid;
+  }
+  .corner-deco.tl { top: 28px; left: 28px; border-width: 1px 0 0 1px; }
+  .corner-deco.tr { top: 28px; right: 28px; border-width: 1px 1px 0 0; }
+  .corner-deco.bl { bottom: 28px; left: 28px; border-width: 0 0 1px 1px; }
+  .corner-deco.br { bottom: 28px; right: 28px; border-width: 0 1px 1px 0; }
+  .hero-content { position: relative; z-index: 2; text-align: center; padding: 0 20px; }
+  .hero-badge {
+    display: inline-block; border: 1px solid rgba(201,168,76,0.6); color: var(--gold);
+    font-size: 0.68rem; letter-spacing: 0.35em; padding: 6px 22px; margin-bottom: 32px; text-transform: uppercase;
+  }
+  .hero-logo-svg {
+    width: 130px; height: 130px; margin: 0 auto 26px;
+    filter: drop-shadow(0 0 28px rgba(201,168,76,0.28));
+  }
+  .hero-title {
+    font-weight: 900; line-height: 1.05; margin-bottom: 8px;
+    font-size: clamp(2.6rem, 7vw, 5.5rem);
+  }
+  .hero-title.zh { font-family: 'Noto Serif SC', serif; }
+  .hero-title.en { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5.5vw, 4.2rem); }
+  .hero-title .w { color: var(--gold); font-style: italic; }
+  .hero-subtitle {
+    font-size: clamp(0.85rem, 1.8vw, 1.1rem); font-weight: 300;
+    color: rgba(245,240,232,0.55); letter-spacing: 0.22em; margin-bottom: 48px; line-height: 1.8;
+  }
+  .hero-subtitle span { color: var(--gold); opacity: 0.75; }
+  .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold); color: var(--black); padding: 13px 38px;
+    font-size: 0.88rem; font-weight: 700; letter-spacing: 0.1em;
+    text-decoration: none; transition: all 0.3s; display: inline-block;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--white); padding: 13px 38px;
+    font-size: 0.88rem; letter-spacing: 0.1em; border: 1px solid rgba(245,240,232,0.28);
+    text-decoration: none; transition: all 0.3s; display: inline-block;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-scroll {
+    position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: rgba(245,240,232,0.28); font-size: 0.65rem; letter-spacing: 0.2em;
+  }
+  .scroll-line {
+    width: 1px; height: 48px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+  /* ── SECTION BASE ── */
+  section { padding: 96px 60px; }
+  .section-label {
+    font-size: 0.68rem; letter-spacing: 0.42em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-label::before {
+    content: ''; display: block; width: 38px; height: 1px;
+    background: var(--gold); flex-shrink: 0;
+  }
+  .section-title { font-size: clamp(1.9rem, 3.5vw, 2.8rem); font-weight: 900; line-height: 1.2; margin-bottom: 18px; }
+  .section-title.zh { font-family: 'Noto Serif SC', serif; }
+  .section-title.en { font-family: 'Playfair Display', serif; }
+  .section-desc { color: rgba(245,240,232,0.52); font-size: 0.92rem; line-height: 1.95; max-width: 520px; }
+
+  /* ── SERVICES ── */
+  #services { background: var(--black); }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 56px; }
+  .service-card {
+    background: var(--gray2); padding: 42px 34px;
+    position: relative; overflow: hidden; transition: all 0.4s;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .service-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.07) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .service-card:hover { background: #1a1a1a; transform: translateY(-4px); }
+  .service-card:hover::before { opacity: 1; }
+  .service-num {
+    position: absolute; top: 18px; right: 22px; font-size: 3.8rem; font-weight: 900;
+    color: rgba(255,255,255,0.028); font-family: 'Playfair Display', serif; line-height: 1;
+  }
+  .service-icon { font-size: 2.4rem; margin-bottom: 18px; display: block; }
+  .service-name-zh { font-family: 'Noto Serif SC', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
+  .service-name-en { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--gold); margin-bottom: 14px; font-style: italic; }
+  .service-desc-text { color: rgba(245,240,232,0.48); font-size: 0.83rem; line-height: 1.85; }
+  .service-tag {
+    display: inline-block; margin-top: 18px;
+    border: 1px solid rgba(201,168,76,0.3); color: var(--gold);
+    font-size: 0.68rem; padding: 4px 11px; letter-spacing: 0.08em;
+  }
+
+  /* ── ABOUT ── */
+  #about { background: #0d0d0d; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-visual { position: relative; height: 460px; display: flex; align-items: center; justify-content: center; }
+  .about-ring { position: absolute; border: 1px solid rgba(201,168,76,0.13); border-radius: 50%; animation: spinRing linear infinite; }
+  .ring1 { width: 310px; height: 310px; animation-duration: 32s; }
+  .ring2 { width: 230px; height: 230px; animation-duration: 22s; animation-direction: reverse; border-style: dashed; }
+  .ring3 { width: 150px; height: 150px; animation-duration: 16s; }
+  @keyframes spinRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .about-center { position: relative; z-index: 2; text-align: center; }
+  .about-center-w { font-family: 'Playfair Display', serif; font-size: 5.5rem; font-weight: 900; color: var(--gold); line-height: 1; font-style: italic; }
+  .about-center-label { font-size: 0.75rem; letter-spacing: 0.18em; color: rgba(245,240,232,0.4); margin-top: 8px; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+  .stat-box { border: 1px solid rgba(201,168,76,0.18); padding: 22px; background: rgba(201,168,76,0.025); transition: border-color 0.3s; }
+  .stat-box:hover { border-color: rgba(201,168,76,0.5); }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--gold); }
+  .stat-label { font-size: 0.78rem; color: rgba(245,240,232,0.45); margin-top: 5px; }
+
+  /* ── ATMOSPHERE ── */
+  #atmosphere { background: var(--black); }
+  .atm-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; gap: 40px; }
+  .atm-desc { color: rgba(245,240,232,0.38); font-size: 0.83rem; max-width: 220px; text-align: right; line-height: 1.75; flex-shrink: 0; }
+  .atm-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 255px 255px; gap: 3px; }
+  .atm-item { position: relative; overflow: hidden; display: flex; align-items: flex-end; transition: transform 0.4s; }
+  .atm-item:hover { transform: scale(1.01); z-index: 2; }
+  .atm-item:first-child { grid-row: 1 / 3; }
+  .atm-item:nth-child(1) { background: linear-gradient(135deg, #1a0808 0%, #2d1212 100%); }
+  .atm-item:nth-child(2) { background: linear-gradient(135deg, #080f1a 0%, #122030 100%); }
+  .atm-item:nth-child(3) { background: linear-gradient(135deg, #0a1408 0%, #142012 100%); }
+  .atm-item:nth-child(4) { background: linear-gradient(135deg, #1a1208 0%, #2d2012 100%); }
+  .atm-item:nth-child(5) { background: linear-gradient(135deg, #180810 0%, #28101e 100%); }
+  .atm-pattern { position: absolute; inset: 0; opacity: 0.04; background-image: repeating-linear-gradient(45deg, var(--gold) 0, var(--gold) 1px, transparent 0, transparent 50%); background-size: 18px 18px; }
+  .atm-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .atm-emoji { font-size: 3rem; opacity: 0.7; }
+  .atm-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 18px 22px; background: linear-gradient(to top, rgba(0,0,0,0.72), transparent); }
+  .atm-label h3 { font-family: 'Noto Serif SC', serif; font-size: 1rem; margin-bottom: 3px; }
+  .atm-label h3.en { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-style: italic; }
+  .atm-label p { font-size: 0.72rem; color: rgba(245,240,232,0.45); }
+
+  /* ── BOOKING ── */
+  #booking {
+    background: linear-gradient(135deg, #0c0800 0%, #160f00 100%);
+    border-top: 1px solid rgba(201,168,76,0.12);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+  }
+  .booking-inner { max-width: 880px; margin: 0 auto; text-align: center; }
+  .booking-inner .section-label { justify-content: center; }
+  .booking-inner .section-label::before { display: none; }
+  .booking-inner .section-desc { margin: 0 auto 46px; text-align: center; max-width: 500px; }
+  .booking-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 40px; }
+  .booking-card { border: 1px solid rgba(201,168,76,0.18); padding: 30px 22px; background: rgba(201,168,76,0.025); transition: all 0.3s; }
+  .booking-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); transform: translateY(-3px); }
+  .booking-card-icon { font-size: 1.9rem; margin-bottom: 14px; }
+  .booking-card-title-zh { font-family: 'Noto Serif SC', serif; font-size: 0.98rem; font-weight: 700; margin-bottom: 5px; }
+  .booking-card-title-en { font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 10px; color: var(--gold); font-style: italic; }
+  .booking-card-desc { font-size: 0.8rem; color: rgba(245,240,232,0.42); line-height: 1.75; }
+  .wechat-box { display: inline-flex; align-items: center; gap: 14px; border: 1px solid var(--gold); padding: 15px 34px; background: rgba(201,168,76,0.04); }
+  .wechat-icon { font-size: 1.4rem; }
+  .wechat-text { text-align: left; }
+  .wechat-text p:first-child { font-size: 0.68rem; color: var(--gold); letter-spacing: 0.12em; }
+  .wechat-text p:last-child { font-size: 1rem; font-weight: 700; letter-spacing: 0.04em; }
+
+  /* ── FOOTER ── */
+  footer { background: #050505; padding: 56px 60px 28px; border-top: 1px solid rgba(201,168,76,0.08); }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 56px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .footer-brand-name { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; font-weight: 900; margin-bottom: 8px; }
+  .footer-brand-name span.w { color: var(--gold); font-style: italic; }
+  .footer-brand-en { font-family: 'Playfair Display', serif; font-size: 0.85rem; color: rgba(201,168,76,0.6); margin-bottom: 14px; font-style: italic; }
+  .footer-brand-desc { font-size: 0.8rem; line-height: 1.9; color: rgba(245,240,232,0.35); margin-bottom: 22px; }
+  .footer-social { display: flex; gap: 10px; }
+  .social-btn { width: 34px; height: 34px; border: 1px solid rgba(201,168,76,0.22); display: flex; align-items: center; justify-content: center; font-size: 0.95rem; text-decoration: none; color: rgba(245,240,232,0.45); transition: all 0.3s; }
+  .social-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .footer-col-title { font-size: 0.7rem; letter-spacing: 0.22em; color: var(--gold); margin-bottom: 18px; text-transform: uppercase; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+  .footer-links a { color: rgba(245,240,232,0.4); text-decoration: none; font-size: 0.82rem; transition: color 0.3s; }
+  .footer-links a:hover { color: var(--white); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 26px; font-size: 0.72rem; color: rgba(245,240,232,0.22); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    nav { padding: 14px 22px; }
+    .nav-center { display: none; }
+    section { padding: 68px 22px; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    #about { grid-template-columns: 1fr; gap: 36px; }
+    .about-visual { height: 280px; }
+    .atm-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .atm-item:first-child { grid-row: auto; height: 220px; }
+    .atm-item { height: 200px; }
+    .booking-cards { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+    .atm-header { flex-direction: column; align-items: flex-start; }
+    .atm-desc { text-align: left; max-width: 100%; }
+  }
+  @media (max-width: 560px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .atm-grid { grid-template-columns: 1fr; }
+    .atm-item, .atm-item:first-child { height: 200px; grid-row: auto; }
+  }
+</style>
+</head>
+<body class="lang-zh">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span class="w">W</span> <span data-zh>两个世界</span><span data-en>Two Worlds</span></div>
+  <ul class="nav-center">
+    <li><a href="#services" data-zh>项目</a><a href="#services" data-en>Services</a></li>
+    <li><a href="#about" data-zh>关于</a><a href="#about" data-en>About</a></li>
+    <li><a href="#atmosphere" data-zh>环境</a><a href="#atmosphere" data-en>Space</a></li>
+    <li><a href="#booking" data-zh>预约</a><a href="#booking" data-en>Book</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#booking" class="nav-cta" data-zh>立即预约</a>
+    <a href="#booking" class="nav-cta" data-en>Book Now</a>
+    <div class="lang-toggle" id="langToggle">
+      <div class="lang-btn active" id="btnZh">中文</div>
+      <div class="lang-divider"></div>
+      <div class="lang-btn" id="btnEn">EN</div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="corner-deco tl"></div>
+  <div class="corner-deco tr"></div>
+  <div class="corner-deco bl"></div>
+  <div class="corner-deco br"></div>
+  <div class="hero-content">
+    <div class="hero-badge" data-zh>W board game studio · 剧本桌游社</div>
+    <div class="hero-badge" data-en>W board game studio · Immersive Entertainment</div>
+    <svg class="hero-logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="100,28 172,90 172,176 28,176 28,90" fill="none" stroke="#c9a84c" stroke-width="4.5" stroke-linejoin="round"/>
+      <line x1="58" y1="82" x2="92" y2="82" stroke="#f5f0e8" stroke-width="4"/>
+      <line x1="68" y1="82" x2="62" y2="108" stroke="#f5f0e8" stroke-width="3.5"/>
+      <line x1="82" y1="82" x2="88" y2="108" stroke="#f5f0e8" stroke-width="3.5"/>
+      <line x1="75" y1="90" x2="75" y2="108" stroke="#f5f0e8" stroke-width="3"/>
+      <line x1="100" y1="78" x2="100" y2="116" stroke="#f5f0e8" stroke-width="3.5"/>
+      <line x1="90" y1="90" x2="130" y2="90" stroke="#f5f0e8" stroke-width="3"/>
+      <line x1="118" y1="78" x2="118" y2="116" stroke="#f5f0e8" stroke-width="3"/>
+      <line x1="58" y1="132" x2="142" y2="132" stroke="#c9a84c" stroke-width="3"/>
+      <line x1="78" y1="132" x2="68" y2="162" stroke="#c9a84c" stroke-width="3"/>
+      <line x1="122" y1="132" x2="132" y2="162" stroke="#c9a84c" stroke-width="3"/>
+      <line x1="100" y1="116" x2="100" y2="162" stroke="#c9a84c" stroke-width="3"/>
+      <text x="128" y="70" font-family="Georgia,serif" font-size="28" font-weight="900" fill="#c9a84c" font-style="italic">W</text>
+      <path d="M 20,58 Q 8,100 20,148" fill="none" stroke="#f5f0e8" stroke-width="3.5"/>
+    </svg>
+    <h1 class="hero-title zh" data-zh><span class="w">W</span> 两个世界</h1>
+    <h1 class="hero-title en" data-en><span class="w">W</span> Two Worlds</h1>
+    <p class="hero-subtitle" data-zh>剧本桌游社 <span>·</span> 沉浸式娱乐空间</p>
+    <p class="hero-subtitle" data-en>Board Game Studio <span>·</span> Immersive Entertainment Space</p>
+    <div class="hero-btns">
+      <a href="#booking" class="btn-primary" data-zh>立即预约</a>
+      <a href="#booking" class="btn-primary" data-en>Book Now</a>
+      <a href="#services" class="btn-outline" data-zh>探索项目</a>
+      <a href="#services" class="btn-outline" data-en>Explore</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span data-zh>向下探索</span><span data-en>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label" data-zh>OUR SERVICES · 我们的项目</div>
+  <div class="section-label" data-en>OUR SERVICES</div>
+  <h2 class="section-title zh" data-zh>六大沉浸体验</h2>
+  <h2 class="section-title en" data-en>Six Immersive Experiences</h2>
+  <p class="section-desc" data-zh>每一项目都是一扇通往另一个世界的大门，等你推开。</p>
+  <p class="section-desc" data-en>Every game is a doorway to another world — step through and lose yourself in the story.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <span class="service-num">01</span>
+      <span class="service-icon">🎭</span>
+      <h3 class="service-name-zh" data-zh>剧本杀</h3>
+      <h3 class="service-name-en" data-en>Murder Mystery</h3>
+      <p class="service-desc-text" data-zh>多人角色扮演推理游戏，沉浸式剧情体验。古风、现代、悬疑、恐怖等多种主题，每场都是一段崭新的故事。</p>
+      <p class="service-desc-text" data-en>Multi-player role-playing mystery with deep narrative immersion. Ancient, modern, suspense, horror — every session is a brand new story.</p>
+      <span class="service-tag" data-zh>4～8人 / 3～6小时</span>
+      <span class="service-tag" data-en>4–8 Players / 3–6 hrs</span>
+    </div>
+    <div class="service-card">
+      <span class="service-num">02</span>
+      <span class="service-icon">🎲</span>
+      <h3 class="service-name-zh" data-zh>桌游</h3>
+      <h3 class="service-name-en" data-en>Board Games</h3>
+      <p class="service-desc-text" data-zh>拥有数百款桌游，从轻度策略到深度竞技，适合朋友聚会、情侣约会、团建活动，每款都有专属讲解员。</p>
+      <p class="service-desc-text" data-en>Hundreds of titles from light strategy to competitive play. Perfect for friend hangouts, date nights, or team events — with a dedicated host for every game.</p>
+      <span class="service-tag" data-zh>2人起 / 随时畅玩</span>
+      <span class="service-tag" data-en>2+ Players / Drop-in Anytime</span>
+    </div>
+    <div class="service-card">
+      <span class="service-num">03</span>
+      <span class="service-icon">🐺</span>
+      <h3 class="service-name-zh" data-zh>狼人杀</h3>
+      <h3 class="service-name-en" data-en>Werewolf</h3>
+      <p class="service-desc-text" data-zh>经典社交推理游戏，考验观察力与表达力。专业主持人带场，多种身份版本，保证每局精彩刺激。</p>
+      <p class="service-desc-text" data-en>The classic social deduction game testing observation and persuasion. A professional host runs multiple role variants for maximum excitement every round.</p>
+      <span class="service-tag" data-zh>8～18人 / 60～90分钟</span>
+      <span class="service-tag" data-en>8–18 Players / 60–90 min</span>
+    </div>
+    <div class="service-card">
+      <span class="service-num">04</span>
+      <span class="service-icon">🔔</span>
+      <h3 class="service-name-zh" data-zh>血染钟楼</h3>
+      <h3 class="service-name-en" data-en>Blood on the Clocktower</h3>
+      <p class="service-desc-text" data-zh>策略性最强的社交推理游戏，多达40+种角色，每场博弈都是智力与心理的极致考验，烧脑上头。</p>
+      <p class="service-desc-text" data-en>The most strategic social deduction experience. With 40+ unique roles, every session pushes your intellect and nerves to the absolute limit.</p>
+      <span class="service-tag" data-zh>7～20人 / 2～4小时</span>
+      <span class="service-tag" data-en>7–20 Players / 2–4 hrs</span>
+    </div>
+    <div class="service-card">
+      <span class="service-num">05</span>
+      <span class="service-icon">🎤</span>
+      <h3 class="service-name-zh" data-zh>KTV</h3>
+      <h3 class="service-name-en" data-en>Karaoke / KTV</h3>
+      <p class="service-desc-text" data-zh>私密包厢KTV，高品质音响设备，超万首曲库实时更新。玩完剧本杀直接续场，一站式娱乐全搞定。</p>
+      <p class="service-desc-text" data-en>Private rooms with premium audio and 10,000+ songs updated in real time. The perfect way to continue the night after a mystery session.</p>
+      <span class="service-tag" data-zh>独立包厢 / 按时计费</span>
+      <span class="service-tag" data-en>Private Rooms / Hourly Rate</span>
+    </div>
+    <div class="service-card">
+      <span class="service-num">06</span>
+      <span class="service-icon">🀄</span>
+      <h3 class="service-name-zh" data-zh>麻将</h3>
+      <h3 class="service-name-en" data-en>Mahjong</h3>
+      <p class="service-desc-text" data-zh>舒适麻将包间，自动洗牌机，多种玩法规则可选。老友相聚，叙旧畅聊，最惬意的休闲时光。</p>
+      <p class="service-desc-text" data-en>Comfortable private rooms with automatic shufflers and multiple rule variants. The most relaxing way to enjoy great company.</p>
+      <span class="service-tag" data-zh>4人标准局 / 按时计费</span>
+      <span class="service-tag" data-en>4 Players / Hourly Rate</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual">
+    <div class="about-ring ring1"></div>
+    <div class="about-ring ring2"></div>
+    <div class="about-ring ring3"></div>
+    <div class="about-center">
+      <div class="about-center-w">W</div>
+      <div class="about-center-label" data-zh>两个世界 · 剧本桌游社</div>
+      <div class="about-center-label" data-en>Two Worlds · Board Game Studio</div>
+    </div>
+  </div>
+  <div>
+    <div class="section-label" data-zh>ABOUT US · 关于我们</div>
+    <div class="section-label" data-en>ABOUT US</div>
+    <h2 class="section-title zh" data-zh>一扇门，<br>两个世界</h2>
+    <h2 class="section-title en" data-en>One Door.<br>Two Worlds.</h2>
+    <p class="section-desc" data-zh>W两个世界，是一家专注于沉浸式娱乐体验的综合性桌游社。我们相信，每一次游戏都是一次走进另一个世界的旅程——在这里，你可以是侦探、刺客、狼人，也可以是最放松的自己。</p>
+    <p class="section-desc" data-en>W Two Worlds is a premium immersive entertainment studio. We believe every game is a journey into another world — here you can be a detective, an assassin, a werewolf, or simply the most relaxed version of yourself.</p>
+    <div class="about-stats">
+      <div class="stat-box">
+        <div class="stat-num">200+</div>
+        <div class="stat-label" data-zh>剧本库存</div>
+        <div class="stat-label" data-en>Mystery Scripts</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">500+</div>
+        <div class="stat-label" data-zh>桌游品类</div>
+        <div class="stat-label" data-en>Board Game Titles</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">6</div>
+        <div class="stat-label" data-zh>独立包厢</div>
+        <div class="stat-label" data-en>Private Rooms</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">★★★★★</div>
+        <div class="stat-label" data-zh>玩家好评</div>
+        <div class="stat-label" data-en>Player Rating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ATMOSPHERE -->
+<section id="atmosphere">
+  <div class="atm-header">
+    <div>
+      <div class="section-label" data-zh>ATMOSPHERE · 空间环境</div>
+      <div class="section-label" data-en>ATMOSPHERE</div>
+      <h2 class="section-title zh" data-zh>沉浸式空间体验</h2>
+      <h2 class="section-title en" data-en>Immersive Spaces</h2>
+    </div>
+    <p class="atm-desc" data-zh>精心打造的主题场景，让你从踏入门口那一刻起就完全入戏</p>
+    <p class="atm-desc" data-en>Meticulously designed themed spaces that pull you into the story the moment you walk in</p>
+  </div>
+  <div class="atm-grid">
+    <div class="atm-item">
+      <div class="atm-pattern"></div>
+      <div class="atm-overlay"><div class="atm-emoji">🕯️</div></div>
+      <div class="atm-label">
+        <h3 data-zh>暗黑推理厅</h3><h3 class="en" data-en>Dark Mystery Hall</h3>
+        <p data-zh>专为剧本杀打造的沉浸式主题场景</p>
+        <p data-en>Immersive themed rooms for murder mystery</p>
+      </div>
+    </div>
+    <div class="atm-item">
+      <div class="atm-pattern"></div>
+      <div class="atm-overlay"><div class="atm-emoji">🌙</div></div>
+      <div class="atm-label">
+        <h3 data-zh>午夜竞技场</h3><h3 class="en" data-en>Midnight Arena</h3>
+        <p data-zh>狼人杀 · 血染钟楼专区</p>
+        <p data-en>Werewolf &amp; Blood on the Clocktower</p>
+      </div>
+    </div>
+    <div class="atm-item">
+      <div class="atm-pattern"></div>
+      <div class="atm-overlay"><div class="atm-emoji">🎲</div></div>
+      <div class="atm-label">
+        <h3 data-zh>桌游大厅</h3><h3 class="en" data-en>Board Game Hall</h3>
+        <p data-zh>开放式桌游区，随时开局</p>
+        <p data-en>Open gaming area, drop in anytime</p>
+      </div>
+    </div>
+    <div class="atm-item">
+      <div class="atm-pattern"></div>
+      <div class="atm-overlay"><div class="atm-emoji">🎙️</div></div>
+      <div class="atm-label">
+        <h3 data-zh>星光包厢</h3><h3 class="en" data-en>Starlight Suite</h3>
+        <p data-zh>KTV私密包厢，尽情嗨唱</p>
+        <p data-en>Private KTV rooms, sing your heart out</p>
+      </div>
+    </div>
+    <div class="atm-item">
+      <div class="atm-pattern"></div>
+      <div class="atm-overlay"><div class="atm-emoji">🀄</div></div>
+      <div class="atm-label">
+        <h3 data-zh>清风雅室</h3><h3 class="en" data-en>Serene Mahjong Room</h3>
+        <p data-zh>舒适麻将包间，悠然自得</p>
+        <p data-en>Comfortable mahjong rooms, pure relaxation</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="booking-inner">
+    <div class="section-label" data-zh>RESERVATION · 预约</div>
+    <div class="section-label" data-en>RESERVATION</div>
+    <h2 class="section-title zh" data-zh>预约入场</h2>
+    <h2 class="section-title en" data-en>Make a Reservation</h2>
+    <p class="section-desc" data-zh>提前预约享优先入场权，节假日及热门剧本建议提前2天预约，避免等待。</p>
+    <p class="section-desc" data-en>Book ahead for priority entry. For holidays and popular scripts, we recommend reserving at least 2 days in advance.</p>
+    <div class="booking-cards">
+      <div class="booking-card">
+        <div class="booking-card-icon">📱</div>
+        <h3 class="booking-card-title-zh" data-zh>微信预约</h3>
+        <h3 class="booking-card-title-en" data-en>WeChat Booking</h3>
+        <p class="booking-card-desc" data-zh>扫描二维码或搜索微信号，发送项目名称 + 日期 + 人数，即可快速完成预约。</p>
+        <p class="booking-card-desc" data-en>Scan our QR or search our WeChat ID. Send us your activity, date &amp; group size to confirm instantly.</p>
+      </div>
+      <div class="booking-card">
+        <div class="booking-card-icon">📞</div>
+        <h3 class="booking-card-title-zh" data-zh>电话预约</h3>
+        <h3 class="booking-card-title-en" data-en>Phone Booking</h3>
+        <p class="booking-card-desc" data-zh>直接拨打我们的联系电话，工作人员将为你推荐最合适的项目和时段。</p>
+        <p class="booking-card-desc" data-en>Call us directly — our staff will recommend the best activity and time slot for your group.</p>
+      </div>
+      <div class="booking-card">
+        <div class="booking-card-icon">🚶</div>
+        <h3 class="booking-card-title-zh" data-zh>到店咨询</h3>
+        <h3 class="booking-card-title-en" data-en>Walk-in Welcome</h3>
+        <p class="booking-card-desc" data-zh>欢迎直接到店，我们的工作人员随时为你介绍项目，提供专属体验方案。</p>
+        <p class="booking-card-desc" data-en>Walk-ins are always welcome. Our team is on hand to craft a personalised experience plan for you.</p>
+      </div>
+    </div>
+    <div class="wechat-box">
+      <span class="wechat-icon">💬</span>
+      <div class="wechat-text">
+        <p data-zh>微信搜索 · 立即咨询</p>
+        <p data-en>Search WeChat · Contact Us Now</p>
+        <p>W两个世界 · W Two Worlds</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name"><span class="w">W</span> <span data-zh>两个世界</span><span data-en>Two Worlds</span></div>
+      <div class="footer-brand-en">W Board Game Studio</div>
+      <p class="footer-brand-desc" data-zh>剧本桌游社 · 沉浸式娱乐体验空间<br>剧本杀 · 桌游 · 狼人杀 · 血染钟楼 · KTV · 麻将</p>
+      <p class="footer-brand-desc" data-en>Immersive Entertainment Space<br>Script Killing · Board Games · Werewolf · Blood on the Clocktower · KTV · Mahjong</p>
+      <div class="footer-social">
+        <a class="social-btn" href="#" title="WeChat">💬</a>
+        <a class="social-btn" href="#" title="Weibo">🌐</a>
+        <a class="social-btn" href="#" title="Xiaohongshu">📕</a>
+        <a class="social-btn" href="#" title="Douyin">🎵</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title" data-zh>项目导航</div>
+      <div class="footer-col-title" data-en>Services</div>
+      <ul class="footer-links">
+        <li><a href="#services" data-zh>剧本杀</a><a href="#services" data-en>Script Killing</a></li>
+        <li><a href="#services" data-zh>桌游大厅</a><a href="#services" data-en>Board Games</a></li>
+        <li><a href="#services" data-zh>狼人杀</a><a href="#services" data-en>Werewolf</a></li>
+        <li><a href="#services" data-zh>血染钟楼</a><a href="#services" data-en>Blood on the Clocktower</a></li>
+        <li><a href="#services" data-zh>KTV包厢</a><a href="#services" data-en>KTV Rooms</a></li>
+        <li><a href="#services" data-zh>麻将包间</a><a href="#services" data-en>Mahjong Rooms</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title" data-zh>关于我们</div>
+      <div class="footer-col-title" data-en>About</div>
+      <ul class="footer-links">
+        <li><a href="#about" data-zh>品牌故事</a><a href="#about" data-en>Our Story</a></li>
+        <li><a href="#atmosphere" data-zh>场地环境</a><a href="#atmosphere" data-en>Our Space</a></li>
+        <li><a href="#booking" data-zh>预约说明</a><a href="#booking" data-en>Booking Info</a></li>
+        <li><a href="#" data-zh>优惠活动</a><a href="#" data-en>Promotions</a></li>
+        <li><a href="#" data-zh>会员体系</a><a href="#" data-en>Membership</a></li>
+        <li><a href="#" data-zh>联系我们</a><a href="#" data-en>Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 W两个世界 · W Two Worlds Board Game Studio</span>
+    <span data-zh>用心打造每一次沉浸体验</span>
+    <span data-en>Crafting unforgettable experiences, one game at a time</span>
+  </div>
+</footer>
+
+<script>
+  // ── LANGUAGE TOGGLE ──
+  const body = document.body;
+  const btnZh = document.getElementById('btnZh');
+  const btnEn = document.getElementById('btnEn');
+
+  function setLang(lang) {
+    body.className = 'lang-' + lang;
+    btnZh.classList.toggle('active', lang === 'zh');
+    btnEn.classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    try { localStorage.setItem('wtwLang', lang); } catch(e) {}
+  }
+
+  document.getElementById('langToggle').addEventListener('click', function() {
+    const current = body.classList.contains('lang-zh') ? 'zh' : 'en';
+    setLang(current === 'zh' ? 'en' : 'zh');
+  });
+
+  try {
+    const saved = localStorage.getItem('wtwLang');
+    if (saved) setLang(saved);
+  } catch(e) {}
+
+  // ── SCROLL REVEAL ──
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.service-card, .stat-box, .booking-card, .atm-item').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(26px)';
+    el.style.transition = 'opacity 0.55s ease ' + (i * 0.05) + 's, transform 0.55s ease ' + (i * 0.05) + 's';
+    obs.observe(el);
+  });
+</script>
+
+</body>
+</html>
