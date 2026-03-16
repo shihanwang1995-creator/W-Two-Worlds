@@ -239,22 +239,120 @@
     border-top: 1px solid rgba(201,168,76,0.12);
     border-bottom: 1px solid rgba(201,168,76,0.12);
   }
-  .booking-inner { max-width: 880px; margin: 0 auto; text-align: center; }
+  .booking-inner { max-width: 820px; margin: 0 auto; }
   .booking-inner .section-label { justify-content: center; }
   .booking-inner .section-label::before { display: none; }
-  .booking-inner .section-desc { margin: 0 auto 46px; text-align: center; max-width: 500px; }
-  .booking-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 40px; }
-  .booking-card { border: 1px solid rgba(201,168,76,0.18); padding: 30px 22px; background: rgba(201,168,76,0.025); transition: all 0.3s; }
-  .booking-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); transform: translateY(-3px); }
-  .booking-card-icon { font-size: 1.9rem; margin-bottom: 14px; }
-  .booking-card-title-zh { font-family: 'Noto Serif SC', serif; font-size: 0.98rem; font-weight: 700; margin-bottom: 5px; }
-  .booking-card-title-en { font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 10px; color: var(--gold); font-style: italic; }
-  .booking-card-desc { font-size: 0.8rem; color: rgba(245,240,232,0.42); line-height: 1.75; }
-  .wechat-box { display: inline-flex; align-items: center; gap: 14px; border: 1px solid var(--gold); padding: 15px 34px; background: rgba(201,168,76,0.04); }
-  .wechat-icon { font-size: 1.4rem; }
-  .wechat-text { text-align: left; }
-  .wechat-text p:first-child { font-size: 0.68rem; color: var(--gold); letter-spacing: 0.12em; }
-  .wechat-text p:last-child { font-size: 1rem; font-weight: 700; letter-spacing: 0.04em; }
+  .booking-inner .section-title, .booking-inner .section-desc { text-align: center; }
+  .booking-inner .section-desc { margin: 0 auto 44px; max-width: 500px; }
+
+  /* Form */
+  .booking-form {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin-bottom: 28px;
+  }
+  .booking-form .full-width { grid-column: 1 / -1; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-label {
+    font-size: 0.7rem; letter-spacing: 0.18em; color: var(--gold);
+    text-transform: uppercase;
+  }
+  .form-input, .form-select, .form-textarea {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.22);
+    color: var(--white);
+    padding: 12px 16px;
+    font-size: 0.88rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s;
+    width: 100%;
+    appearance: none; -webkit-appearance: none;
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(245,240,232,0.25); }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.05);
+  }
+  .form-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+  .form-select option { background: #1a1200; color: var(--white); }
+  .form-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+  /* Service checkboxes */
+  .service-checks {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  }
+  .check-item { position: relative; }
+  .check-item input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .check-label {
+    display: flex; align-items: center; gap: 8px;
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 9px 12px;
+    font-size: 0.78rem; cursor: pointer;
+    color: rgba(245,240,232,0.55);
+    transition: all 0.25s;
+    user-select: none;
+  }
+  .check-label:hover { border-color: rgba(201,168,76,0.5); color: var(--white); }
+  .check-item input:checked + .check-label {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .check-icon { font-size: 1rem; }
+
+  /* Date+Time row */
+  .datetime-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.7) sepia(1) saturate(3) hue-rotate(5deg);
+    cursor: pointer;
+  }
+
+  /* Submit */
+  .form-submit-row { text-align: center; margin-top: 8px; }
+  .btn-submit {
+    background: var(--gold); color: var(--black);
+    padding: 15px 60px;
+    font-size: 0.95rem; font-weight: 700; letter-spacing: 0.12em;
+    border: none; cursor: pointer;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: all 0.3s; display: inline-block;
+    font-family: inherit;
+  }
+  .btn-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-submit:active { transform: translateY(0); }
+
+  /* Success message */
+  .form-success {
+    display: none; text-align: center; padding: 48px 24px;
+    border: 1px solid rgba(201,168,76,0.3);
+    background: rgba(201,168,76,0.04);
+  }
+  .form-success.show { display: block; }
+  .form-success-icon { font-size: 3rem; margin-bottom: 16px; }
+  .form-success h3 { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; margin-bottom: 10px; }
+  .form-success p { color: rgba(245,240,232,0.55); font-size: 0.88rem; line-height: 1.8; }
+
+  /* Note bar */
+  .booking-note {
+    margin-top: 28px; padding: 14px 20px;
+    border-left: 2px solid var(--gold);
+    background: rgba(201,168,76,0.04);
+    font-size: 0.78rem; color: rgba(245,240,232,0.45); line-height: 1.75;
+  }
+
+  @media (max-width: 600px) {
+    .booking-form { grid-template-columns: 1fr; }
+    .booking-form .full-width { grid-column: 1; }
+    .service-checks { grid-template-columns: 1fr 1fr; }
+    .datetime-row { grid-template-columns: 1fr; }
+  }
 
   /* ── FOOTER ── */
   footer { background: #050505; padding: 56px 60px 28px; border-top: 1px solid rgba(201,168,76,0.08); }
@@ -271,6 +369,67 @@
   .footer-links a { color: rgba(245,240,232,0.4); text-decoration: none; font-size: 0.82rem; transition: color 0.3s; }
   .footer-links a:hover { color: var(--white); }
   .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 26px; font-size: 0.72rem; color: rgba(245,240,232,0.22); }
+
+
+  /* ── ROOMS GRID ── */
+  .rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px;
+  }
+  .room-card {
+    position: relative; overflow: hidden;
+    min-height: 340px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    transition: transform 0.4s;
+    cursor: default;
+  }
+  .room-card:hover { transform: scale(1.015); z-index: 2; }
+  .room-card:hover .room-info { background: linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0.2) 70%, transparent); }
+  .room-chinese { background: linear-gradient(135deg, #1a0808 0%, #2d1010 40%, #1a0d05 100%); }
+  .room-japanese { background: linear-gradient(135deg, #080f14 0%, #0f1e2a 40%, #0a1510 100%); }
+  .room-horror  { background: linear-gradient(135deg, #0f0005 0%, #1a000a 40%, #0a0005 100%); }
+  .room-ktv     { background: linear-gradient(135deg, #0a0a1a 0%, #141428 40%, #0a0f1a 100%); }
+  .room-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .room-emoji {
+    font-size: 4.5rem; opacity: 0.18;
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .room-card:hover .room-emoji { opacity: 0.28; transform: scale(1.1); }
+  .room-badge {
+    position: absolute; top: 22px; left: 24px;
+    font-size: 0.62rem; letter-spacing: 0.3em;
+    color: var(--gold); opacity: 0.7;
+    text-transform: uppercase;
+  }
+  .room-info {
+    position: relative; z-index: 2;
+    padding: 28px 28px 30px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.1) 70%, transparent);
+    transition: background 0.4s;
+  }
+  .room-info h3 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.45rem; font-weight: 900; margin-bottom: 10px;
+  }
+  .room-info h3.en { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.3rem; }
+  .room-info p {
+    font-size: 0.8rem; line-height: 1.8;
+    color: rgba(245,240,232,0.55); margin-bottom: 16px;
+  }
+  .room-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .room-tag {
+    border: 1px solid rgba(201,168,76,0.35);
+    color: var(--gold); font-size: 0.65rem;
+    padding: 3px 10px; letter-spacing: 0.08em;
+  }
+
+  @media (max-width: 680px) {
+    .rooms-grid { grid-template-columns: 1fr; }
+  }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 960px) {
@@ -329,22 +488,7 @@
   <div class="hero-content">
     <div class="hero-badge" data-zh>W board game studio · 剧本桌游社</div>
     <div class="hero-badge" data-en>W board game studio · Immersive Entertainment</div>
-    <svg class="hero-logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="100,28 172,90 172,176 28,176 28,90" fill="none" stroke="#c9a84c" stroke-width="4.5" stroke-linejoin="round"/>
-      <line x1="58" y1="82" x2="92" y2="82" stroke="#f5f0e8" stroke-width="4"/>
-      <line x1="68" y1="82" x2="62" y2="108" stroke="#f5f0e8" stroke-width="3.5"/>
-      <line x1="82" y1="82" x2="88" y2="108" stroke="#f5f0e8" stroke-width="3.5"/>
-      <line x1="75" y1="90" x2="75" y2="108" stroke="#f5f0e8" stroke-width="3"/>
-      <line x1="100" y1="78" x2="100" y2="116" stroke="#f5f0e8" stroke-width="3.5"/>
-      <line x1="90" y1="90" x2="130" y2="90" stroke="#f5f0e8" stroke-width="3"/>
-      <line x1="118" y1="78" x2="118" y2="116" stroke="#f5f0e8" stroke-width="3"/>
-      <line x1="58" y1="132" x2="142" y2="132" stroke="#c9a84c" stroke-width="3"/>
-      <line x1="78" y1="132" x2="68" y2="162" stroke="#c9a84c" stroke-width="3"/>
-      <line x1="122" y1="132" x2="132" y2="162" stroke="#c9a84c" stroke-width="3"/>
-      <line x1="100" y1="116" x2="100" y2="162" stroke="#c9a84c" stroke-width="3"/>
-      <text x="128" y="70" font-family="Georgia,serif" font-size="28" font-weight="900" fill="#c9a84c" font-style="italic">W</text>
-      <path d="M 20,58 Q 8,100 20,148" fill="none" stroke="#f5f0e8" stroke-width="3.5"/>
-    </svg>
+    <img src="data:image/jpeg;base64,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" class="hero-logo-img" alt="W两个世界 Logo">
     <h1 class="hero-title zh" data-zh><span class="w">W</span> 两个世界</h1>
     <h1 class="hero-title en" data-en><span class="w">W</span> Two Worlds</h1>
     <p class="hero-subtitle" data-zh>剧本桌游社 <span>·</span> 沉浸式娱乐空间</p>
@@ -386,7 +530,7 @@
       <span class="service-icon">🎲</span>
       <h3 class="service-name-zh" data-zh>桌游</h3>
       <h3 class="service-name-en" data-en>Board Games</h3>
-      <p class="service-desc-text" data-zh>拥有数百款桌游，从轻度策略到深度竞技，适合朋友聚会、情侣约会、团建活动，每款都有专属讲解员。</p>
+      <p class="service-desc-text" data-zh>精选20+款桌游，从轻度策略到深度竞技，适合朋友聚会、情侣约会、团建活动，每款都有专属讲解员。</p>
       <p class="service-desc-text" data-en>Hundreds of titles from light strategy to competitive play. Perfect for friend hangouts, date nights, or team events — with a dedicated host for every game.</p>
       <span class="service-tag" data-zh>2人起 / 随时畅玩</span>
       <span class="service-tag" data-en>2+ Players / Drop-in Anytime</span>
@@ -398,8 +542,8 @@
       <h3 class="service-name-en" data-en>Werewolf</h3>
       <p class="service-desc-text" data-zh>经典社交推理游戏，考验观察力与表达力。专业主持人带场，多种身份版本，保证每局精彩刺激。</p>
       <p class="service-desc-text" data-en>The classic social deduction game testing observation and persuasion. A professional host runs multiple role variants for maximum excitement every round.</p>
-      <span class="service-tag" data-zh>8～18人 / 60～90分钟</span>
-      <span class="service-tag" data-en>8–18 Players / 60–90 min</span>
+      <span class="service-tag" data-zh>9～15人 / 60～90分钟</span>
+      <span class="service-tag" data-en>9–15 Players / 60–90 min</span>
     </div>
     <div class="service-card">
       <span class="service-num">04</span>
@@ -408,25 +552,25 @@
       <h3 class="service-name-en" data-en>Blood on the Clocktower</h3>
       <p class="service-desc-text" data-zh>策略性最强的社交推理游戏，多达40+种角色，每场博弈都是智力与心理的极致考验，烧脑上头。</p>
       <p class="service-desc-text" data-en>The most strategic social deduction experience. With 40+ unique roles, every session pushes your intellect and nerves to the absolute limit.</p>
-      <span class="service-tag" data-zh>7～20人 / 2～4小时</span>
-      <span class="service-tag" data-en>7–20 Players / 2–4 hrs</span>
+      <span class="service-tag" data-zh>5～14人 / 2～4小时</span>
+      <span class="service-tag" data-en>5–14 Players / 2–4 hrs</span>
     </div>
     <div class="service-card">
       <span class="service-num">05</span>
       <span class="service-icon">🎤</span>
       <h3 class="service-name-zh" data-zh>KTV</h3>
       <h3 class="service-name-en" data-en>Karaoke / KTV</h3>
-      <p class="service-desc-text" data-zh>私密包厢KTV，高品质音响设备，超万首曲库实时更新。玩完剧本杀直接续场，一站式娱乐全搞定。</p>
+      <p class="service-desc-text" data-zh>多功能房KTV，高品质音响设备，超万首曲库实时更新。也可用于剧本杀或私人聚会，玩法灵活，一站式娱乐全搞定。</p>
       <p class="service-desc-text" data-en>Private rooms with premium audio and 10,000+ songs updated in real time. The perfect way to continue the night after a mystery session.</p>
-      <span class="service-tag" data-zh>独立包厢 / 按时计费</span>
-      <span class="service-tag" data-en>Private Rooms / Hourly Rate</span>
+      <span class="service-tag" data-zh>多功能房 / 按时计费</span>
+      <span class="service-tag" data-en>Multi-Function Room / Hourly Rate</span>
     </div>
     <div class="service-card">
       <span class="service-num">06</span>
       <span class="service-icon">🀄</span>
       <h3 class="service-name-zh" data-zh>麻将</h3>
       <h3 class="service-name-en" data-en>Mahjong</h3>
-      <p class="service-desc-text" data-zh>舒适麻将包间，自动洗牌机，多种玩法规则可选。老友相聚，叙旧畅聊，最惬意的休闲时光。</p>
+      <p class="service-desc-text" data-zh>日式房内设麻将桌，和风雅室环境，多种玩法规则可选。东瀛氛围之中，老友相聚，叙旧畅聊，最惬意的休闲时光。</p>
       <p class="service-desc-text" data-en>Comfortable private rooms with automatic shufflers and multiple rule variants. The most relaxing way to enjoy great company.</p>
       <span class="service-tag" data-zh>4人标准局 / 按时计费</span>
       <span class="service-tag" data-en>4 Players / Hourly Rate</span>
@@ -460,14 +604,14 @@
         <div class="stat-label" data-en>Mystery Scripts</div>
       </div>
       <div class="stat-box">
-        <div class="stat-num">500+</div>
+        <div class="stat-num">20+</div>
         <div class="stat-label" data-zh>桌游品类</div>
         <div class="stat-label" data-en>Board Game Titles</div>
       </div>
       <div class="stat-box">
-        <div class="stat-num">6</div>
-        <div class="stat-label" data-zh>独立包厢</div>
-        <div class="stat-label" data-en>Private Rooms</div>
+        <div class="stat-num">4</div>
+        <div class="stat-label" data-zh>主题房间</div>
+        <div class="stat-label" data-en>Themed Rooms</div>
       </div>
       <div class="stat-box">
         <div class="stat-num">★★★★★</div>
@@ -478,107 +622,250 @@
   </div>
 </section>
 
-<!-- ATMOSPHERE -->
+<!-- ROOMS -->
 <section id="atmosphere">
   <div class="atm-header">
     <div>
-      <div class="section-label" data-zh>ATMOSPHERE · 空间环境</div>
-      <div class="section-label" data-en>ATMOSPHERE</div>
-      <h2 class="section-title zh" data-zh>沉浸式空间体验</h2>
-      <h2 class="section-title en" data-en>Immersive Spaces</h2>
+      <div class="section-label" data-zh>OUR ROOMS · 我们的房间</div>
+      <div class="section-label" data-en>OUR ROOMS</div>
+      <h2 class="section-title zh" data-zh>四大主题空间</h2>
+      <h2 class="section-title en" data-en>Four Themed Spaces</h2>
     </div>
-    <p class="atm-desc" data-zh>精心打造的主题场景，让你从踏入门口那一刻起就完全入戏</p>
-    <p class="atm-desc" data-en>Meticulously designed themed spaces that pull you into the story the moment you walk in</p>
+    <p class="atm-desc" data-zh>精心设计的主题包间，每一个房间都是独立的世界，等你踏入</p>
+    <p class="atm-desc" data-en>Four uniquely designed private rooms — each one a world of its own, waiting to be explored</p>
   </div>
-  <div class="atm-grid">
-    <div class="atm-item">
+  <div class="rooms-grid">
+
+    <div class="room-card room-chinese">
       <div class="atm-pattern"></div>
-      <div class="atm-overlay"><div class="atm-emoji">🕯️</div></div>
-      <div class="atm-label">
-        <h3 data-zh>暗黑推理厅</h3><h3 class="en" data-en>Dark Mystery Hall</h3>
-        <p data-zh>专为剧本杀打造的沉浸式主题场景</p>
-        <p data-en>Immersive themed rooms for murder mystery</p>
+      <div class="room-overlay">
+        <div class="room-emoji">🏮</div>
+      </div>
+      <div class="room-badge" data-zh>主题房 01</div>
+      <div class="room-badge" data-en>ROOM 01</div>
+      <div class="room-info">
+        <h3 data-zh>中式房</h3>
+        <h3 class="en" data-en>Chinese Room</h3>
+        <p data-zh>古典东方美学，木质陈设、朱红点缀。专为古风剧本杀、狼人杀、血染钟楼打造的沉浸场景。</p>
+        <p data-en>Classical Eastern aesthetics — wooden furnishings and crimson accents. The perfect immersive setting for ancient-themed mystery and deduction games.</p>
+        <div class="room-tags">
+          <span class="room-tag" data-zh>剧本杀</span><span class="room-tag" data-en>Script Killing</span>
+          <span class="room-tag" data-zh>狼人杀</span><span class="room-tag" data-en>Werewolf</span>
+          <span class="room-tag" data-zh>血染钟楼</span><span class="room-tag" data-en>Clocktower</span>
+        </div>
       </div>
     </div>
-    <div class="atm-item">
+
+    <div class="room-card room-japanese">
       <div class="atm-pattern"></div>
-      <div class="atm-overlay"><div class="atm-emoji">🌙</div></div>
-      <div class="atm-label">
-        <h3 data-zh>午夜竞技场</h3><h3 class="en" data-en>Midnight Arena</h3>
-        <p data-zh>狼人杀 · 血染钟楼专区</p>
-        <p data-en>Werewolf &amp; Blood on the Clocktower</p>
+      <div class="room-overlay">
+        <div class="room-emoji">⛩️</div>
+      </div>
+      <div class="room-badge" data-zh>主题房 02</div>
+      <div class="room-badge" data-en>ROOM 02</div>
+      <div class="room-info">
+        <h3 data-zh>日式房</h3>
+        <h3 class="en" data-en>Japanese Room</h3>
+        <p data-zh>东瀛雅韵，木质格栅、和风灯饰与竹影点缀。宁静的日式氛围中，开启悬疑推理与角色扮演，或在麻将桌前享受悠闲时光。</p>
+        <p data-en>Japanese-inspired elegance — wooden lattice screens, warm lantern lighting, and bamboo accents. A tranquil setting for mystery and deduction games, or a laid-back game of mahjong.</p>
+        <div class="room-tags">
+          <span class="room-tag" data-zh>剧本杀</span><span class="room-tag" data-en>Script Killing</span>
+          <span class="room-tag" data-zh>狼人杀</span><span class="room-tag" data-en>Werewolf</span>
+          <span class="room-tag" data-zh>血染钟楼</span><span class="room-tag" data-en>Clocktower</span>
+          <span class="room-tag" data-zh>麻将</span><span class="room-tag" data-en>Mahjong</span>
+        </div>
       </div>
     </div>
-    <div class="atm-item">
+
+    <div class="room-card room-horror">
       <div class="atm-pattern"></div>
-      <div class="atm-overlay"><div class="atm-emoji">🎲</div></div>
-      <div class="atm-label">
-        <h3 data-zh>桌游大厅</h3><h3 class="en" data-en>Board Game Hall</h3>
-        <p data-zh>开放式桌游区，随时开局</p>
-        <p data-en>Open gaming area, drop in anytime</p>
+      <div class="room-overlay">
+        <div class="room-emoji">💀</div>
+      </div>
+      <div class="room-badge" data-zh>主题房 03</div>
+      <div class="room-badge" data-en>ROOM 03</div>
+      <div class="room-info">
+        <h3 data-zh>恐怖房</h3>
+        <h3 class="en" data-en>Horror Room</h3>
+        <p data-zh>黑暗氛围、惊悚陈设、血色灯光。胆大者入，专为恐怖惊悚剧本杀、极限推理挑战而设。</p>
+        <p data-en>Darkness, dread, and blood-red lighting. For the bold only — purpose-built for horror mystery scripts and extreme deduction challenges.</p>
+        <div class="room-tags">
+          <span class="room-tag" data-zh>剧本杀</span><span class="room-tag" data-en>Script Killing</span>
+          <span class="room-tag" data-zh>狼人杀</span><span class="room-tag" data-en>Werewolf</span>
+          <span class="room-tag" data-zh>血染钟楼</span><span class="room-tag" data-en>Clocktower</span>
+        </div>
       </div>
     </div>
-    <div class="atm-item">
+
+    <div class="room-card room-ktv">
       <div class="atm-pattern"></div>
-      <div class="atm-overlay"><div class="atm-emoji">🎙️</div></div>
-      <div class="atm-label">
-        <h3 data-zh>星光包厢</h3><h3 class="en" data-en>Starlight Suite</h3>
-        <p data-zh>KTV私密包厢，尽情嗨唱</p>
-        <p data-en>Private KTV rooms, sing your heart out</p>
+      <div class="room-overlay">
+        <div class="room-emoji">🎤</div>
+      </div>
+      <div class="room-badge" data-zh>多功能房</div>
+      <div class="room-badge" data-en>MULTI-USE ROOM</div>
+      <div class="room-info">
+        <h3 data-zh>KTV房 · 多功能房</h3>
+        <h3 class="en" data-en>KTV · Multi-Function Room</h3>
+        <p data-zh>私密包厢KTV配备高品质音响，超万首曲库随心选。也可用于剧本杀或私人聚会，灵活多用，一房多能。</p>
+        <p data-en>Premium KTV with high-fidelity audio and 10,000+ songs. Also available for script-killing sessions or private gatherings — one flexible space for every occasion.</p>
+        <div class="room-tags">
+          <span class="room-tag" data-zh>KTV</span><span class="room-tag" data-en>Karaoke</span>
+          <span class="room-tag" data-zh>剧本杀</span><span class="room-tag" data-en>Script Killing</span>
+          <span class="room-tag" data-zh>私人聚会</span><span class="room-tag" data-en>Private Party</span>
+        </div>
       </div>
     </div>
-    <div class="atm-item">
-      <div class="atm-pattern"></div>
-      <div class="atm-overlay"><div class="atm-emoji">🀄</div></div>
-      <div class="atm-label">
-        <h3 data-zh>清风雅室</h3><h3 class="en" data-en>Serene Mahjong Room</h3>
-        <p data-zh>舒适麻将包间，悠然自得</p>
-        <p data-en>Comfortable mahjong rooms, pure relaxation</p>
-      </div>
-    </div>
+
   </div>
 </section>
 
 <!-- BOOKING -->
 <section id="booking">
   <div class="booking-inner">
-    <div class="section-label" data-zh>RESERVATION · 预约</div>
-    <div class="section-label" data-en>RESERVATION</div>
-    <h2 class="section-title zh" data-zh>预约入场</h2>
-    <h2 class="section-title en" data-en>Make a Reservation</h2>
-    <p class="section-desc" data-zh>提前预约享优先入场权，节假日及热门剧本建议提前2天预约，避免等待。</p>
-    <p class="section-desc" data-en>Book ahead for priority entry. For holidays and popular scripts, we recommend reserving at least 2 days in advance.</p>
-    <div class="booking-cards">
-      <div class="booking-card">
-        <div class="booking-card-icon">📱</div>
-        <h3 class="booking-card-title-zh" data-zh>微信预约</h3>
-        <h3 class="booking-card-title-en" data-en>WeChat Booking</h3>
-        <p class="booking-card-desc" data-zh>扫描二维码或搜索微信号，发送项目名称 + 日期 + 人数，即可快速完成预约。</p>
-        <p class="booking-card-desc" data-en>Scan our QR or search our WeChat ID. Send us your activity, date &amp; group size to confirm instantly.</p>
+    <div class="section-label" data-zh>RESERVATION · 在线预约</div>
+    <div class="section-label" data-en>ONLINE RESERVATION</div>
+    <h2 class="section-title zh" data-zh>立即预约</h2>
+    <h2 class="section-title en" data-en>Book Your Experience</h2>
+    <p class="section-desc" data-zh>填写预约表单，我们将在24小时内确认你的预约。节假日及热门剧本建议提前2天预约。</p>
+    <p class="section-desc" data-en>Fill in the form and we'll confirm your booking within 24 hours. For holidays and popular scripts, book at least 2 days ahead.</p>
+
+    <!-- FORM -->
+    <div id="bookingForm">
+      <div class="booking-form">
+
+        <!-- Name -->
+        <div class="form-group">
+          <label class="form-label" data-zh>姓名 *</label>
+          <label class="form-label" data-en>Name *</label>
+          <input class="form-input" id="f-name" type="text"
+            data-ph-zh="你的姓名" data-ph-en="Your name" required>
+        </div>
+
+        <!-- Phone -->
+        <div class="form-group">
+          <label class="form-label" data-zh>联系电话 *</label>
+          <label class="form-label" data-en>Phone Number *</label>
+          <input class="form-input" id="f-phone" type="tel"
+            data-ph-zh="手机号码" data-ph-en="Your phone number" required>
+        </div>
+
+        <!-- Date + Time -->
+        <div class="form-group">
+          <label class="form-label" data-zh>预约日期 *</label>
+          <label class="form-label" data-en>Date *</label>
+          <input class="form-input" id="f-date" type="date" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-zh>预约时间 *</label>
+          <label class="form-label" data-en>Time *</label>
+          <input class="form-input" id="f-time" type="time" required>
+        </div>
+
+        <!-- Group size -->
+        <div class="form-group">
+          <label class="form-label" data-zh>人数 *</label>
+          <label class="form-label" data-en>Group Size *</label>
+          <select class="form-select" id="f-size" required>
+            <option value="" data-zh>请选择人数</option>
+            <option value="" data-en>Select group size</option>
+            <option value="2-4" data-zh>2 – 4 人</option>
+            <option value="2-4" data-en>2 – 4 people</option>
+            <option value="5-8" data-zh>5 – 8 人</option>
+            <option value="5-8" data-en>5 – 8 people</option>
+            <option value="9-12" data-zh>9 – 12 人</option>
+            <option value="9-12" data-en>9 – 12 people</option>
+            <option value="13+" data-zh>13 人以上</option>
+            <option value="13+" data-en>13+ people</option>
+          </select>
+        </div>
+
+        <!-- Services -->
+        <div class="form-group full-width">
+          <label class="form-label" data-zh>想玩的项目（可多选）</label>
+          <label class="form-label" data-en>Activities (select all that apply)</label>
+          <div class="service-checks">
+            <div class="check-item">
+              <input type="checkbox" id="s1" value="script">
+              <label class="check-label" for="s1">
+                <span class="check-icon">🎭</span>
+                <span data-zh>剧本杀</span><span data-en>Script Killing</span>
+              </label>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" id="s2" value="boardgame">
+              <label class="check-label" for="s2">
+                <span class="check-icon">🎲</span>
+                <span data-zh>桌游</span><span data-en>Board Games</span>
+              </label>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" id="s3" value="werewolf">
+              <label class="check-label" for="s3">
+                <span class="check-icon">🐺</span>
+                <span data-zh>狼人杀</span><span data-en>Werewolf</span>
+              </label>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" id="s4" value="clocktower">
+              <label class="check-label" for="s4">
+                <span class="check-icon">🔔</span>
+                <span data-zh>血染钟楼</span><span data-en>Clocktower</span>
+              </label>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" id="s5" value="ktv">
+              <label class="check-label" for="s5">
+                <span class="check-icon">🎤</span>
+                <span data-zh>KTV</span><span data-en>KTV</span>
+              </label>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" id="s6" value="mahjong">
+              <label class="check-label" for="s6">
+                <span class="check-icon">🀄</span>
+                <span data-zh>麻将</span><span data-en>Mahjong</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="form-group full-width">
+          <label class="form-label" data-zh>备注（可选）</label>
+          <label class="form-label" data-en>Additional Notes (optional)</label>
+          <textarea class="form-textarea" id="f-notes"
+            data-ph-zh="特殊需求、剧本偏好、庆生安排等…"
+            data-ph-en="Special requests, script preferences, birthday arrangements…"></textarea>
+        </div>
+
       </div>
-      <div class="booking-card">
-        <div class="booking-card-icon">📞</div>
-        <h3 class="booking-card-title-zh" data-zh>电话预约</h3>
-        <h3 class="booking-card-title-en" data-en>Phone Booking</h3>
-        <p class="booking-card-desc" data-zh>直接拨打我们的联系电话，工作人员将为你推荐最合适的项目和时段。</p>
-        <p class="booking-card-desc" data-en>Call us directly — our staff will recommend the best activity and time slot for your group.</p>
+
+      <div class="form-submit-row">
+        <button class="btn-submit" id="submitBtn" onclick="submitBooking()">
+          <span data-zh>确认预约</span>
+          <span data-en>Confirm Booking</span>
+        </button>
       </div>
-      <div class="booking-card">
-        <div class="booking-card-icon">🚶</div>
-        <h3 class="booking-card-title-zh" data-zh>到店咨询</h3>
-        <h3 class="booking-card-title-en" data-en>Walk-in Welcome</h3>
-        <p class="booking-card-desc" data-zh>欢迎直接到店，我们的工作人员随时为你介绍项目，提供专属体验方案。</p>
-        <p class="booking-card-desc" data-en>Walk-ins are always welcome. Our team is on hand to craft a personalised experience plan for you.</p>
+
+      <div class="booking-note" data-zh>
+        📌 提交后我们将通过电话或微信与你确认预约详情，请保持联系方式畅通。如需修改或取消，请提前至少 4 小时联系我们。
+      </div>
+      <div class="booking-note" data-en>
+        📌 After submitting, we will confirm your booking via phone or WeChat. Please keep your contact details reachable. To modify or cancel, contact us at least 4 hours in advance.
       </div>
     </div>
-    <div class="wechat-box">
-      <span class="wechat-icon">💬</span>
-      <div class="wechat-text">
-        <p data-zh>微信搜索 · 立即咨询</p>
-        <p data-en>Search WeChat · Contact Us Now</p>
-        <p>W两个世界 · W Two Worlds</p>
-      </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="form-success" id="formSuccess">
+      <div class="form-success-icon">✅</div>
+      <h3 data-zh>预约提交成功！</h3>
+      <h3 data-en>Booking Submitted!</h3>
+      <p data-zh>感谢你的预约，我们会在 24 小时内通过电话或微信联系你确认详情。<br>期待在W两个世界与你相见 🎭</p>
+      <p data-en>Thank you for your reservation. We'll reach out within 24 hours via phone or WeChat to confirm your booking.<br>We look forward to seeing you at W Two Worlds 🎭</p>
     </div>
+
   </div>
 </section>
 
@@ -588,8 +875,8 @@
     <div>
       <div class="footer-brand-name"><span class="w">W</span> <span data-zh>两个世界</span><span data-en>Two Worlds</span></div>
       <div class="footer-brand-en">W Board Game Studio</div>
-      <p class="footer-brand-desc" data-zh>剧本桌游社 · 沉浸式娱乐体验空间<br>剧本杀 · 桌游 · 狼人杀 · 血染钟楼 · KTV · 麻将</p>
-      <p class="footer-brand-desc" data-en>Immersive Entertainment Space<br>Script Killing · Board Games · Werewolf · Blood on the Clocktower · KTV · Mahjong</p>
+      <p class="footer-brand-desc" data-zh>剧本桌游社 · 沉浸式娱乐体验空间<br>剧本杀 · 狼人杀 · 血染钟楼 · KTV · 麻将</p>
+      <p class="footer-brand-desc" data-en>Immersive Entertainment Space<br>Script Killing · Werewolf · Blood on the Clocktower · KTV · Mahjong</p>
       <div class="footer-social">
         <a class="social-btn" href="#" title="WeChat">💬</a>
         <a class="social-btn" href="#" title="Weibo">🌐</a>
@@ -640,7 +927,26 @@
     btnZh.classList.toggle('active', lang === 'zh');
     btnEn.classList.toggle('active', lang === 'en');
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    updatePlaceholders(lang);
+    updateSelectOptions(lang);
     try { localStorage.setItem('wtwLang', lang); } catch(e) {}
+  }
+
+  function updatePlaceholders(lang) {
+    document.querySelectorAll('[data-ph-zh]').forEach(el => {
+      el.placeholder = lang === 'zh' ? el.dataset.phZh : el.dataset.phEn;
+    });
+  }
+
+  function updateSelectOptions(lang) {
+    document.querySelectorAll('select').forEach(sel => {
+      const allOpts = sel.querySelectorAll('option');
+      // Each option is paired: zh then en, so we show only the right lang
+      allOpts.forEach(opt => {
+        if (opt.hasAttribute('data-zh')) opt.style.display = lang === 'zh' ? '' : 'none';
+        if (opt.hasAttribute('data-en')) opt.style.display = lang === 'en' ? '' : 'none';
+      });
+    });
   }
 
   document.getElementById('langToggle').addEventListener('click', function() {
@@ -648,10 +954,52 @@
     setLang(current === 'zh' ? 'en' : 'zh');
   });
 
+  // Set min date to today
+  const today = new Date().toISOString().split('T')[0];
+  const dateInput = document.getElementById('f-date');
+  if (dateInput) dateInput.min = today;
+
+  // Init placeholders
+  updatePlaceholders('zh');
+  updateSelectOptions('zh');
+
   try {
     const saved = localStorage.getItem('wtwLang');
     if (saved) setLang(saved);
   } catch(e) {}
+
+  // ── BOOKING FORM SUBMIT ──
+  function submitBooking() {
+    const name = document.getElementById('f-name').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    const date = document.getElementById('f-date').value;
+    const time = document.getElementById('f-time').value;
+    const size = document.getElementById('f-size').value;
+    const lang = body.classList.contains('lang-zh') ? 'zh' : 'en';
+
+    const errors = {
+      zh: { name: '请填写姓名', phone: '请填写联系电话', date: '请选择预约日期', time: '请选择预约时间', room: '请选择房间', size: '请选择人数' },
+      en: { name: 'Please enter your name', phone: 'Please enter your phone number', date: 'Please select a date', time: 'Please select a time', room: 'Please select a room', size: 'Please select group size' }
+    };
+    const e = errors[lang];
+
+    if (!name)  { alert(e.name);  return; }
+    if (!phone) { alert(e.phone); return; }
+    if (!date)  { alert(e.date);  return; }
+    if (!time)  { alert(e.time);  return; }
+    if (!size)  { alert(e.size);  return; }
+
+    // Animate submit button
+    const btn = document.getElementById('submitBtn');
+    btn.style.opacity = '0.6';
+    btn.style.pointerEvents = 'none';
+
+    setTimeout(() => {
+      document.getElementById('bookingForm').style.display = 'none';
+      document.getElementById('formSuccess').classList.add('show');
+      window.scrollTo({ top: document.getElementById('booking').offsetTop - 80, behavior: 'smooth' });
+    }, 600);
+  }
 
   // ── SCROLL REVEAL ──
   const obs = new IntersectionObserver((entries) => {
@@ -663,7 +1011,7 @@
     });
   }, { threshold: 0.08 });
 
-  document.querySelectorAll('.service-card, .stat-box, .booking-card, .atm-item').forEach((el, i) => {
+  document.querySelectorAll('.service-card, .stat-box, .room-card').forEach((el, i) => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(26px)';
     el.style.transition = 'opacity 0.55s ease ' + (i * 0.05) + 's, transform 0.55s ease ' + (i * 0.05) + 's';
