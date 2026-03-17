@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麻将 · Mahjong · W两个世界</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8d08a;
+    --gray: #1e1e1e;
+    --gray2: #2a2a2a;
+    --green-dark: #0a140a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Noto Sans SC', 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* LANG */
+  body.lang-en [data-zh] { display: none !important; }
+  body.lang-zh [data-en] { display: none !important; }
+  body.lang-en { font-family: 'Inter', sans-serif; }
+
+  /* LANG TOGGLE */
+  .lang-toggle {
+    display: flex; align-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 2px; overflow: hidden;
+    cursor: pointer; user-select: none;
+  }
+  .lang-btn { padding: 6px 14px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; color: rgba(245,240,232,0.45); transition: all 0.25s; }
+  .lang-btn.active { background: var(--gold); color: var(--black); }
+  .lang-divider { width: 1px; height: 20px; background: rgba(201,168,76,0.25); }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 60px;
+    background: rgba(10,10,10,0.9); backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-left { display: flex; align-items: center; gap: 20px; }
+  .nav-back {
+    display: flex; align-items: center; gap: 8px;
+    color: rgba(245,240,232,0.5); text-decoration: none;
+    font-size: 0.8rem; letter-spacing: 0.08em; transition: color 0.3s;
+  }
+  .nav-back:hover { color: var(--gold); }
+  .nav-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.1); }
+  .nav-title { font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 900; letter-spacing: 0.08em; }
+  .nav-title span { color: var(--gold); font-style: italic; }
+
+  /* HERO */
+  #hero {
+    min-height: 60vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background: var(--black); padding-top: 80px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 50% 50%, rgba(10,30,10,0.6) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 30%, rgba(201,168,76,0.05) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .corner-deco { position: absolute; width: 50px; height: 50px; border-color: rgba(201,168,76,0.2); border-style: solid; }
+  .corner-deco.tl { top: 24px; left: 24px; border-width: 1px 0 0 1px; }
+  .corner-deco.tr { top: 24px; right: 24px; border-width: 1px 1px 0 0; }
+  .corner-deco.bl { bottom: 24px; left: 24px; border-width: 0 0 1px 1px; }
+  .corner-deco.br { bottom: 24px; right: 24px; border-width: 0 1px 1px 0; }
+  .hero-content { position: relative; z-index: 2; text-align: center; padding: 0 20px; }
+  .hero-badge {
+    display: inline-block; border: 1px solid rgba(201,168,76,0.5);
+    color: var(--gold); font-size: 0.68rem; letter-spacing: 0.35em;
+    padding: 6px 22px; margin-bottom: 28px; text-transform: uppercase;
+  }
+  .hero-icon { font-size: 4rem; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(201,168,76,0.25)); }
+  .hero-title { font-weight: 900; line-height: 1.05; margin-bottom: 12px; }
+  .hero-title.zh { font-family: 'Noto Serif SC', serif; font-size: clamp(2.4rem, 6vw, 4.5rem); }
+  .hero-title.en { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4.5vw, 3.5rem); font-style: italic; }
+  .hero-sub {
+    font-size: clamp(0.85rem, 1.6vw, 1rem); font-weight: 300;
+    color: rgba(245,240,232,0.5); letter-spacing: 0.2em; margin-bottom: 36px; line-height: 1.8;
+  }
+  .hero-sub span { color: var(--gold); opacity: 0.8; }
+  .hero-tags { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .hero-tag { border: 1px solid rgba(201,168,76,0.3); color: var(--gold); font-size: 0.72rem; padding: 5px 14px; letter-spacing: 0.1em; }
+
+  /* SECTIONS */
+  .page-section { padding: 80px 60px; }
+  .page-section.dark { background: #0d0d0d; }
+  .section-label {
+    font-size: 0.68rem; letter-spacing: 0.42em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-label::before { content: ''; display: block; width: 38px; height: 1px; background: var(--gold); flex-shrink: 0; }
+  .section-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 900; line-height: 1.2; margin-bottom: 16px; }
+  .section-title.zh { font-family: 'Noto Serif SC', serif; }
+  .section-title.en { font-family: 'Playfair Display', serif; }
+  .section-desc { color: rgba(245,240,232,0.5); font-size: 0.9rem; line-height: 1.9; max-width: 520px; }
+
+  /* PRICING */
+  .pricing-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 36px; }
+  .price-main-card {
+    border: 1px solid rgba(201,168,76,0.25);
+    background: rgba(201,168,76,0.03);
+    padding: 40px 36px; position: relative; overflow: hidden;
+  }
+  .price-main-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px; background: var(--gold);
+  }
+  .price-main-label { font-size: 0.7rem; letter-spacing: 0.2em; color: rgba(245,240,232,0.45); text-transform: uppercase; margin-bottom: 12px; }
+  .price-main-amount { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; color: var(--gold); line-height: 1; }
+  .price-main-unit { font-size: 0.85rem; color: rgba(245,240,232,0.5); margin-top: 8px; margin-bottom: 24px; }
+  .price-divider { height: 1px; background: rgba(201,168,76,0.15); margin: 20px 0; }
+
+  /* Overtime breakdown */
+  .overtime-box {
+    border: 1px solid rgba(201,168,76,0.15);
+    background: rgba(255,255,255,0.02);
+    overflow: hidden; margin-top: 4px;
+  }
+  .overtime-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .overtime-row:last-child { border-bottom: none; }
+  .overtime-label { font-size: 0.78rem; color: rgba(245,240,232,0.5); }
+  .overtime-value { font-size: 0.82rem; font-weight: 600; color: var(--white); }
+  .overtime-value.free { color: #4caf7d; }
+  .overtime-value.charge { color: var(--gold); }
+
+  /* Info cards */
+  .info-cards { display: flex; flex-direction: column; gap: 14px; }
+  .info-card {
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 22px 24px; background: rgba(255,255,255,0.02);
+    display: flex; align-items: center; gap: 18px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .info-card:hover { border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.03); }
+  .info-card-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .info-card-title { font-family: 'Noto Serif SC', serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+  .info-card-title.en { font-family: 'Playfair Display', serif; font-style: italic; }
+  .info-card-desc { font-size: 0.8rem; color: rgba(245,240,232,0.45); line-height: 1.7; }
+
+  /* EQUIPMENT */
+  .equipment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-top: 36px; }
+  .equipment-item {
+    padding: 32px 26px; background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04); transition: background 0.3s;
+  }
+  .equipment-item:hover { background: rgba(201,168,76,0.04); }
+  .equipment-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+  .equipment-title { font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .equipment-title.en { font-family: 'Playfair Display', serif; font-style: italic; }
+  .equipment-desc { font-size: 0.8rem; color: rgba(245,240,232,0.45); line-height: 1.8; }
+
+  /* RULES */
+  .rules-list { margin-top: 32px; display: flex; flex-direction: column; gap: 2px; }
+  .rule-item {
+    display: flex; align-items: flex-start; gap: 20px;
+    padding: 20px 24px; background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04); transition: background 0.3s;
+  }
+  .rule-item:hover { background: rgba(201,168,76,0.03); }
+  .rule-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 6px; }
+  .rule-text { font-size: 0.85rem; color: rgba(245,240,232,0.6); line-height: 1.8; }
+  .rule-text strong { color: var(--white); }
+
+  /* CTA */
+  .cta-bar {
+    background: linear-gradient(135deg, #0c0800, #160f00);
+    border-top: 1px solid rgba(201,168,76,0.12);
+    padding: 60px; text-align: center;
+  }
+  .cta-bar h2 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 12px; }
+  .cta-bar h2.en { font-family: 'Playfair Display', serif; font-style: italic; }
+  .cta-bar p { color: rgba(245,240,232,0.5); font-size: 0.9rem; margin-bottom: 30px; line-height: 1.8; }
+  .btn-primary {
+    background: var(--gold); color: var(--black);
+    padding: 14px 44px; font-size: 0.92rem; font-weight: 700; letter-spacing: 0.12em;
+    text-decoration: none; display: inline-block; transition: all 0.3s;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    margin: 0 8px;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    padding: 14px 44px; font-size: 0.92rem; letter-spacing: 0.12em;
+    text-decoration: none; display: inline-block; transition: all 0.3s;
+    border: 1px solid rgba(245,240,232,0.25);
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    margin: 0 8px;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* FOOTER */
+  .page-footer {
+    background: #050505; padding: 24px 60px;
+    border-top: 1px solid rgba(201,168,76,0.08);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.72rem; color: rgba(245,240,232,0.22);
+  }
+  .footer-logo { font-family: 'Noto Serif SC', serif; font-weight: 900; }
+  .footer-logo span { color: var(--gold); font-style: italic; }
+
+  @media (max-width: 860px) {
+    nav { padding: 14px 22px; }
+    .page-section { padding: 60px 22px; }
+    .pricing-layout { grid-template-columns: 1fr; gap: 32px; }
+    .equipment-grid { grid-template-columns: 1fr 1fr; }
+    .cta-bar { padding: 50px 22px; }
+    .page-footer { flex-direction: column; gap: 10px; text-align: center; }
+  }
+  @media (max-width: 560px) {
+    .equipment-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body class="lang-zh">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-back">
+      <span>←</span>
+      <span data-zh>返回主页</span>
+      <span data-en>Back</span>
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-title"><span>W</span> <span data-zh>两个世界</span><span data-en>Two Worlds</span></div>
+  </div>
+  <div class="lang-toggle" id="langToggle">
+    <div class="lang-btn active" id="btnZh">中文</div>
+    <div class="lang-divider"></div>
+    <div class="lang-btn" id="btnEn">EN</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="corner-deco tl"></div>
+  <div class="corner-deco tr"></div>
+  <div class="corner-deco bl"></div>
+  <div class="corner-deco br"></div>
+  <div class="hero-content">
+    <div class="hero-badge" data-zh>W两个世界 · 麻将包间</div>
+    <div class="hero-badge" data-en>W Two Worlds · Mahjong Room</div>
+    <div class="hero-icon">🀄</div>
+    <h1 class="hero-title zh" data-zh>麻将</h1>
+    <h1 class="hero-title en" data-en>Mahjong</h1>
+    <p class="hero-sub" data-zh>私密包间 <span>·</span> 4人标准局 <span>·</span> 玩法不限</p>
+    <p class="hero-sub" data-en>Private Room <span>·</span> 4-Player Standard <span>·</span> Any Ruleset</p>
+    <div class="hero-tags">
+      <span class="hero-tag" data-zh>🤖 自动洗牌机</span>
+      <span class="hero-tag" data-en>🤖 Auto-Shuffling Table</span>
+      <span class="hero-tag" data-zh>🎌 玩法不限</span>
+      <span class="hero-tag" data-en>🎌 Any Ruleset</span>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="page-section">
+  <div class="section-label" data-zh>PRICING · 收费</div>
+  <div class="section-label" data-en>PRICING</div>
+  <h2 class="section-title zh" data-zh>收费标准</h2>
+  <h2 class="section-title en" data-en>Pricing</h2>
+  <p class="section-desc" data-zh>按小时计费，无任何附加费用，价格简单透明。超时30分钟内免费，超过30分钟按一小时计算。</p>
+  <p class="section-desc" data-en>Simple hourly pricing with no additional fees. Up to 30 minutes overtime is free; beyond that, a full extra hour is charged.</p>
+
+  <div class="pricing-layout">
+    <div>
+      <div class="price-main-card">
+        <div class="price-main-label" data-zh>标准收费</div>
+        <div class="price-main-label" data-en>Standard Rate</div>
+        <div class="price-main-amount">$30</div>
+        <div class="price-main-unit" data-zh>每小时 · 无任何附加费</div>
+        <div class="price-main-unit" data-en>per hour · no additional fees</div>
+        <div class="price-divider"></div>
+        <div class="price-main-label" data-zh>超时计费规则</div>
+        <div class="price-main-label" data-en>Overtime Policy</div>
+        <div class="overtime-box">
+          <div class="overtime-row">
+            <span class="overtime-label" data-zh>超时 0 – 30 分钟</span>
+            <span class="overtime-label" data-en>0 – 30 min overtime</span>
+            <span class="overtime-value free" data-zh>免费</span>
+            <span class="overtime-value free" data-en>Free</span>
+          </div>
+          <div class="overtime-row">
+            <span class="overtime-label" data-zh>超时 30 分钟以上</span>
+            <span class="overtime-label" data-en>30+ min overtime</span>
+            <span class="overtime-value charge" data-zh>+$30（按整小时计）</span>
+            <span class="overtime-value charge" data-en>+$30 (full hour)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <span class="info-card-icon">👥</span>
+        <div>
+          <div class="info-card-title" data-zh>容纳人数</div>
+          <div class="info-card-title en" data-en>Capacity</div>
+          <div class="info-card-desc" data-zh>标准4人局，独立私密包间，环境舒适安静。</div>
+          <div class="info-card-desc" data-en>Standard 4-player game in a private, comfortable and quiet room.</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <span class="info-card-icon">🎌</span>
+        <div>
+          <div class="info-card-title" data-zh>玩法不限</div>
+          <div class="info-card-title en" data-en>Any Ruleset</div>
+          <div class="info-card-desc" data-zh>广东麻将、国标麻将、四川麻将、台湾麻将或其他自定义玩法均可，由玩家自行决定规则。</div>
+          <div class="info-card-desc" data-en>Cantonese, National Standard, Sichuan, Taiwanese, or any custom ruleset — the choice is entirely yours.</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <span class="info-card-icon">🍱</span>
+        <div>
+          <div class="info-card-title" data-zh>饮食政策</div>
+          <div class="info-card-title en" data-en>Food &amp; Drinks</div>
+          <div class="info-card-desc" data-zh>欢迎自带食品及饮料，无任何限制，尽情享受最惬意的牌局时光。</div>
+          <div class="info-card-desc" data-en>Outside food and drinks are welcome with no restrictions — enjoy the most relaxed game possible.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPMENT -->
+<section class="page-section dark">
+  <div class="section-label" data-zh>EQUIPMENT · 设备</div>
+  <div class="section-label" data-en>EQUIPMENT</div>
+  <h2 class="section-title zh" data-zh>设施一览</h2>
+  <h2 class="section-title en" data-en>Room Equipment</h2>
+  <p class="section-desc" data-zh>舒适私密包间，自动化设备配置，让你专注于牌局本身。</p>
+  <p class="section-desc" data-en>A comfortable private room with automated equipment — so you can focus entirely on the game.</p>
+  <div class="equipment-grid">
+    <div class="equipment-item">
+      <span class="equipment-icon">🤖</span>
+      <div class="equipment-title" data-zh>自动麻将桌</div>
+      <div class="equipment-title en" data-en>Auto-Shuffling Table</div>
+      <p class="equipment-desc" data-zh>全自动洗牌、码牌，省去手动洗牌的繁琐，每局开始更快捷，更卫生。</p>
+      <p class="equipment-desc" data-en>Fully automatic shuffling and stacking — faster game starts, more hygienic, and no manual tile-washing needed.</p>
+    </div>
+
+    <div class="equipment-item">
+      <span class="equipment-icon">🔒</span>
+      <div class="equipment-title" data-zh>私密包间</div>
+      <div class="equipment-title en" data-en>Private Room</div>
+      <p class="equipment-desc" data-zh>独立封闭包间，隔音良好，确保你们的牌局完全不受外界打扰。</p>
+      <p class="equipment-desc" data-en>A fully enclosed, soundproofed private room — your game remains completely undisturbed.</p>
+    </div>
+    <div class="equipment-item">
+      <span class="equipment-icon">💡</span>
+      <div class="equipment-title" data-zh>舒适照明</div>
+      <div class="equipment-title en" data-en>Comfortable Lighting</div>
+      <p class="equipment-desc" data-zh>柔和温暖的灯光设计，既清晰照亮牌面，又不会造成视觉疲劳，久坐也舒适。</p>
+      <p class="equipment-desc" data-en>Warm, soft lighting that clearly illuminates tiles without eye strain — comfortable even during long sessions.</p>
+    </div>
+    <div class="equipment-item">
+      <span class="equipment-icon">🌡️</span>
+      <div class="equipment-title" data-zh>独立空调</div>
+      <div class="equipment-title en" data-en>Individual Air Conditioning</div>
+      <p class="equipment-desc" data-zh>独立温控空调，全年保持舒适温度，无论夏季还是冬季都能安心享受牌局。</p>
+      <p class="equipment-desc" data-en>Individual climate control maintaining a comfortable temperature year-round — perfect for any season.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOUSE RULES -->
+<section class="page-section">
+  <div class="section-label" data-zh>HOUSE RULES · 注意事项</div>
+  <div class="section-label" data-en>HOUSE RULES</div>
+  <h2 class="section-title zh" data-zh>使用须知</h2>
+  <h2 class="section-title en" data-en>Things to Know</h2>
+  <div class="rules-list">
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>麻将包间为<strong>标准4人局</strong>，请确保到场人数为4人。</p>
+      <p class="rule-text" data-en>The mahjong room is set up for a <strong>standard 4-player game</strong>. Please ensure exactly 4 players are present.</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>收费为 <strong>$30/小时</strong>，无任何附加费用，欢迎自带食品及饮料。</p>
+      <p class="rule-text" data-en>The rate is <strong>$30 per hour</strong> with no additional fees. Outside food and drinks are welcome.</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>超时<strong>30分钟以内免费</strong>；超过30分钟则按<strong>整小时计费</strong>，即额外收取 $30。</p>
+      <p class="rule-text" data-en>Up to <strong>30 minutes of overtime is free</strong>; beyond 30 minutes, a <strong>full additional hour ($30)</strong> is charged.</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>玩法由玩家自行商定，工作人员不参与裁判，如有规则争议请玩家自行解决。</p>
+      <p class="rule-text" data-en>Players agree on the ruleset among themselves. Staff do not adjudicate rule disputes — these are resolved by the players.</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>如需延时，请提前告知工作人员，以便安排下一场次。</p>
+      <p class="rule-text" data-en>If you wish to extend your session, please inform staff in advance so we can accommodate the next booking.</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>请爱护自动麻将桌及房间设施，如有人为损坏需照价赔偿。</p>
+      <p class="rule-text" data-en>Please treat the auto-shuffling table and room equipment with care. Any intentional or negligent damage will be charged accordingly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-bar">
+  <h2 class="zh" data-zh>准备好开局了吗？</h2>
+  <h2 class="en" data-en>Ready to play?</h2>
+  <p data-zh>立即预约麻将包间，带上三位牌友，享受一局惬意的麻将时光。</p>
+  <p data-en>Book the mahjong room now — bring three friends and enjoy a relaxed, unhurried game.</p>
+  <div>
+    <a href="index.html#booking" class="btn-primary" data-zh>立即预约</a>
+    <a href="index.html#booking" class="btn-primary" data-en>Book Now</a>
+    <a href="index.html" class="btn-outline" data-zh>返回主页</a>
+    <a href="index.html" class="btn-outline" data-en>Back to Home</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="page-footer">
+  <div class="footer-logo"><span>W</span> 两个世界 · W Two Worlds</div>
+  <span>© 2025 W Two Worlds Board Game Studio</span>
+</div>
+
+<script>
+  const body = document.body;
+  const btnZh = document.getElementById('btnZh');
+  const btnEn = document.getElementById('btnEn');
+
+  function setLang(lang) {
+    body.className = 'lang-' + lang;
+    btnZh.classList.toggle('active', lang === 'zh');
+    btnEn.classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    try { localStorage.setItem('wtwLang', lang); } catch(e) {}
+  }
+
+  document.getElementById('langToggle').addEventListener('click', function() {
+    const current = body.classList.contains('lang-zh') ? 'zh' : 'en';
+    setLang(current === 'zh' ? 'en' : 'zh');
+  });
+
+  try {
+    const saved = localStorage.getItem('wtwLang');
+    if (saved) setLang(saved);
+  } catch(e) {}
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.equipment-item, .info-card, .rule-item, .price-main-card').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(22px)';
+    el.style.transition = 'opacity 0.5s ease ' + (i * 0.05) + 's, transform 0.5s ease ' + (i * 0.05) + 's';
+    obs.observe(el);
+  });
+</script>
+
+</body>
+</html>
