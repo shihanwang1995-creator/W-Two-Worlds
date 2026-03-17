@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KTV · 多功能房 · W两个世界</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8d08a;
+    --gray: #1e1e1e;
+    --gray2: #2a2a2a;
+    --purple: #2a1a3a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Noto Sans SC', 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* LANG */
+  body.lang-en [data-zh] { display: none !important; }
+  body.lang-zh [data-en] { display: none !important; }
+  body.lang-en { font-family: 'Inter', sans-serif; }
+
+  /* LANG TOGGLE */
+  .lang-toggle {
+    display: flex; align-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 2px; overflow: hidden;
+    cursor: pointer; user-select: none;
+  }
+  .lang-btn { padding: 6px 14px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; color: rgba(245,240,232,0.45); transition: all 0.25s; }
+  .lang-btn.active { background: var(--gold); color: var(--black); }
+  .lang-divider { width: 1px; height: 20px; background: rgba(201,168,76,0.25); }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 60px;
+    background: rgba(10,10,10,0.9); backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-left { display: flex; align-items: center; gap: 20px; }
+  .nav-back {
+    display: flex; align-items: center; gap: 8px;
+    color: rgba(245,240,232,0.5); text-decoration: none;
+    font-size: 0.8rem; letter-spacing: 0.08em; transition: color 0.3s;
+  }
+  .nav-back:hover { color: var(--gold); }
+  .nav-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.1); }
+  .nav-title { font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 900; letter-spacing: 0.08em; }
+  .nav-title span { color: var(--gold); font-style: italic; }
+
+  /* HERO */
+  #hero {
+    min-height: 60vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background: var(--black); padding-top: 80px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 50% 50%, rgba(42,26,58,0.5) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 20%, rgba(201,168,76,0.06) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .corner-deco { position: absolute; width: 50px; height: 50px; border-color: rgba(201,168,76,0.2); border-style: solid; }
+  .corner-deco.tl { top: 24px; left: 24px; border-width: 1px 0 0 1px; }
+  .corner-deco.tr { top: 24px; right: 24px; border-width: 1px 1px 0 0; }
+  .corner-deco.bl { bottom: 24px; left: 24px; border-width: 0 0 1px 1px; }
+  .corner-deco.br { bottom: 24px; right: 24px; border-width: 0 1px 1px 0; }
+  .hero-content { position: relative; z-index: 2; text-align: center; padding: 0 20px; }
+  .hero-badge {
+    display: inline-block; border: 1px solid rgba(201,168,76,0.5);
+    color: var(--gold); font-size: 0.68rem; letter-spacing: 0.35em;
+    padding: 6px 22px; margin-bottom: 28px; text-transform: uppercase;
+  }
+  .hero-icon { font-size: 4rem; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(201,168,76,0.3)); }
+  .hero-title { font-weight: 900; line-height: 1.05; margin-bottom: 12px; }
+  .hero-title.zh { font-family: 'Noto Serif SC', serif; font-size: clamp(2.4rem, 6vw, 4.5rem); }
+  .hero-title.en { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4.5vw, 3.5rem); font-style: italic; }
+  .hero-sub {
+    font-size: clamp(0.85rem, 1.6vw, 1rem); font-weight: 300;
+    color: rgba(245,240,232,0.5); letter-spacing: 0.2em; margin-bottom: 36px; line-height: 1.8;
+  }
+  .hero-sub span { color: var(--gold); opacity: 0.8; }
+  .hero-tags { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .hero-tag { border: 1px solid rgba(201,168,76,0.3); color: var(--gold); font-size: 0.72rem; padding: 5px 14px; letter-spacing: 0.1em; }
+
+  /* SECTIONS */
+  .page-section { padding: 80px 60px; }
+  .page-section.dark { background: #0d0d0d; }
+  .section-label {
+    font-size: 0.68rem; letter-spacing: 0.42em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-label::before { content: ''; display: block; width: 38px; height: 1px; background: var(--gold); flex-shrink: 0; }
+  .section-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 900; line-height: 1.2; margin-bottom: 16px; }
+  .section-title.zh { font-family: 'Noto Serif SC', serif; }
+  .section-title.en { font-family: 'Playfair Display', serif; }
+  .section-desc { color: rgba(245,240,232,0.5); font-size: 0.9rem; line-height: 1.9; max-width: 520px; }
+
+  /* PRICING */
+  .pricing-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 36px; }
+
+  .price-main-card {
+    border: 1px solid rgba(201,168,76,0.25);
+    background: rgba(201,168,76,0.03);
+    padding: 40px 36px; position: relative; overflow: hidden;
+  }
+  .price-main-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px; background: var(--gold);
+  }
+  .price-main-label { font-size: 0.7rem; letter-spacing: 0.2em; color: rgba(245,240,232,0.45); text-transform: uppercase; margin-bottom: 12px; }
+  .price-main-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem; font-weight: 900; color: var(--gold); line-height: 1;
+  }
+  .price-main-unit { font-size: 0.85rem; color: rgba(245,240,232,0.5); margin-top: 8px; margin-bottom: 24px; }
+  .price-divider { height: 1px; background: rgba(201,168,76,0.15); margin: 20px 0; }
+  .price-note {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 16px; background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+  .price-note-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+  .price-note-text { font-size: 0.8rem; color: rgba(245,240,232,0.6); line-height: 1.75; }
+  .price-note-text strong { color: var(--gold); }
+
+  /* Info cards */
+  .info-cards { display: flex; flex-direction: column; gap: 14px; }
+  .info-card {
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 22px 24px; background: rgba(255,255,255,0.02);
+    display: flex; align-items: center; gap: 18px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .info-card:hover { border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.03); }
+  .info-card-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .info-card-body {}
+  .info-card-title { font-family: 'Noto Serif SC', serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+  .info-card-title.en { font-family: 'Playfair Display', serif; font-style: italic; }
+  .info-card-desc { font-size: 0.8rem; color: rgba(245,240,232,0.45); line-height: 1.7; }
+
+  /* FEATURES */
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-top: 36px; }
+  .feature-item {
+    padding: 32px 26px; background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.3s;
+  }
+  .feature-item:hover { background: rgba(201,168,76,0.04); }
+  .feature-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+  .feature-title { font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .feature-title.en { font-family: 'Playfair Display', serif; font-style: italic; }
+  .feature-desc { font-size: 0.8rem; color: rgba(245,240,232,0.45); line-height: 1.8; }
+
+  /* RULES */
+  .rules-list { margin-top: 32px; display: flex; flex-direction: column; gap: 2px; }
+  .rule-item {
+    display: flex; align-items: flex-start; gap: 20px;
+    padding: 20px 24px; background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.3s;
+  }
+  .rule-item:hover { background: rgba(201,168,76,0.03); }
+  .rule-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gold); flex-shrink: 0; margin-top: 6px;
+  }
+  .rule-text { font-size: 0.85rem; color: rgba(245,240,232,0.6); line-height: 1.8; }
+  .rule-text strong { color: var(--white); }
+
+  /* CTA */
+  .cta-bar {
+    background: linear-gradient(135deg, #0c0800, #160f00);
+    border-top: 1px solid rgba(201,168,76,0.12);
+    padding: 60px; text-align: center;
+  }
+  .cta-bar h2 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 12px; }
+  .cta-bar h2.en { font-family: 'Playfair Display', serif; font-style: italic; }
+  .cta-bar p { color: rgba(245,240,232,0.5); font-size: 0.9rem; margin-bottom: 30px; line-height: 1.8; }
+  .btn-primary {
+    background: var(--gold); color: var(--black);
+    padding: 14px 44px; font-size: 0.92rem; font-weight: 700; letter-spacing: 0.12em;
+    text-decoration: none; display: inline-block; transition: all 0.3s;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    margin: 0 8px;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    padding: 14px 44px; font-size: 0.92rem; letter-spacing: 0.12em;
+    text-decoration: none; display: inline-block; transition: all 0.3s;
+    border: 1px solid rgba(245,240,232,0.25);
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    margin: 0 8px;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* FOOTER */
+  .page-footer {
+    background: #050505; padding: 24px 60px;
+    border-top: 1px solid rgba(201,168,76,0.08);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.72rem; color: rgba(245,240,232,0.22);
+  }
+  .footer-logo { font-family: 'Noto Serif SC', serif; font-weight: 900; }
+  .footer-logo span { color: var(--gold); font-style: italic; }
+
+  @media (max-width: 860px) {
+    nav { padding: 14px 22px; }
+    .page-section { padding: 60px 22px; }
+    .pricing-layout { grid-template-columns: 1fr; gap: 32px; }
+    .features-grid { grid-template-columns: 1fr 1fr; }
+    .cta-bar { padding: 50px 22px; }
+    .page-footer { flex-direction: column; gap: 10px; text-align: center; }
+  }
+  @media (max-width: 560px) {
+    .features-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body class="lang-zh">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-back">
+      <span>←</span>
+      <span data-zh>返回主页</span>
+      <span data-en>Back</span>
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-title"><span>W</span> <span data-zh>两个世界</span><span data-en>Two Worlds</span></div>
+  </div>
+  <div class="lang-toggle" id="langToggle">
+    <div class="lang-btn active" id="btnZh">中文</div>
+    <div class="lang-divider"></div>
+    <div class="lang-btn" id="btnEn">EN</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="corner-deco tl"></div>
+  <div class="corner-deco tr"></div>
+  <div class="corner-deco bl"></div>
+  <div class="corner-deco br"></div>
+  <div class="hero-content">
+    <div class="hero-badge" data-zh>W两个世界 · 多功能房</div>
+    <div class="hero-badge" data-en>W Two Worlds · Multi-Function Room</div>
+    <div class="hero-icon">🎤</div>
+    <h1 class="hero-title zh" data-zh>KTV · 多功能房</h1>
+    <h1 class="hero-title en" data-en>KTV · Multi-Function Room</h1>
+    <p class="hero-sub" data-zh>私密包厢 <span>·</span> 至多15人 <span>·</span> 欢迎自带饮品</p>
+    <p class="hero-sub" data-en>Private Room <span>·</span> Up to 15 Guests <span>·</span> BYO Drinks Welcome</p>
+    <div class="hero-tags">
+      <span class="hero-tag" data-zh>🎵 超万首曲库</span>
+      <span class="hero-tag" data-en>🎵 10,000+ Songs</span>
+      <span class="hero-tag" data-zh>👥 至多15人</span>
+      <span class="hero-tag" data-en>👥 Up to 15 People</span>
+      <span class="hero-tag" data-zh>🍹 欢迎自带</span>
+      <span class="hero-tag" data-en>🍹 BYO Welcome</span>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="page-section">
+  <div class="section-label" data-zh>PRICING · 收费</div>
+  <div class="section-label" data-en>PRICING</div>
+  <h2 class="section-title zh" data-zh>收费标准</h2>
+  <h2 class="section-title en" data-en>Pricing</h2>
+  <p class="section-desc" data-zh>最低1小时起订，超时按分钟计费，价格透明，无隐藏消费。自带酒精饮料需缴纳服务手续费。</p>
+  <p class="section-desc" data-en>Minimum 1-hour booking; overtime billed per minute. Transparent pricing with no hidden charges. A service fee applies for alcoholic beverages.</p>
+
+  <div class="pricing-layout">
+    <div>
+      <div class="price-main-card">
+        <div class="price-main-label" data-zh>标准收费</div>
+        <div class="price-main-label" data-en>Standard Rate</div>
+        <div class="price-main-amount">$60</div>
+        <div class="price-main-unit" data-zh>每小时 · 整间包厢</div>
+        <div class="price-main-unit" data-en>per hour · entire room</div>
+        <div class="price-divider"></div>
+        <div class="price-note">
+          <span class="price-note-icon">🍷</span>
+          <div class="price-note-text">
+            <span data-zh>如携带酒精饮料入场，将在原价基础上加收 <strong>20% 手续费</strong>，即每小时 <strong>$72</strong>。</span>
+            <span data-en>If alcoholic beverages are brought in, a <strong>20% service fee</strong> applies — bringing the rate to <strong>$72 per hour</strong>.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <span class="info-card-icon">👥</span>
+        <div class="info-card-body">
+          <div class="info-card-title" data-zh>容纳人数</div>
+          <div class="info-card-title en" data-en>Capacity</div>
+          <div class="info-card-desc" data-zh>包厢最多可容纳 15 人，适合生日派对、朋友聚会、公司团建等各类场合。</div>
+          <div class="info-card-desc" data-en>The room comfortably accommodates up to 15 guests — ideal for birthday parties, friend gatherings, and corporate events.</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <span class="info-card-icon">🍹</span>
+        <div class="info-card-body">
+          <div class="info-card-title" data-zh>饮品政策</div>
+          <div class="info-card-title en" data-en>Drinks Policy</div>
+          <div class="info-card-desc" data-zh>欢迎自带饮品，包括非酒精饮料（无额外费用）及酒精饮料（加收20%手续费）。</div>
+          <div class="info-card-desc" data-en>BYO is welcome — non-alcoholic drinks at no extra charge; alcoholic beverages incur a 20% service fee.</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <span class="info-card-icon">⏱️</span>
+        <div class="info-card-body">
+          <div class="info-card-title" data-zh>计费方式</div>
+          <div class="info-card-title en" data-en>Billing</div>
+          <div class="info-card-desc" data-zh>最低1小时起订（$60）；超出时间按分钟计费，标准每分钟 $1，携带酒精饮料时每分钟 $1.2。</div>
+          <div class="info-card-desc" data-en>Minimum 1 hour ($60). Overtime is billed per minute — $1/min standard, $1.20/min with alcohol.</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <span class="info-card-icon">📅</span>
+        <div class="info-card-body">
+          <div class="info-card-title" data-zh>预约方式</div>
+          <div class="info-card-title en" data-en>Booking</div>
+          <div class="info-card-desc" data-zh>建议提前预约，节假日及周末请提前至少2天预订，确保场地可用。</div>
+          <div class="info-card-desc" data-en>Advance booking recommended. For weekends and public holidays, please book at least 2 days ahead to guarantee availability.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="page-section dark">
+  <div class="section-label" data-zh>FEATURES · 设施亮点</div>
+  <div class="section-label" data-en>FEATURES</div>
+  <h2 class="section-title zh" data-zh>包厢设施</h2>
+  <h2 class="section-title en" data-en>Room Features</h2>
+  <p class="section-desc" data-zh>专业级音响配置，打造完美的私人演唱体验。</p>
+  <p class="section-desc" data-en>Professional-grade audio setup delivering an exceptional private singing experience.</p>
+
+  <div class="features-grid">
+    <div class="feature-item">
+      <span class="feature-icon">🎵</span>
+      <div class="feature-title" data-zh>海量曲库</div>
+      <div class="feature-title en" data-en>Vast Song Library</div>
+      <p class="feature-desc" data-zh>超过一万首中英日韩歌曲实时更新，涵盖流行、经典、影视金曲等各类风格，总有你爱唱的那首。</p>
+      <p class="feature-desc" data-en>10,000+ songs in Chinese, English, Japanese, and Korean — updated in real time across pop, classics, soundtracks, and more.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🔊</span>
+      <div class="feature-title" data-zh>专业音响</div>
+      <div class="feature-title en" data-en>Pro Audio System</div>
+      <p class="feature-desc" data-zh>高品质音响设备，清晰饱满的音效还原，让每一首歌都像在舞台上演唱。</p>
+      <p class="feature-desc" data-en>High-fidelity audio equipment delivering rich, clear sound — every performance feels like the real stage.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🎙️</span>
+      <div class="feature-title" data-zh>专业麦克风</div>
+      <div class="feature-title en" data-en>Professional Microphones</div>
+      <p class="feature-desc" data-zh>配备多支专业无线麦克风，音质稳定清晰，支持多人同台合唱，尽情释放舞台魅力。</p>
+      <p class="feature-desc" data-en>Multiple professional wireless microphones with stable, crystal-clear audio quality — perfect for group performances.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">📺</span>
+      <div class="feature-title" data-zh>大屏显示</div>
+      <div class="feature-title en" data-en>Large Screen Display</div>
+      <p class="feature-desc" data-zh>超大高清显示屏，歌词清晰易读，画面精美流畅，让演唱体验更加沉浸投入。</p>
+      <p class="feature-desc" data-en>Oversized HD display with crisp, easy-to-read lyrics and vivid visuals for a fully immersive singing experience.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🔒</span>
+      <div class="feature-title" data-zh>私密包厢</div>
+      <div class="feature-title en" data-en>Private Room</div>
+      <p class="feature-desc" data-zh>独立封闭包厢，隔音效果出色。你的派对只属于你，尽情放开嗓子，无需顾虑。</p>
+      <p class="feature-desc" data-en>A fully enclosed, soundproofed private room. Your party stays your own — sing your heart out without a care.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🌡️</span>
+      <div class="feature-title" data-zh>舒适环境</div>
+      <div class="feature-title en" data-en>Comfortable Environment</div>
+      <p class="feature-desc" data-zh>独立空调、舒适座位，灯光氛围可调节，打造最适合你的派对氛围。</p>
+      <p class="feature-desc" data-en>Individual air conditioning, comfortable seating, and adjustable mood lighting — set the perfect atmosphere for your party.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOUSE RULES -->
+<section class="page-section">
+  <div class="section-label" data-zh>HOUSE RULES · 注意事项</div>
+  <div class="section-label" data-en>HOUSE RULES</div>
+  <h2 class="section-title zh" data-zh>使用须知</h2>
+  <h2 class="section-title en" data-en>Things to Know</h2>
+  <div class="rules-list">
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>包厢<strong>最多容纳15人</strong>，超出人数将无法入场，请提前确认人数。</p>
+      <p class="rule-text" data-en>The room has a <strong>maximum capacity of 15 people</strong>. Please confirm your group size before arrival.</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>欢迎<strong>自带饮品</strong>，非酒精饮料无额外收费；携带酒精饮料需加收 <strong>20% 手续费</strong>。</p>
+      <p class="rule-text" data-en><strong>BYO drinks are welcome.</strong> Non-alcoholic beverages are free to bring; a <strong>20% service fee</strong> applies for alcoholic drinks.</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>欢迎<strong>自带食品及饮料</strong>入场，请保持包厢整洁，自行清理随身垃圾。</p>
+      <p class="rule-text" data-en><strong>Outside food and drinks are welcome.</strong> Please help keep the room tidy and take your rubbish with you when you leave.</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh><strong>最低预约时长为1小时</strong>；超出部分按<strong>分钟计费</strong>（每分钟 $1，饮酒时每分钟 $1.2）。</p>
+      <p class="rule-text" data-en><strong>Minimum booking is 1 hour.</strong> Any time beyond that is billed <strong>per minute</strong> ($1/min standard; $1.20/min with alcohol).</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>如需延时，请提前告知工作人员，以便安排下一场次。</p>
+      <p class="rule-text" data-en>If you'd like to extend your session, please inform staff in advance so we can accommodate the next booking.</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>请爱护包厢内设备，如有人为损坏需照价赔偿。</p>
+      <p class="rule-text" data-en>Please treat all equipment with care. Any intentional or negligent damage will be charged accordingly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-bar">
+  <h2 class="zh" data-zh>准备好开嗨了吗？</h2>
+  <h2 class="en" data-en>Ready to sing your heart out?</h2>
+  <p data-zh>立即预约KTV包厢，带上朋友，带上饮料，尽情享受属于你们的私人派对。</p>
+  <p data-en>Book the KTV room now — bring your friends, bring your drinks, and enjoy your very own private party.</p>
+  <div>
+    <a href="index.html#booking" class="btn-primary" data-zh>立即预约</a>
+    <a href="index.html#booking" class="btn-primary" data-en>Book Now</a>
+    <a href="index.html" class="btn-outline" data-zh>返回主页</a>
+    <a href="index.html" class="btn-outline" data-en>Back to Home</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="page-footer">
+  <div class="footer-logo"><span>W</span> 两个世界 · W Two Worlds</div>
+  <span>© 2025 W Two Worlds Board Game Studio</span>
+</div>
+
+<script>
+  const body = document.body;
+  const btnZh = document.getElementById('btnZh');
+  const btnEn = document.getElementById('btnEn');
+
+  function setLang(lang) {
+    body.className = 'lang-' + lang;
+    btnZh.classList.toggle('active', lang === 'zh');
+    btnEn.classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    try { localStorage.setItem('wtwLang', lang); } catch(e) {}
+  }
+
+  document.getElementById('langToggle').addEventListener('click', function() {
+    const current = body.classList.contains('lang-zh') ? 'zh' : 'en';
+    setLang(current === 'zh' ? 'en' : 'zh');
+  });
+
+  try {
+    const saved = localStorage.getItem('wtwLang');
+    if (saved) setLang(saved);
+  } catch(e) {}
+
+  // Scroll reveal
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.feature-item, .info-card, .rule-item, .price-main-card').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(22px)';
+    el.style.transition = 'opacity 0.5s ease ' + (i * 0.05) + 's, transform 0.5s ease ' + (i * 0.05) + 's';
+    obs.observe(el);
+  });
+</script>
+
+</body>
+</html>

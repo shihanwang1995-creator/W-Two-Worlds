@@ -556,7 +556,7 @@
       <span class="service-tag" data-zh>5～15人 / 2～4小时</span>
       <span class="service-tag" data-en>5–15 Players / 2–4 hrs</span>
     </div>
-    <div class="service-card">
+    <div class="service-card" onclick="window.location='ktv.html'" style="cursor:pointer">
       <span class="service-num">05</span>
       <span class="service-icon">🎤</span>
       <h3 class="service-name-zh" data-zh>KTV</h3>
@@ -768,18 +768,40 @@
         <div class="form-group">
           <label class="form-label" data-zh>人数 *</label>
           <label class="form-label" data-en>Group Size *</label>
-          <select class="form-select" id="f-size" required>
+          <select class="form-select" id="f-size" required onchange="checkGroupSize()">
             <option value="" data-zh>请选择人数</option>
             <option value="" data-en>Select group size</option>
-            <option value="2-4" data-zh>2 – 4 人</option>
-            <option value="2-4" data-en>2 – 4 people</option>
-            <option value="5-8" data-zh>5 – 8 人</option>
-            <option value="5-8" data-en>5 – 8 people</option>
-            <option value="9-12" data-zh>9 – 12 人</option>
-            <option value="9-12" data-en>9 – 12 people</option>
-            <option value="13+" data-zh>13 人以上</option>
-            <option value="13+" data-en>13+ people</option>
+            <option value="1" data-zh>1 人</option>
+            <option value="1" data-en>1 person</option>
+            <option value="2" data-zh>2 人</option>
+            <option value="2" data-en>2 people</option>
+            <option value="3" data-zh>3 人</option>
+            <option value="3" data-en>3 people</option>
+            <option value="4" data-zh>4 人</option>
+            <option value="4" data-en>4 people</option>
+            <option value="5" data-zh>5 人</option>
+            <option value="5" data-en>5 people</option>
+            <option value="6" data-zh>6 人</option>
+            <option value="6" data-en>6 people</option>
+            <option value="7" data-zh>7 人</option>
+            <option value="7" data-en>7 people</option>
+            <option value="8" data-zh>8 人</option>
+            <option value="8" data-en>8 people</option>
+            <option value="9" data-zh>9 人</option>
+            <option value="9" data-en>9 people</option>
+            <option value="10" data-zh>10 人</option>
+            <option value="10" data-en>10 people</option>
+            <option value="11" data-zh>11 人</option>
+            <option value="11" data-en>11 people</option>
+            <option value="12" data-zh>12 人</option>
+            <option value="12" data-en>12 people</option>
+            <option value="13" data-zh>13 人</option>
+            <option value="13" data-en>13 people</option>
+            <option value="13+" data-zh>13 人以上（请在备注注明实际人数）</option>
+            <option value="13+" data-en>13+ people (please specify in notes)</option>
           </select>
+          <div id="sizeHint" style="display:none;margin-top:6px;font-size:0.72rem;color:var(--gold);letter-spacing:0.05em;" data-zh>⚠️ 人数较多，请在备注栏注明实际人数，我们将为你安排合适的场地。</div>
+          <div id="sizeHintEn" style="display:none;margin-top:6px;font-size:0.72rem;color:var(--gold);letter-spacing:0.05em;" data-en>⚠️ Large group — please specify your exact number in the notes field so we can arrange the right space for you.</div>
         </div>
 
         <!-- Services -->
@@ -954,6 +976,21 @@
     const current = body.classList.contains('lang-zh') ? 'zh' : 'en';
     setLang(current === 'zh' ? 'en' : 'zh');
   });
+
+  // ── GROUP SIZE HINT ──
+  function checkGroupSize() {
+    const val = document.getElementById('f-size').value;
+    const lang = body.classList.contains('lang-zh') ? 'zh' : 'en';
+    const hintZh = document.getElementById('sizeHint');
+    const hintEn = document.getElementById('sizeHintEn');
+    if (val === '13+') {
+      if (hintZh) hintZh.style.display = lang === 'zh' ? 'block' : 'none';
+      if (hintEn) hintEn.style.display = lang === 'en' ? 'block' : 'none';
+    } else {
+      if (hintZh) hintZh.style.display = 'none';
+      if (hintEn) hintEn.style.display = 'none';
+    }
+  }
 
   // Set min date to today
   const today = new Date().toISOString().split('T')[0];
