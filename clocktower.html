@@ -248,6 +248,54 @@
     .cta-bar { padding: 50px 22px; }
     .page-footer { flex-direction: column; gap: 10px; text-align: center; }
   }
+
+  /* ── SCRIPT MODES ── */
+  .script-mode-header {
+    margin-top: 56px; margin-bottom: 24px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; align-items: stretch;
+    border: 1px solid rgba(201,168,76,0.2);
+    background: rgba(201,168,76,0.03);
+    overflow: hidden;
+  }
+  .script-mode-left {
+    padding: 24px 28px;
+    border-right: 1px solid rgba(201,168,76,0.15);
+  }
+  .script-mode-right { padding: 24px 28px; }
+  .script-mode-label {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.4rem; font-weight: 900;
+    color: var(--gold); margin-bottom: 10px; letter-spacing: 0.05em;
+    display: block;
+  }
+  .script-mode-label[data-en] {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-style: italic; font-weight: 700;
+  }
+  .script-mode-rule {
+    display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px;
+  }
+  .script-mode-rule:last-child { margin-bottom: 0; }
+  .script-mode-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--gold); flex-shrink: 0; margin-top: 7px; opacity: 0.6;
+  }
+  .script-mode-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem; font-weight: 300;
+    color: rgba(245,240,232,0.5); line-height: 1.85; letter-spacing: 0.02em;
+  }
+  .script-mode-players {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.72rem; color: var(--gold); letter-spacing: 0.1em;
+    border: 1px solid rgba(201,168,76,0.25); padding: 4px 12px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 600px) {
+    .script-mode-header { grid-template-columns: 1fr; }
+    .script-mode-left { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.15); }
+  }
 </style>
 </head>
 <body class="lang-zh">
@@ -289,7 +337,7 @@
     <div class="hero-tags">
       <span class="hero-tag" data-zh>⭐ 新手友好</span><span class="hero-tag" data-en>⭐ Beginner Friendly</span>
       <span class="hero-tag" data-zh>⭐⭐⭐ 烧脑挑战</span><span class="hero-tag" data-en>⭐⭐⭐ Expert Challenge</span>
-      <span class="hero-tag" data-zh>3套官方剧本</span><span class="hero-tag" data-en>3 Official Scripts</span>
+      <span class="hero-tag" data-zh>三大模式</span><span class="hero-tag" data-en>3 Modes</span>
     </div>
   </div>
 </section>
@@ -331,25 +379,49 @@
   <div class="section-label" data-en>SCRIPTS</div>
   <h2 class="section-title zh" data-zh>可选剧本</h2>
   <h2 class="section-title en" data-en>Available Scripts</h2>
-  <p style="color:rgba(245,240,232,0.5);font-size:0.9rem;line-height:1.9;max-width:520px;" data-zh>我们提供全部三套官方剧本，以及一套自制高难剧本，从新手入门到极限挑战，总有适合你的难度。</p>
-  <p style="color:rgba(245,240,232,0.5);font-size:0.9rem;line-height:1.9;max-width:520px;" data-en>We offer all three official scripts plus one custom high-difficulty script — from gentle introductions to fiendish challenges. There's always a difficulty level for you.</p>
+  <p style="color:rgba(245,240,232,0.5);font-size:0.9rem;line-height:1.9;max-width:520px;" data-zh>剧本分为三大类型，各具不同的游戏风格与角色机制，说书人全程引导。</p>
+  <p style="color:rgba(245,240,232,0.5);font-size:0.9rem;line-height:1.9;max-width:520px;" data-en>Scripts are divided into three categories, each with its own playstyle and role mechanics — your Storyteller guides every session.</p>
+
+  <!-- 鸦木布拉夫模式 -->
+  <div class="script-mode-header">
+    <div class="script-mode-left">
+      <div class="script-mode-label" data-zh>🏘️ 鸦木布拉夫模式</div>
+      <div class="script-mode-label" data-en>🏘️ Ravenswood Bluff</div>
+      <div class="script-mode-players" data-zh>👥 7 – 15 人</div>
+      <div class="script-mode-players" data-en>👥 7 – 15 Players</div>
+    </div>
+    <div class="script-mode-right">
+      <div class="script-mode-rule">
+        <div class="script-mode-dot"></div>
+        <p class="script-mode-desc" data-zh>第一晚恶魔与爪牙互相得知对方身份，但不知具体角色。</p>
+        <p class="script-mode-desc" data-en>On night one, Demon and Minions learn each other's identities — but not their specific roles.</p>
+      </div>
+      <div class="script-mode-rule">
+        <div class="script-mode-dot"></div>
+        <p class="script-mode-desc" data-zh>恶魔得知三个不在本局的善良阵营角色名称，可用于白天伪装身份。</p>
+        <p class="script-mode-desc" data-en>The Demon learns three Good roles absent from the game — available as cover identities during the day.</p>
+      </div>
+    </div>
+  </div>
   <div class="scripts-grid">
 
     <div class="script-card beginner">
-      <div class="script-name">Trouble Brewing</div>
-      <div class="script-name-zh" data-zh>祸酿小镇</div>
+      <div class="script-name" data-zh>暗流涌动（又名：灾祸滋生）</div>
+      <div class="script-name" data-en>Trouble Brewing</div>
+      <div class="script-name-zh" data-zh></div>
       <p class="script-desc" data-zh>官方入门剧本，角色直观易懂，信息清晰明确。是第一次体验血染钟楼的最佳选择，说书人会全程引导。</p>
       <p class="script-desc" data-en>The official starter script with clear, straightforward roles and reliable information. The perfect introduction — your Storyteller will guide you every step of the way.</p>
       <div class="script-meta">
         <span class="diff-badge beginner">⭐ <span data-zh>新手</span><span data-en>Beginner</span></span>
-        <span class="script-players" data-zh>5～15人</span>
-        <span class="script-players" data-en>5–15 players</span>
+        <span class="script-players" data-zh>7～15人</span>
+        <span class="script-players" data-en>7–15 players</span>
       </div>
     </div>
 
     <div class="script-card intermediate">
-      <div class="script-name">Bad Moon Rising</div>
-      <div class="script-name-zh" data-zh>凶月将至</div>
+      <div class="script-name" data-zh>黯月初升（又名：血月升起）</div>
+      <div class="script-name" data-en>Bad Moon Rising</div>
+      <div class="script-name-zh" data-zh></div>
       <p class="script-desc" data-zh>节奏更快，死亡更频繁。强调团队合作与信息博弈，善良阵营需紧密协作才能找出隐藏的威胁。</p>
       <p class="script-desc" data-en>Faster pace, more deaths. Teamwork and information-sharing are critical as the Good team must cooperate closely to root out the hidden threat.</p>
       <div class="script-meta">
@@ -360,8 +432,9 @@
     </div>
 
     <div class="script-card intermediate">
-      <div class="script-name">Sects &amp; Violets</div>
-      <div class="script-name-zh" data-zh>教派与紫罗兰</div>
+      <div class="script-name" data-zh>梦陨春宵（又名：教派&紫罗兰）</div>
+      <div class="script-name" data-en>Sects &amp; Violets</div>
+      <div class="script-name-zh" data-zh></div>
       <p class="script-desc" data-zh>信息量极大，角色互动错综复杂。每一条线索都可能是陷阱，每一个盟友都可能是威胁。</p>
       <p class="script-desc" data-en>Information-dense with intricate role interactions. Every clue could be a trap; every ally could be a threat. Expect deep analysis and heated debate.</p>
       <div class="script-meta">
@@ -371,15 +444,111 @@
       </div>
     </div>
 
-    <div class="script-card advanced">
-      <div class="script-name">Deadly Penance Day</div>
-      <div class="script-name-zh" data-zh>忏悔死日 · 自制剧本</div>
-      <p class="script-desc" data-zh>最高难度剧本，角色机制极端复杂，充斥着反直觉的互动与极限欺骗。专为烧脑老手而设，谨慎入场。</p>
-      <p class="script-desc" data-en>Our custom high-difficulty script. Counter-intuitive mechanics and extreme deception throughout. For seasoned veterans only — enter with caution.</p>
+    <div class="script-card intermediate">
+      <div class="script-name" data-zh>夜半狂欢</div>
+      <div class="script-name" data-en>The Midnight Oasis</div>
+      <div class="script-name-zh" data-zh></div>
+      <p class="script-desc" data-zh>由说书人 @Zets 创作的欢乐实验性剧本。哈迪寂亚、亡骨魔还是说书人在作祟？充满干扰与反转，善良方需在信息混乱中找出真相，邪恶方则在欢闹中伺机而动。博弈与娱乐兼具，每局都充满惊喜。</p>
+      <p class="script-desc" data-en>A fun, experimental script by Storyteller @Zets. Is it an Al-Hadikhia, a Vigormortis, or a dastardly Storyteller causing chaos? Full of disruptive roles and unexpected twists — Good must find truth in the noise while Evil hides in the revelry.</p>
       <div class="script-meta">
-        <span class="diff-badge advanced">⭐⭐⭐ <span data-zh>高难</span><span data-en>Advanced</span></span>
+        <span class="diff-badge intermediate">⭐⭐ <span data-zh>进阶</span><span data-en>Intermediate</span></span>
         <span class="script-players" data-zh>7～15人</span>
         <span class="script-players" data-en>7–15 players</span>
+      </div>
+    </div>
+
+    <div class="script-card intermediate">
+      <div class="script-name" data-zh>夜半狂欢</div>
+      <div class="script-name" data-en>The Midnight Oasis</div>
+      <div class="script-name-zh" data-zh></div>
+      <p class="script-desc" data-zh>欢乐与博弈兼具的进阶剧本。精神病患者的混乱、灵言师的暗中交易、麻脸巫婆的真假身份、投毒者带来的信息干扰——邪恶方花样百出，但善良方同样拥有强力信息反击。究竟是哈迪寂亚、亡骨魔，还是说书人本人在作祟？在这场狂欢中，放下对胜负的执念，享受城镇广场上的混乱与欢愉。</p>
+      <p class="script-desc" data-en>A fun-first intermediate script packed with experimental roles and wild interactions. Is it an Al-Hadikhia, a Vigormortis, or a dastardly Storyteller causing chaos? With misinformation flying and identities shifting at every turn, the Good team must cut through the noise to find the truth — all while enjoying the ride.</p>
+      <div class="script-meta">
+        <span class="diff-badge intermediate">⭐⭐ <span data-zh>进阶</span><span data-en>Intermediate</span></span>
+        <span class="script-players" data-zh>7～15人</span>
+        <span class="script-players" data-en>7–15 players</span>
+      </div>
+    </div>
+
+
+    <div class="script-card intermediate">
+      <div class="script-name" data-zh>夜半狂欢</div>
+      <div class="script-name" data-en>The Midnight Oasis</div>
+      <div class="script-name-zh" data-zh></div>
+      <p class="script-desc" data-zh>欢乐与博弈并存的实验性剧本。精神病患者、哈迪寂亚、亡骨魔等角色轮番制造混乱，信息真假难辨。善良方拥有强力信息角色，邪恶方则深藏不露——究竟是谁在这场狂欢中兴风作浪？</p>
+      <p class="script-desc" data-en>A chaotic, experimental script where fun meets strategy. Al-Hadikhia, Vigormortis, and a cast of disruptive characters muddy every clue — but Good has powerful tools too. Who's truly behind the mayhem in this midnight carnival?</p>
+      <div class="script-meta">
+        <span class="diff-badge intermediate">⭐⭐ <span data-zh>进阶</span><span data-en>Intermediate</span></span>
+        <span class="script-players" data-zh>7～15人</span>
+        <span class="script-players" data-en>7–15 players</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 汀西维尔模式 -->
+  <div class="script-mode-header">
+    <div class="script-mode-left">
+      <div class="script-mode-label" data-zh>🌊 汀西维尔模式</div>
+      <div class="script-mode-label" data-en>🌊 Tinseville</div>
+      <div class="script-mode-players" data-zh>👥 5 – 6 人</div>
+      <div class="script-mode-players" data-en>👥 5 – 6 Players</div>
+    </div>
+    <div class="script-mode-right">
+      <div class="script-mode-rule">
+        <div class="script-mode-dot"></div>
+        <p class="script-mode-desc" data-zh>第一晚恶魔与爪牙不互相得知对方身份，信息完全封闭。</p>
+        <p class="script-mode-desc" data-en>On night one, Demon and Minions do not learn each other's identities — information is fully sealed.</p>
+      </div>
+      <div class="script-mode-rule">
+        <div class="script-mode-dot"></div>
+        <p class="script-mode-desc" data-zh>恶魔不会得知任何不在场的善良阵营角色，无伪装角色可用，博弈更加纯粹直接。</p>
+        <p class="script-mode-desc" data-en>The Demon receives no bluff roles whatsoever — a purer, more direct battle of deduction with nowhere to hide.</p>
+      </div>
+    </div>
+  </div>
+  <div class="scripts-grid">
+
+    <div class="script-card beginner">
+      <div class="script-name" data-zh>暗流涌动（又名：灾祸滋生）</div>
+      <div class="script-name" data-en>Trouble Brewing</div>
+      <div class="script-name-zh" data-zh></div>
+      <p class="script-desc" data-zh>以汀西维尔模式进行的入门剧本。恶魔与爪牙信息封闭，无伪装角色可用，博弈更加纯粹直接。</p>
+      <p class="script-desc" data-en>The starter script played in Tinseville mode. With no bluff roles and closed Evil-team information, the game is a purer test of deduction.</p>
+      <div class="script-meta">
+        <span class="diff-badge beginner">⭐ <span data-zh>新手</span><span data-en>Beginner</span></span>
+        <span class="script-players" data-zh>5～6人</span>
+        <span class="script-players" data-en>5–6 players</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 特殊玩法 -->
+  <div class="script-mode-header">
+    <div class="script-mode-left">
+      <div class="script-mode-label" data-zh>✨ 特殊玩法</div>
+      <div class="script-mode-label" data-en>✨ Special Modes</div>
+    </div>
+    <div class="script-mode-right">
+      <div class="script-mode-rule">
+        <div class="script-mode-dot"></div>
+        <p class="script-mode-desc" data-zh>突破常规规则框架的特殊剧本，带来截然不同的游戏体验。具体规则视剧本而定，说书人会在开局前详细说明。</p>
+        <p class="script-mode-desc" data-en>Scripts that break the conventional ruleset for a completely different experience. Rules vary by script — your Storyteller will explain everything before the game begins.</p>
+      </div>
+    </div>
+  </div>
+  <div class="scripts-grid">
+
+    <div class="script-card" style="border-style:dashed;opacity:0.5;">
+      <div class="script-name" data-zh>即将上线</div>
+      <div class="script-name" data-en>Coming Soon</div>
+      <div class="script-name-zh" data-zh>特殊玩法剧本持续更新中</div>
+      <p class="script-desc" data-zh>更多特殊玩法剧本即将加入，敬请期待。</p>
+      <p class="script-desc" data-en>More special mode scripts are on their way — stay tuned.</p>
+      <div class="script-meta">
+        <span class="script-players" data-zh>敬请期待</span>
+        <span class="script-players" data-en>Coming Soon</span>
       </div>
     </div>
 
@@ -399,8 +568,8 @@
       <div class="rule-num">01</div>
       <div class="rule-title" data-zh>分配身份</div>
       <div class="rule-title en" data-en>Role Assignment</div>
-      <p class="rule-desc" data-zh>说书人秘密为每位玩家分配身份牌。玩家分为善良阵营（镇民）和邪恶阵营（爪牙与恶魔），各自拥有独特能力。</p>
-      <p class="rule-desc" data-en>The Storyteller secretly assigns each player a role. Players are divided into Good (Townsfolk) and Evil (Minions & Demon) — each with unique abilities.</p>
+      <p class="rule-desc" data-zh>说书人秘密为每位玩家分配身份牌。玩家分为善良阵营（镇民与外来者）和邪恶阵营（爪牙与恶魔），各自拥有独特能力。</p>
+      <p class="rule-desc" data-en>The Storyteller secretly assigns each player a role. Players are divided into Good (Townsfolk & Outsiders) and Evil (Minions & Demon) — each with unique abilities.</p>
     </div>
     <div class="rule-step">
       <div class="rule-num">02</div>
