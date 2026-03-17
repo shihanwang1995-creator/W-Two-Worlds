@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>桌游 · Board Games · W两个世界</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8d08a;
+    --gray: #1e1e1e;
+    --gray2: #2a2a2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Noto Sans SC', 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body.lang-en [data-zh] { display: none !important; }
+  body.lang-zh [data-en] { display: none !important; }
+  body.lang-en { font-family: 'Inter', sans-serif; }
+
+  .lang-toggle {
+    display: flex; align-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 2px; overflow: hidden;
+    cursor: pointer; user-select: none;
+  }
+  .lang-btn { padding: 6px 14px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; color: rgba(245,240,232,0.45); transition: all 0.25s; }
+  .lang-btn.active { background: var(--gold); color: var(--black); }
+  .lang-divider { width: 1px; height: 20px; background: rgba(201,168,76,0.25); }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 60px;
+    background: rgba(10,10,10,0.9); backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-left { display: flex; align-items: center; gap: 20px; }
+  .nav-back {
+    display: flex; align-items: center; gap: 8px;
+    color: rgba(245,240,232,0.5); text-decoration: none;
+    font-size: 0.8rem; letter-spacing: 0.08em; transition: color 0.3s;
+  }
+  .nav-back:hover { color: var(--gold); }
+  .nav-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.1); }
+  .nav-title { font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 900; letter-spacing: 0.08em; }
+  .nav-title span { color: var(--gold); font-style: italic; }
+
+  #hero {
+    min-height: 60vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background: var(--black); padding-top: 80px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 50% 50%, rgba(10,20,30,0.7) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 20%, rgba(201,168,76,0.05) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .corner-deco { position: absolute; width: 50px; height: 50px; border-color: rgba(201,168,76,0.2); border-style: solid; }
+  .corner-deco.tl { top: 24px; left: 24px; border-width: 1px 0 0 1px; }
+  .corner-deco.tr { top: 24px; right: 24px; border-width: 1px 1px 0 0; }
+  .corner-deco.bl { bottom: 24px; left: 24px; border-width: 0 0 1px 1px; }
+  .corner-deco.br { bottom: 24px; right: 24px; border-width: 0 1px 1px 0; }
+  .hero-content { position: relative; z-index: 2; text-align: center; padding: 0 20px; }
+  .hero-badge {
+    display: inline-block; border: 1px solid rgba(201,168,76,0.5);
+    color: var(--gold); font-size: 0.68rem; letter-spacing: 0.35em;
+    padding: 6px 22px; margin-bottom: 28px; text-transform: uppercase;
+  }
+  .hero-icon { font-size: 4rem; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(201,168,76,0.25)); }
+  .hero-title { font-weight: 900; line-height: 1.05; margin-bottom: 12px; }
+  .hero-title.zh { font-family: 'Noto Serif SC', serif; font-size: clamp(2.4rem, 6vw, 4.5rem); }
+  .hero-title.en { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4.5vw, 3.5rem); font-style: italic; }
+  .hero-sub {
+    font-size: clamp(0.85rem, 1.6vw, 1rem); font-weight: 300;
+    color: rgba(245,240,232,0.5); letter-spacing: 0.2em; margin-bottom: 36px; line-height: 1.8;
+  }
+  .hero-sub span { color: var(--gold); opacity: 0.8; }
+  .hero-tags { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .hero-tag { border: 1px solid rgba(201,168,76,0.3); color: var(--gold); font-size: 0.72rem; padding: 5px 14px; letter-spacing: 0.1em; }
+
+  .page-section { padding: 80px 60px; }
+  .page-section.dark { background: #0d0d0d; }
+  .section-label {
+    font-size: 0.68rem; letter-spacing: 0.42em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-label::before { content: ''; display: block; width: 38px; height: 1px; background: var(--gold); flex-shrink: 0; }
+  .section-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 900; line-height: 1.2; margin-bottom: 16px; }
+  .section-title.zh { font-family: 'Noto Serif SC', serif; }
+  .section-title.en { font-family: 'Playfair Display', serif; }
+  .section-desc { color: rgba(245,240,232,0.5); font-size: 0.9rem; line-height: 1.9; max-width: 520px; }
+
+  /* PRICING */
+  .pricing-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 36px; }
+  .price-main-card {
+    border: 1px solid rgba(201,168,76,0.25); background: rgba(201,168,76,0.03);
+    padding: 40px 36px; position: relative; overflow: hidden;
+  }
+  .price-main-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px; background: var(--gold);
+  }
+  .price-main-label { font-size: 0.7rem; letter-spacing: 0.2em; color: rgba(245,240,232,0.45); text-transform: uppercase; margin-bottom: 12px; }
+  .price-main-amount { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; color: var(--gold); line-height: 1; }
+  .price-main-unit { font-size: 0.85rem; color: rgba(245,240,232,0.5); margin-top: 8px; }
+  .price-divider { height: 1px; background: rgba(201,168,76,0.15); margin: 20px 0; }
+
+  .info-cards { display: flex; flex-direction: column; gap: 14px; }
+  .info-card {
+    border: 1px solid rgba(255,255,255,0.06); padding: 22px 24px;
+    background: rgba(255,255,255,0.02); display: flex; align-items: center; gap: 18px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .info-card:hover { border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.03); }
+  .info-card-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .info-card-title { font-family: 'Noto Serif SC', serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+  .info-card-title.en { font-family: 'Playfair Display', serif; font-style: italic; }
+  .info-card-desc { font-size: 0.8rem; color: rgba(245,240,232,0.45); line-height: 1.7; }
+
+  /* GAME TYPES */
+  .types-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-top: 36px; }
+  .type-card {
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04);
+    padding: 30px 24px; transition: background 0.3s; position: relative; overflow: hidden;
+  }
+  .type-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%; background: var(--gold); opacity: 0; transition: opacity 0.3s;
+  }
+  .type-card:hover { background: rgba(201,168,76,0.04); }
+  .type-card:hover::before { opacity: 1; }
+  .type-icon { font-size: 2rem; margin-bottom: 14px; display: block; }
+  .type-title { font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .type-title.en { font-family: 'Playfair Display', serif; font-style: italic; }
+  .type-desc { font-size: 0.78rem; color: rgba(245,240,232,0.42); line-height: 1.8; }
+
+  /* GAME LIST */
+  .games-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 36px; }
+  .game-card {
+    border: 1px solid rgba(201,168,76,0.15); padding: 28px 24px;
+    background: rgba(255,255,255,0.02); transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .game-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%; transition: opacity 0.3s; opacity: 0;
+  }
+  .game-card:hover { background: rgba(201,168,76,0.05); border-color: rgba(201,168,76,0.35); transform: translateY(-3px); }
+  .game-card:hover::before { opacity: 1; }
+  .game-card.strategy::before { background: #4caf7d; }
+  .game-card.deduction::before { background: #c94c4c; }
+  .game-card.party::before { background: #c9a84c; }
+  .game-card.family::before { background: #5b8dd9; }
+  .game-card.placeholder::before { background: rgba(245,240,232,0.2); }
+  .game-name { font-family: 'Noto Serif SC', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+  .game-name-en { font-family: 'Playfair Display', serif; font-size: 0.88rem; font-style: italic; color: var(--gold); margin-bottom: 12px; }
+  .game-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .game-tag {
+    font-size: 0.68rem; padding: 3px 10px; letter-spacing: 0.06em;
+    border: 1px solid rgba(201,168,76,0.25); color: var(--gold);
+  }
+  .game-desc { font-size: 0.78rem; color: rgba(245,240,232,0.45); line-height: 1.8; }
+
+  /* RULES */
+  .rules-list { margin-top: 32px; display: flex; flex-direction: column; gap: 2px; }
+  .rule-item {
+    display: flex; align-items: flex-start; gap: 20px;
+    padding: 20px 24px; background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04); transition: background 0.3s;
+  }
+  .rule-item:hover { background: rgba(201,168,76,0.03); }
+  .rule-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 6px; }
+  .rule-text { font-size: 0.85rem; color: rgba(245,240,232,0.6); line-height: 1.8; }
+  .rule-text strong { color: var(--white); }
+
+  /* CTA */
+  .cta-bar {
+    background: linear-gradient(135deg, #0c0800, #160f00);
+    border-top: 1px solid rgba(201,168,76,0.12);
+    padding: 60px; text-align: center;
+  }
+  .cta-bar h2 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 12px; }
+  .cta-bar h2.en { font-family: 'Playfair Display', serif; font-style: italic; }
+  .cta-bar p { color: rgba(245,240,232,0.5); font-size: 0.9rem; margin-bottom: 30px; line-height: 1.8; }
+  .btn-primary {
+    background: var(--gold); color: var(--black);
+    padding: 14px 44px; font-size: 0.92rem; font-weight: 700; letter-spacing: 0.12em;
+    text-decoration: none; display: inline-block; transition: all 0.3s;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); margin: 0 8px;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    padding: 14px 44px; font-size: 0.92rem; letter-spacing: 0.12em;
+    text-decoration: none; display: inline-block; transition: all 0.3s;
+    border: 1px solid rgba(245,240,232,0.25);
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); margin: 0 8px;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  .page-footer {
+    background: #050505; padding: 24px 60px;
+    border-top: 1px solid rgba(201,168,76,0.08);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.72rem; color: rgba(245,240,232,0.22);
+  }
+  .footer-logo { font-family: 'Noto Serif SC', serif; font-weight: 900; }
+  .footer-logo span { color: var(--gold); font-style: italic; }
+
+  @media (max-width: 860px) {
+    nav { padding: 14px 22px; }
+    .page-section { padding: 60px 22px; }
+    .pricing-layout { grid-template-columns: 1fr; gap: 32px; }
+    .types-grid { grid-template-columns: repeat(2, 1fr); }
+    .games-grid { grid-template-columns: 1fr; }
+    .cta-bar { padding: 50px 22px; }
+    .page-footer { flex-direction: column; gap: 10px; text-align: center; }
+  }
+  @media (max-width: 480px) {
+    .types-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body class="lang-zh">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-back">
+      <span>←</span>
+      <span data-zh>返回主页</span>
+      <span data-en>Back</span>
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-title"><span>W</span> <span data-zh>两个世界</span><span data-en>Two Worlds</span></div>
+  </div>
+  <div class="lang-toggle" id="langToggle">
+    <div class="lang-btn active" id="btnZh">中文</div>
+    <div class="lang-divider"></div>
+    <div class="lang-btn" id="btnEn">EN</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="corner-deco tl"></div>
+  <div class="corner-deco tr"></div>
+  <div class="corner-deco bl"></div>
+  <div class="corner-deco br"></div>
+  <div class="hero-content">
+    <div class="hero-badge" data-zh>W两个世界 · 桌游</div>
+    <div class="hero-badge" data-en>W Two Worlds · Board Games</div>
+    <div class="hero-icon">🎲</div>
+    <h1 class="hero-title zh" data-zh>桌游</h1>
+    <h1 class="hero-title en" data-en>Board Games</h1>
+    <p class="hero-sub" data-zh>20+ 盒桌游 <span>·</span> 专业讲解员 <span>·</span> 欢迎自带饮食</p>
+    <p class="hero-sub" data-en>20+ Game Boxes <span>·</span> Expert Hosts Available <span>·</span> BYO Food &amp; Drinks</p>
+    <div class="hero-tags">
+      <span class="hero-tag" data-zh>🧠 策略</span>
+      <span class="hero-tag" data-en>🧠 Strategy</span>
+      <span class="hero-tag" data-zh>🃏 卡牌</span>
+      <span class="hero-tag" data-en>🃏 Card Games</span>
+      <span class="hero-tag" data-zh>🔍 推理</span>
+      <span class="hero-tag" data-en>🔍 Deduction</span>
+      <span class="hero-tag" data-zh>🎉 派对</span>
+      <span class="hero-tag" data-en>🎉 Party</span>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="page-section">
+  <div class="section-label" data-zh>PRICING · 收费</div>
+  <div class="section-label" data-en>PRICING</div>
+  <h2 class="section-title zh" data-zh>收费标准</h2>
+  <h2 class="section-title en" data-en>Pricing</h2>
+  <p class="section-desc" data-zh>按人头按小时计费，无任何附加费用，欢迎自带饮食。</p>
+  <p class="section-desc" data-en>Per-person hourly pricing with no additional fees. BYO food and drinks are welcome.</p>
+
+  <div class="pricing-layout">
+    <div>
+      <div class="price-main-card">
+        <div class="price-main-label" data-zh>每位玩家每小时</div>
+        <div class="price-main-label" data-en>Per Player / Per Hour</div>
+        <div class="price-main-amount">$6</div>
+        <div class="price-main-unit" data-zh>无任何附加费 · 欢迎自带饮食</div>
+        <div class="price-main-unit" data-en>No additional fees · BYO welcome</div>
+        <div class="price-divider"></div>
+        <div class="price-main-label" data-zh>专业讲解员</div>
+        <div class="price-main-label" data-en>Game Host</div>
+        <p style="font-size:0.8rem;color:rgba(245,240,232,0.5);line-height:1.8;margin-top:8px;" data-zh>每款桌游均提供专业讲解员服务，也可自行阅读规则书，按需选择。</p>
+        <p style="font-size:0.8rem;color:rgba(245,240,232,0.5);line-height:1.8;margin-top:8px;" data-en>A dedicated game host is available for every title, or you're welcome to read the rulebook yourself — your choice.</p>
+      </div>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <span class="info-card-icon">🎲</span>
+        <div>
+          <div class="info-card-title" data-zh>20+ 盒桌游收藏</div>
+          <div class="info-card-title en" data-en>20+ Game Boxes</div>
+          <div class="info-card-desc" data-zh>多个系列各有数盒不同版本，横跨策略、推理、卡牌、派对等多种类型，适合各种组合与场合。</div>
+          <div class="info-card-desc" data-en>Multiple series with several editions each, spanning strategy, deduction, card games, and party games — something for every group and occasion.</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <span class="info-card-icon">👥</span>
+        <div>
+          <div class="info-card-title" data-zh>人数灵活</div>
+          <div class="info-card-title en" data-en>Flexible Group Sizes</div>
+          <div class="info-card-desc" data-zh>2人小约到多人聚会均可找到合适的游戏，随时到店或提前预约均可。</div>
+          <div class="info-card-desc" data-en>From intimate two-player sessions to large group gatherings — walk in or book ahead.</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <span class="info-card-icon">🍱</span>
+        <div>
+          <div class="info-card-title" data-zh>饮食政策</div>
+          <div class="info-card-title en" data-en>Food &amp; Drinks</div>
+          <div class="info-card-desc" data-zh>欢迎自带食品及饮料，无任何限制，边吃边玩，尽情享受。</div>
+          <div class="info-card-desc" data-en>Outside food and drinks are fully welcome — eat, drink, and play to your heart's content.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GAME TYPES -->
+<section class="page-section dark">
+  <div class="section-label" data-zh>CATEGORIES · 游戏类型</div>
+  <div class="section-label" data-en>CATEGORIES</div>
+  <h2 class="section-title zh" data-zh>游戏类型</h2>
+  <h2 class="section-title en" data-en>Game Categories</h2>
+  <p class="section-desc" data-zh>我们的桌游库涵盖多种类型，总有一款适合你们今天的心情。</p>
+  <p class="section-desc" data-en>Our library spans multiple categories — there's always something that fits the mood.</p>
+
+  <div class="types-grid">
+    <div class="type-card">
+      <span class="type-icon">🧠</span>
+      <div class="type-title" data-zh>策略</div>
+      <div class="type-title en" data-en>Strategy</div>
+      <p class="type-desc" data-zh>考验规划与决策能力，每一步都影响全局，适合喜欢深度思考的玩家。</p>
+      <p class="type-desc" data-en>Test your planning and decision-making — every move shapes the outcome. Perfect for deep thinkers.</p>
+    </div>
+    <div class="type-card">
+      <span class="type-icon">🔍</span>
+      <div class="type-title" data-zh>推理</div>
+      <div class="type-title en" data-en>Deduction</div>
+      <p class="type-desc" data-zh>搜集线索，分析信息，找出真相。考验逻辑与观察力，节奏紧凑刺激。</p>
+      <p class="type-desc" data-en>Gather clues, analyse information, uncover the truth. Fast-paced and sharp — for logical minds.</p>
+    </div>
+    <div class="type-card">
+      <span class="type-icon">🃏</span>
+      <div class="type-title" data-zh>卡牌</div>
+      <div class="type-title en" data-en>Card Games</div>
+      <p class="type-desc" data-zh>规则简单易上手，变化丰富，适合各种年龄段与游戏经验的玩家。</p>
+      <p class="type-desc" data-en>Easy to learn, endlessly varied — accessible for all ages and experience levels.</p>
+    </div>
+    <div class="type-card">
+      <span class="type-icon">🎉</span>
+      <div class="type-title" data-zh>派对</div>
+      <div class="type-title en" data-en>Party</div>
+      <p class="type-desc" data-zh>欢乐轻松，笑声不断，无需太多规则，人越多越好玩，最适合聚会场合。</p>
+      <p class="type-desc" data-en>Fun, loud, and easy — minimal rules, maximum laughs. The more the merrier.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GAME LIST -->
+<section class="page-section">
+  <div class="section-label" data-zh>GAME LIST · 游戏目录</div>
+  <div class="section-label" data-en>GAME LIST</div>
+  <h2 class="section-title zh" data-zh>精选游戏</h2>
+  <h2 class="section-title en" data-en>Featured Titles</h2>
+  <p class="section-desc" data-zh>以下为部分精选游戏系列，每个系列均有多盒不同版本，更多内容欢迎到店探索。</p>
+  <p class="section-desc" data-en>A selection of our featured series — each with multiple editions available. Visit us to explore the full collection.</p>
+
+  <div class="games-grid">
+
+    <div class="game-card family">
+      <div class="game-name" data-zh>大富翁</div>
+      <div class="game-name-en">Monopoly</div>
+      <div class="game-meta">
+        <span class="game-tag" data-zh>派对</span><span class="game-tag" data-en>Party</span>
+        <span class="game-tag" data-zh>2–8人</span><span class="game-tag" data-en>2–8 Players</span>
+      </div>
+      <p class="game-desc" data-zh>经典地产交易游戏，买地、建房、收租，最终让对手破产。老少咸宜，永不过时的聚会必备。</p>
+      <p class="game-desc" data-en>The classic property trading game — buy, build, and bankrupt your opponents. A timeless party staple for all ages.</p>
+    </div>
+
+    <div class="game-card deduction">
+      <div class="game-name" data-zh>大搜查</div>
+      <div class="game-name-en">Crime Investigation Series</div>
+      <div class="game-meta">
+        <span class="game-tag" data-zh>推理</span><span class="game-tag" data-en>Deduction</span>
+        <span class="game-tag" data-zh>2–6人</span><span class="game-tag" data-en>2–6 Players</span>
+      </div>
+      <p class="game-desc" data-zh>抽丝剥茧，寻找线索，锁定嫌疑人。店内共有12盒不同版本，每盒案件独立，逻辑推理爱好者的首选。</p>
+      <p class="game-desc" data-en>Piece together clues and identify the culprit. We carry 12 different editions — each with its own independent case for deduction lovers.</p>
+    </div>
+
+    <div class="game-card strategy">
+      <div class="game-name" data-zh>阿瓦隆</div>
+      <div class="game-name-en">The Resistance: Avalon</div>
+      <div class="game-meta">
+        <span class="game-tag" data-zh>策略</span><span class="game-tag" data-en>Strategy</span>
+        <span class="game-tag" data-zh>5–10人</span><span class="game-tag" data-en>5–10 Players</span>
+      </div>
+      <p class="game-desc" data-zh>亚瑟王传说为背景的阵营对抗游戏。善恶双方各有隐藏身份，信任与背叛交织，每一票都关乎胜负。</p>
+      <p class="game-desc" data-en>A hidden-identity game set in Arthurian legend. Good versus Evil — trust and betrayal intertwine with every vote.</p>
+    </div>
+
+    <div class="game-card strategy">
+      <div class="game-name" data-zh>宝石猎人</div>
+      <div class="game-name-en">Splendor</div>
+      <div class="game-meta">
+        <span class="game-tag" data-zh>策略</span><span class="game-tag" data-en>Strategy</span>
+        <span class="game-tag" data-zh>2–4人</span><span class="game-tag" data-en>2–4 Players</span>
+      </div>
+      <p class="game-desc" data-zh>收集宝石、发展矿山、吸引贵族。规则简洁但策略深度十足，适合喜欢经济引擎类游戏的玩家。</p>
+      <p class="game-desc" data-en>Collect gems, build your mining empire, and attract nobles. Simple rules with deep strategy — perfect for engine-building fans.</p>
+    </div>
+
+    <div class="game-card deduction">
+      <div class="game-name" data-zh>犯罪现场</div>
+      <div class="game-name-en">Crime Scene</div>
+      <div class="game-meta">
+        <span class="game-tag" data-zh>推理</span><span class="game-tag" data-en>Deduction</span>
+        <span class="game-tag" data-zh>2–6人</span><span class="game-tag" data-en>2–6 Players</span>
+      </div>
+      <p class="game-desc" data-zh>模拟犯罪现场调查，还原案发经过，找出真凶。沉浸式推理体验，每局案件不同，烧脑又刺激。</p>
+      <p class="game-desc" data-en>Simulate a crime scene investigation, reconstruct events, and identify the culprit. An immersive deduction experience with a different case every time.</p>
+    </div>
+
+    <div class="game-card placeholder" style="border-style:dashed;opacity:0.5;">
+      <div class="game-name" data-zh>更多版本持续更新</div>
+      <div class="game-name-en">More Coming Soon</div>
+      <div class="game-meta">
+        <span class="game-tag" data-zh>持续更新中</span><span class="game-tag" data-en>Updating</span>
+      </div>
+      <p class="game-desc" data-zh>我们的游戏库与版本持续扩充中，欢迎到店探索更多版本与全新游戏。</p>
+      <p class="game-desc" data-en>Our collection and editions are always growing — visit us in store to discover the latest additions.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- RULES -->
+<section class="page-section dark">
+  <div class="section-label" data-zh>HOUSE RULES · 注意事项</div>
+  <div class="section-label" data-en>HOUSE RULES</div>
+  <h2 class="section-title zh" data-zh>使用须知</h2>
+  <h2 class="section-title en" data-en>Things to Know</h2>
+  <div class="rules-list">
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>收费为 <strong>$6/人/小时</strong>，无任何附加费，欢迎自带食品及饮料。</p>
+      <p class="rule-text" data-en>The rate is <strong>$6 per person per hour</strong> with no additional fees. Outside food and drinks are welcome.</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>每款游戏均提供<strong>专业讲解员</strong>服务，也可自行阅读规则书，按需选择。</p>
+      <p class="rule-text" data-en>A <strong>dedicated game host</strong> is available for every title — or feel free to read the rulebook yourself.</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>请妥善保管游戏配件，如有配件<strong>丢失或损坏</strong>需照价赔偿。</p>
+      <p class="rule-text" data-en>Please take care of all game components. Any <strong>lost or damaged</strong> pieces will be charged accordingly.</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>游戏结束后请将配件<strong>归位整理</strong>，方便下一组玩家使用。</p>
+      <p class="rule-text" data-en>Please <strong>tidy up and return</strong> all components after your session so the next players can enjoy a smooth setup.</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p class="rule-text" data-zh>热门游戏节假日期间建议<strong>提前预约</strong>，确保场地与游戏均可用。</p>
+      <p class="rule-text" data-en><strong>Advance booking recommended</strong> for popular titles during holidays to guarantee availability.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-bar">
+  <h2 class="zh" data-zh>今天想玩什么？</h2>
+  <h2 class="en" data-en>What are you playing today?</h2>
+  <p data-zh>随时到店或提前预约，让我们为你找到今天最适合的那一款游戏。</p>
+  <p data-en>Walk in anytime or book ahead — we'll help you find the perfect game for today.</p>
+  <div>
+    <a href="index.html#booking" class="btn-primary" data-zh>立即预约</a>
+    <a href="index.html#booking" class="btn-primary" data-en>Book Now</a>
+    <a href="index.html" class="btn-outline" data-zh>返回主页</a>
+    <a href="index.html" class="btn-outline" data-en>Back to Home</a>
+  </div>
+</div>
+
+<div class="page-footer">
+  <div class="footer-logo"><span>W</span> 两个世界 · W Two Worlds</div>
+  <span>© 2025 W Two Worlds Board Game Studio</span>
+</div>
+
+<script>
+  const body = document.body;
+  const btnZh = document.getElementById('btnZh');
+  const btnEn = document.getElementById('btnEn');
+
+  function setLang(lang) {
+    body.className = 'lang-' + lang;
+    btnZh.classList.toggle('active', lang === 'zh');
+    btnEn.classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    try { localStorage.setItem('wtwLang', lang); } catch(e) {}
+  }
+
+  document.getElementById('langToggle').addEventListener('click', function() {
+    const current = body.classList.contains('lang-zh') ? 'zh' : 'en';
+    setLang(current === 'zh' ? 'en' : 'zh');
+  });
+
+  try {
+    const saved = localStorage.getItem('wtwLang');
+    if (saved) setLang(saved);
+  } catch(e) {}
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.game-card, .type-card, .info-card, .rule-item').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(22px)';
+    el.style.transition = 'opacity 0.5s ease ' + (i * 0.05) + 's, transform 0.5s ease ' + (i * 0.05) + 's';
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>
