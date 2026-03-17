@@ -970,17 +970,31 @@
   } catch(e) {}
 
   // ── BOOKING FORM SUBMIT ──
-  function submitBooking() {
-    const name = document.getElementById('f-name').value.trim();
+  async function submitBooking() {
+    const name  = document.getElementById('f-name').value.trim();
     const phone = document.getElementById('f-phone').value.trim();
-    const date = document.getElementById('f-date').value;
-    const time = document.getElementById('f-time').value;
-    const size = document.getElementById('f-size').value;
-    const lang = body.classList.contains('lang-zh') ? 'zh' : 'en';
+    const date  = document.getElementById('f-date').value;
+    const time  = document.getElementById('f-time').value;
+    const size  = document.getElementById('f-size').value;
+    const notes = document.getElementById('f-notes').value.trim();
+    const lang  = body.classList.contains('lang-zh') ? 'zh' : 'en';
+
+    const serviceLabels = {
+      s1: '剧本杀 / Script Killing',
+      s2: '桌游 / Board Games',
+      s3: '狼人杀 / Werewolf',
+      s4: '血染钟楼 / Blood on the Clocktower',
+      s5: 'KTV',
+      s6: '麻将 / Mahjong'
+    };
+    const selected = Object.entries(serviceLabels)
+      .filter(([id]) => document.getElementById(id).checked)
+      .map(([, label]) => label)
+      .join(', ');
 
     const errors = {
-      zh: { name: '请填写姓名', phone: '请填写联系电话', date: '请选择预约日期', time: '请选择预约时间', room: '请选择房间', size: '请选择人数' },
-      en: { name: 'Please enter your name', phone: 'Please enter your phone number', date: 'Please select a date', time: 'Please select a time', room: 'Please select a room', size: 'Please select group size' }
+      zh: { name: '请填写姓名', phone: '请填写联系电话', date: '请选择预约日期', time: '请选择预约时间', size: '请选择人数' },
+      en: { name: 'Please enter your name', phone: 'Please enter your phone number', date: 'Please select a date', time: 'Please select a time', size: 'Please select group size' }
     };
     const e = errors[lang];
 
@@ -990,16 +1004,39 @@
     if (!time)  { alert(e.time);  return; }
     if (!size)  { alert(e.size);  return; }
 
-    // Animate submit button
     const btn = document.getElementById('submitBtn');
     btn.style.opacity = '0.6';
     btn.style.pointerEvents = 'none';
 
-    setTimeout(() => {
-      document.getElementById('bookingForm').style.display = 'none';
-      document.getElementById('formSuccess').classList.add('show');
-      window.scrollTo({ top: document.getElementById('booking').offsetTop - 80, behavior: 'smooth' });
-    }, 600);
+    try {
+      const res = await fetch('https://formspree.io/f/mdawwvqy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          '姓名 Name':       name,
+          '电话 Phone':      phone,
+          '日期 Date':       date,
+          '时间 Time':       time,
+          '人数 Group Size': size,
+          '项目 Activities': selected || '未选择 / None',
+          '备注 Notes':      notes || '无 / None'
+        })
+      });
+
+      if (res.ok) {
+        document.getElementById('bookingForm').style.display = 'none';
+        document.getElementById('formSuccess').classList.add('show');
+        window.scrollTo({ top: document.getElementById('booking').offsetTop - 80, behavior: 'smooth' });
+      } else {
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+        alert(lang === 'zh' ? '提交失败，请稍后重试或直接联系我们。' : 'Submission failed. Please try again or contact us directly.');
+      }
+    } catch(err) {
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+      alert(lang === 'zh' ? '网络错误，请检查网络连接后重试。' : 'Network error. Please check your connection and try again.');
+    }
   }
 
   // ── SCROLL REVEAL ──
