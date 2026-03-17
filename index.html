@@ -745,10 +745,10 @@
 
         <!-- Phone -->
         <div class="form-group">
-          <label class="form-label" data-zh>联系电话 *</label>
-          <label class="form-label" data-en>Phone Number *</label>
-          <input class="form-input" id="f-phone" type="tel"
-            data-ph-zh="手机号码" data-ph-en="Your phone number" required>
+          <label class="form-label" data-zh>联系方式 *</label>
+          <label class="form-label" data-en>Contact *</label>
+          <input class="form-input" id="f-phone" type="text"
+            data-ph-zh="手机号码 或 Email邮箱" data-ph-en="Phone number or Email address" required>
         </div>
 
         <!-- Date + Time -->
@@ -961,15 +961,34 @@
     });
   }
 
+  // Size options in both languages
+  const sizeOptions = {
+    zh: [
+      ['', '请选择人数'], ['1','1 人'], ['2','2 人'], ['3','3 人'], ['4','4 人'],
+      ['5','5 人'], ['6','6 人'], ['7','7 人'], ['8','8 人'], ['9','9 人'],
+      ['10','10 人'], ['11','11 人'], ['12','12 人'], ['13','13 人'],
+      ['13+','13 人以上（请在备注注明实际人数）']
+    ],
+    en: [
+      ['', 'Select group size'], ['1','1 person'], ['2','2 people'], ['3','3 people'],
+      ['4','4 people'], ['5','5 people'], ['6','6 people'], ['7','7 people'],
+      ['8','8 people'], ['9','9 people'], ['10','10 people'], ['11','11 people'],
+      ['12','12 people'], ['13','13 people'], ['13+','13+ people (please specify in notes)']
+    ]
+  };
+
   function updateSelectOptions(lang) {
-    document.querySelectorAll('select').forEach(sel => {
-      const allOpts = sel.querySelectorAll('option');
-      // Each option is paired: zh then en, so we show only the right lang
-      allOpts.forEach(opt => {
-        if (opt.hasAttribute('data-zh')) opt.style.display = lang === 'zh' ? '' : 'none';
-        if (opt.hasAttribute('data-en')) opt.style.display = lang === 'en' ? '' : 'none';
-      });
+    const sel = document.getElementById('f-size');
+    if (!sel) return;
+    const current = sel.value;
+    sel.innerHTML = '';
+    sizeOptions[lang].forEach(([val, label]) => {
+      const opt = document.createElement('option');
+      opt.value = val;
+      opt.textContent = label;
+      sel.appendChild(opt);
     });
+    if (current) sel.value = current;
   }
 
   document.getElementById('langToggle').addEventListener('click', function() {
@@ -1030,8 +1049,8 @@
       .join(', ');
 
     const errors = {
-      zh: { name: '请填写姓名', phone: '请填写联系电话', date: '请选择预约日期', time: '请选择预约时间', size: '请选择人数' },
-      en: { name: 'Please enter your name', phone: 'Please enter your phone number', date: 'Please select a date', time: 'Please select a time', size: 'Please select group size' }
+      zh: { name: '请填写姓名', phone: '请填写联系方式（电话或Email）', date: '请选择预约日期', time: '请选择预约时间', size: '请选择人数' },
+      en: { name: 'Please enter your name', phone: 'Please enter your phone number or email', date: 'Please select a date', time: 'Please select a time', size: 'Please select group size' }
     };
     const e = errors[lang];
 
@@ -1051,7 +1070,7 @@
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           '姓名 Name':       name,
-          '电话 Phone':      phone,
+          '联系方式 Contact': phone,
           '日期 Date':       date,
           '时间 Time':       time,
           '人数 Group Size': size,
