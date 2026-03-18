@@ -832,10 +832,10 @@
       : `<span class="script-tag price">${price}</span>`;
     const playerTag = players === '—'
       ? `<span class="script-tag tbd" data-zh>人数待定</span><span class="script-tag tbd" data-en>Players TBD</span>`
-      : `<span class="script-tag">${players}</span>`;
+      : `<span class="script-tag" data-zh>${players}</span><span class="script-tag" data-en>${players.replace(/男/g,'M').replace(/女/g,'F')} players</span>`;
     const durTag = duration === '—'
       ? `<span class="script-tag tbd" data-zh>时长待定</span><span class="script-tag tbd" data-en>Duration TBD</span>`
-      : `<span class="script-tag">${duration}</span>`;
+      : `<span class="script-tag" data-zh>${duration}</span><span class="script-tag" data-en>${duration.replace('小时','hrs').replace('分钟','min')}</span>`;
 
     const primaryTheme = theme.split(',')[0].trim();
     const card = document.createElement('div');
