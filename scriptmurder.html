@@ -24,6 +24,7 @@
     --c-mechanic:  #4a9aba;
     --c-detective: #c9a84c;
     --c-elite:     #8a6a3a;
+    --c-drinking:  #7a3a6a;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -155,6 +156,7 @@
   .filter-btn[data-theme="机制"].active  { background: var(--c-mechanic);  border-color: var(--c-mechanic); }
   .filter-btn[data-theme="刑侦"].active  { background: var(--c-detective); border-color: var(--c-detective); }
   .filter-btn[data-theme="豪门"].active  { background: var(--c-elite);     border-color: var(--c-elite); }
+  .filter-btn[data-theme="酒本"].active  { background: var(--c-drinking);  border-color: var(--c-drinking); }
 
   /* SEARCH */
   .search-wrap {
@@ -220,25 +222,27 @@
   .script-card:hover::after { opacity: 1; }
 
   /* Theme colors for cards */
-  .script-card[data-theme="硬核"]::before  { background: var(--c-hardcore); }
-  .script-card[data-theme="还原"]::before  { background: var(--c-restore); }
-  .script-card[data-theme="欢乐"]::before  { background: var(--c-fun); }
-  .script-card[data-theme="情感"]::before  { background: var(--c-emotion); }
-  .script-card[data-theme="恐怖"]::before  { background: var(--c-horror); }
-  .script-card[data-theme="阵营"]::before  { background: var(--c-faction); }
-  .script-card[data-theme="机制"]::before  { background: var(--c-mechanic); }
-  .script-card[data-theme="刑侦"]::before  { background: var(--c-detective); }
-  .script-card[data-theme="豪门"]::before  { background: var(--c-elite); }
+  .script-card[data-primary-theme="硬核"]::before,  .script-card.t-硬核::before  { background: var(--c-hardcore); }
+  .script-card[data-primary-theme="还原"]::before,  .script-card.t-还原::before  { background: var(--c-restore); }
+  .script-card[data-primary-theme="欢乐"]::before,  .script-card.t-欢乐::before  { background: var(--c-fun); }
+  .script-card[data-primary-theme="情感"]::before,  .script-card.t-情感::before  { background: var(--c-emotion); }
+  .script-card[data-primary-theme="恐怖"]::before,  .script-card.t-恐怖::before  { background: var(--c-horror); }
+  .script-card[data-primary-theme="阵营"]::before,  .script-card.t-阵营::before  { background: var(--c-faction); }
+  .script-card[data-primary-theme="机制"]::before,  .script-card.t-机制::before  { background: var(--c-mechanic); }
+  .script-card[data-primary-theme="刑侦"]::before,  .script-card.t-刑侦::before  { background: var(--c-detective); }
+  .script-card[data-primary-theme="豪门"]::before,  .script-card.t-豪门::before  { background: var(--c-elite); }
+  .script-card[data-primary-theme="酒本"]::before,  .script-card.t-酒本::before  { background: var(--c-drinking); }
 
-  .script-card[data-theme="硬核"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(201,76,76,0.08) 0%, transparent 70%); }
-  .script-card[data-theme="还原"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(91,141,217,0.08) 0%, transparent 70%); }
-  .script-card[data-theme="欢乐"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(212,136,58,0.08) 0%, transparent 70%); }
-  .script-card[data-theme="情感"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(201,122,138,0.08) 0%, transparent 70%); }
-  .script-card[data-theme="恐怖"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(106,63,160,0.08) 0%, transparent 70%); }
-  .script-card[data-theme="阵营"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(76,175,125,0.08) 0%, transparent 70%); }
-  .script-card[data-theme="机制"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(74,154,186,0.08) 0%, transparent 70%); }
-  .script-card[data-theme="刑侦"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(201,168,76,0.08) 0%, transparent 70%); }
-  .script-card[data-theme="豪门"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(138,106,58,0.08) 0%, transparent 70%); }
+  .script-card[data-primary-theme="硬核"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(201,76,76,0.08) 0%, transparent 70%); }
+  .script-card[data-primary-theme="还原"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(91,141,217,0.08) 0%, transparent 70%); }
+  .script-card[data-primary-theme="欢乐"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(212,136,58,0.08) 0%, transparent 70%); }
+  .script-card[data-primary-theme="情感"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(201,122,138,0.08) 0%, transparent 70%); }
+  .script-card[data-primary-theme="恐怖"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(106,63,160,0.08) 0%, transparent 70%); }
+  .script-card[data-primary-theme="阵营"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(76,175,125,0.08) 0%, transparent 70%); }
+  .script-card[data-primary-theme="机制"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(74,154,186,0.08) 0%, transparent 70%); }
+  .script-card[data-primary-theme="刑侦"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(201,168,76,0.08) 0%, transparent 70%); }
+  .script-card[data-primary-theme="豪门"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(138,106,58,0.08) 0%, transparent 70%); }
+  .script-card[data-primary-theme="酒本"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(122,58,106,0.08) 0%, transparent 70%); }
 
   .script-name {
     font-family: 'Noto Serif SC', serif;
@@ -382,6 +386,8 @@
       <span class="hero-tag" style="border-color:rgba(201,168,76,0.4);color:#c9a84c" data-en>Detective</span>
       <span class="hero-tag" style="border-color:rgba(138,106,58,0.4);color:#8a6a3a" data-zh>豪门</span>
       <span class="hero-tag" style="border-color:rgba(138,106,58,0.4);color:#8a6a3a" data-en>Elite</span>
+      <span class="hero-tag" style="border-color:rgba(122,58,106,0.4);color:#7a3a6a" data-zh>酒本</span>
+      <span class="hero-tag" style="border-color:rgba(122,58,106,0.4);color:#7a3a6a" data-en>Drinking</span>
     </div>
   </div>
 </section>
@@ -393,20 +399,27 @@
   <button class="filter-btn active" data-theme="全部" onclick="filterTheme('全部')">
     <span data-zh>全部</span><span data-en>All</span>
   </button>
-  <button class="filter-btn" data-theme="硬核" onclick="filterTheme('硬核')" style="--hover:#c94c4c">硬核</button>
-  <button class="filter-btn" data-theme="还原" onclick="filterTheme('还原')">还原</button>
-  <button class="filter-btn" data-theme="欢乐" onclick="filterTheme('欢乐')">欢乐</button>
-  <button class="filter-btn" data-theme="情感" onclick="filterTheme('情感')">情感</button>
-  <button class="filter-btn" data-theme="恐怖" onclick="filterTheme('恐怖')">恐怖</button>
-  <button class="filter-btn" data-theme="阵营" onclick="filterTheme('阵营')">阵营</button>
-  <button class="filter-btn" data-theme="机制" onclick="filterTheme('机制')">机制</button>
-  <button class="filter-btn" data-theme="刑侦" onclick="filterTheme('刑侦')">刑侦</button>
-  <button class="filter-btn" data-theme="豪门" onclick="filterTheme('豪门')">豪门</button>
+  <button class="filter-btn" data-theme="硬核" onclick="filterTheme('硬核')"><span data-zh>硬核</span><span data-en>Hardcore</span></button>
+  <button class="filter-btn" data-theme="还原" onclick="filterTheme('还原')"><span data-zh>还原</span><span data-en>Restore</span></button>
+  <button class="filter-btn" data-theme="欢乐" onclick="filterTheme('欢乐')"><span data-zh>欢乐</span><span data-en>Fun</span></button>
+  <button class="filter-btn" data-theme="情感" onclick="filterTheme('情感')"><span data-zh>情感</span><span data-en>Emotional</span></button>
+  <button class="filter-btn" data-theme="恐怖" onclick="filterTheme('恐怖')"><span data-zh>恐怖</span><span data-en>Horror</span></button>
+  <button class="filter-btn" data-theme="阵营" onclick="filterTheme('阵营')"><span data-zh>阵营</span><span data-en>Faction</span></button>
+  <button class="filter-btn" data-theme="机制" onclick="filterTheme('机制')"><span data-zh>机制</span><span data-en>Mechanic</span></button>
+  <button class="filter-btn" data-theme="刑侦" onclick="filterTheme('刑侦')"><span data-zh>刑侦</span><span data-en>Detective</span></button>
+  <button class="filter-btn" data-theme="豪门" onclick="filterTheme('豪门')"><span data-zh>豪门</span><span data-en>Elite</span></button>
+  <button class="filter-btn" data-theme="酒本" onclick="filterTheme('酒本')"><span data-zh>酒本</span><span data-en>Drinking</span></button>
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
     <input class="search-input" id="searchInput" type="text"
       placeholder="搜索剧本..." oninput="searchScripts(this.value)">
   </div>
+</div>
+
+
+<!-- THEME DESC -->
+<div id="themeDesc" style="display:none;background:rgba(201,168,76,0.04);border-bottom:1px solid rgba(201,168,76,0.12);padding:14px 60px;">
+  <p id="themeDescText" style="font-size:0.82rem;color:rgba(245,240,232,0.6);line-height:1.8;max-width:800px;"></p>
 </div>
 
 <!-- SCRIPTS -->
@@ -511,6 +524,17 @@
     <div class="script-grid" id="grid-刑侦"></div>
   </div>
 
+  <!-- 酒本 -->
+  <div class="theme-block" id="block-酒本">
+    <div class="theme-header">
+      <div class="theme-dot" style="background:var(--c-drinking)"></div>
+      <div class="theme-title" data-zh>酒本</div>
+      <div class="theme-title" data-en>Drinking</div>
+      <span class="theme-count" id="count-酒本"></span>
+    </div>
+    <div class="script-grid" id="grid-酒本"></div>
+  </div>
+
   <!-- 豪门 -->
   <div class="theme-block" id="block-豪门">
     <div class="theme-header">
@@ -561,12 +585,26 @@
   });
   try { const s = localStorage.getItem('wtwLang'); if (s) setLang(s); } catch(e) {}
 
+  // Refresh theme desc on lang change
+  const origSetLang = setLang;
+  function setLang(lang) {
+    body.className = 'lang-' + lang;
+    btnZh.classList.toggle('active', lang === 'zh');
+    btnEn.classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.getElementById('searchInput').placeholder = lang === 'zh' ? '搜索剧本...' : 'Search scripts...';
+    try { localStorage.setItem('wtwLang', lang); } catch(e) {}
+    if (currentTheme !== '全部' && themeDescBar.style.display !== 'none') {
+      themeDescText.textContent = lang === 'en' ? (THEME_DESCS_EN[currentTheme] || THEME_DESCS[currentTheme]) : THEME_DESCS[currentTheme];
+    }
+  }
+
   // ── SCRIPT DATA ──
   // All 209 scripts — theme will be populated later
   // Format: [name, dm, theme, players, duration, price]
   const SCRIPTS = [
-    ["无限调查局","欧姆","未分类","—","—","—"],
-    ["诡计患者的谜题","欧姆、Elsa","未分类","—","—","—"],
+    ["无限调查局","欧姆","硬核","—","—","—"],
+    ["诡计患者的谜题","欧姆、Elsa","硬核","—","—","—"],
     ["丹水山庄","Elsa","未分类","—","—","—"],
     ["傀儡的记忆","Elsa","未分类","—","—","—"],
     ["幽灵复仇","Elsa","未分类","—","—","—"],
@@ -605,181 +643,182 @@
     ["先灵祭","菠萝","未分类","—","—","—"],
     ["蠹虫","—","未分类","—","—","—"],
     ["烛影额妆","菠萝","未分类","—","—","—"],
-    ["猫岛谋杀循环","菠萝、Elsa","未分类","—","—","—"],
-    ["雪乡连环杀人事件","Sam、菠萝","未分类","—","—","—"],
-    ["红豆","十一","未分类","—","—","—"],
-    ["七日囚徒","Elsa","未分类","—","—","—"],
-    ["贵阴贱璧","菠萝、Elsa","未分类","—","—","—"],
-    ["七月十三日","Elsa","未分类","—","—","—"],
-    ["芥子：弥望之川","—","未分类","—","—","—"],
+    ["猫岛谋杀循环","菠萝、Elsa","硬核,还原","—","—","—"],
+    ["雪乡连环杀人事件","Sam、菠萝","还原","—","—","—"],
+    ["红豆","十一","情感","—","—","—"],
+    ["七日囚徒","Elsa","还原","—","—","—"],
+    ["贵阴贱璧","菠萝、Elsa","欢乐,情感","—","—","—"],
+    ["七月十三日","Elsa","还原","—","—","—"],
+    ["芥子：弥望之川","—","还原","—","—","—"],
     ["离家出走","Elsa","未分类","—","—","—"],
-    ["弥留","Elsa","未分类","—","—","—"],
+    ["弥留","Elsa","还原","—","—","—"],
     ["官渡","—","未分类","—","—","—"],
-    ["须臾","Elsa","未分类","—","—","—"],
-    ["曦和失焰","十一、Elsa","未分类","—","—","—"],
-    ["月下沙利叶","十一、Elsa","未分类","—","—","—"],
-    ["大山","—","未分类","—","—","—"],
-    ["破晓","—","未分类","—","—","—"],
-    ["周公游记","—","未分类","—","—","—"],
-    ["挟剑惊风","Elsa","未分类","—","—","—"],
-    ["北宋奇案·汴京","Elsa、欧姆","未分类","—","—","—"],
-    ["恋路十六夜","Elsa","未分类","—","—","—"],
-    ["此时彼刻之人","欧姆","未分类","—","—","—"],
-    ["谜案集·一叶障木","Elsa","未分类","—","—","—"],
-    ["北原千叶2烈烈朝晖","Elsa","未分类","—","—","—"],
-    ["十字馆事件","欧姆","未分类","—","—","—"],
-    ["艾希什影院：无人循环","欧姆","未分类","—","—","—"],
+    ["须臾","Elsa","还原","—","—","—"],
+    ["曦和失焰","十一、Elsa","还原","—","—","—"],
+    ["月下沙利叶","十一、Elsa","还原","—","—","—"],
+    ["大山","—","还原","—","—","—"],
+    ["破晓","—","情感","—","—","—"],
+    ["周公游记","—","还原","—","—","—"],
+    ["挟剑惊风","Elsa","情感","—","—","—"],
+    ["北宋奇案·汴京","Elsa、欧姆","硬核,还原","—","—","—"],
+    ["恋路十六夜","Elsa","还原,情感","—","—","—"],
+    ["此时彼刻之人","欧姆","硬核,还原","—","—","—"],
+    ["谜案集·一叶障木","Elsa","还原","—","—","—"],
+    ["北原千叶2烈烈朝晖","Elsa","还原,情感","—","—","—"],
+    ["十字馆事件","欧姆","硬核","—","—","—"],
+    ["艾希什影院：无人循环","欧姆","硬核,还原","—","—","—"],
     ["三分天下","菠萝","未分类","—","—","—"],
-    ["猎人笔记·正午","Elsa","未分类","—","—","—"],
-    ["罗拉西里的巫女","Elsa","未分类","—","—","—"],
+    ["猎人笔记·正午","Elsa","情感","—","—","—"],
+    ["罗拉西里的巫女","Elsa","硬核,还原","—","—","—"],
     ["将至2","—","未分类","—","—","—"],
-    ["关于北原千叶的一切","菠萝、Elsa、欧姆","未分类","—","—","—"],
+    ["关于北原千叶的一切","菠萝、Elsa、欧姆","还原","—","—","—"],
     ["RE：新世界","Elsa","未分类","—","—","—"],
-    ["黑羊公馆","菠萝","未分类","—","—","—"],
+    ["黑羊公馆","菠萝","还原","—","—","—"],
     ["剧本诡谈","—","未分类","—","—","—"],
     ["权倾天下","Elsa","未分类","—","—","—"],
     ["怪谈事务所：破界","—","未分类","—","—","—"],
-    ["虚构推理2：狩猎","—","未分类","—","—","—"],
+    ["虚构推理2：狩猎","—","硬核","—","—","—"],
     ["你听…...","—","未分类","—","—","—"],
     ["白衣倾城2青山云海","Elsa","未分类","—","—","—"],
-    ["九不思议街","—","未分类","—","—","—"],
-    ["云使","—","未分类","—","—","—"],
+    ["九不思议街","—","硬核,还原","—","—","—"],
+    ["云使","—","情感","—","—","—"],
     ["恶鬼道","—","未分类","—","—","—"],
-    ["在人间","—","未分类","—","—","—"],
-    ["日日是好日","—","未分类","—","—","—"],
+    ["在人间","—","情感","—","—","—"],
+    ["日日是好日","—","情感","—","—","—"],
     ["水镜八奇","Elsa","未分类","—","—","—"],
     ["将至","Elsa","未分类","—","—","—"],
-    ["刀鞘","—","未分类","—","—","—"],
-    ["金陵有座东君书院","—","未分类","—","—","—"],
-    ["持斧奥夫","Elsa","未分类","—","—","—"],
+    ["刀鞘","—","情感","—","—","—"],
+    ["金陵有座东君书院","—","情感","—","—","—"],
+    ["持斧奥夫","Elsa","还原","—","—","—"],
     ["白衣倾城","—","未分类","—","—","—"],
-    ["就像水消失在水中","—","未分类","—","—","—"],
+    ["就像水消失在水中","—","情感","—","—","—"],
     ["粉灯","菠萝、Elsa","未分类","—","—","—"],
-    ["山百合怒放的冬夜","Elsa","未分类","—","—","—"],
-    ["第七号嫌疑人","欧姆、菠萝、Elsa","未分类","—","—","—"],
-    ["来电","菠萝、Elsa","未分类","—","—","—"],
-    ["一个死去的朋友","菠萝","未分类","—","—","—"],
-    ["造访者·人非物是","—","未分类","—","—","—"],
-    ["拆迁2：买房","—","未分类","—","—","—"],
+    ["山百合怒放的冬夜","Elsa","还原","—","—","—"],
+    ["第七号嫌疑人","欧姆、菠萝、Elsa","还原","—","—","—"],
+    ["来电","菠萝、Elsa","欢乐","—","—","—"],
+    ["一个死去的朋友","菠萝","还原","—","—","—"],
+    ["造访者·人非物是","—","还原","—","—","—"],
+    ["拆迁2：买房","—","欢乐","—","—","—"],
     ["瘆","—","未分类","—","—","—"],
     ["酒中仙","Elsa","未分类","—","—","—"],
-    ["Inside终章：七个密室","—","未分类","—","—","—"],
-    ["备忘录：死后即阅","Elsa","未分类","—","—","—"],
+    ["Inside终章：七个密室","—","硬核","—","—","—"],
+    ["备忘录：死后即阅","Elsa","还原","—","—","—"],
     ["山田洋子","Sam、Elsa","未分类","—","—","—"],
-    ["暗黑者：七宗欲","Elsa","未分类","—","—","—"],
-    ["青楼2","菠萝、Elsa","未分类","—","—","—"],
-    ["野の蔷薇2：落椿","Elsa","未分类","—","—","—"],
-    ["一座城2","菠萝","未分类","—","—","—"],
+    ["暗黑者：七宗欲","Elsa","情感","—","—","—"],
+    ["青楼2","菠萝、Elsa","欢乐","—","—","—"],
+    ["野の蔷薇2：落椿","Elsa","硬核,还原","—","—","—"],
+    ["一座城2","菠萝","还原","—","—","—"],
     ["mojito","Elsa","未分类","—","—","—"],
-    ["请将我深埋","—","未分类","—","—","—"],
-    ["丁达尔克的神奇夜","Sam","未分类","—","—","—"],
-    ["告别诗","十一、菠萝、Elsa","未分类","—","—","—"],
+    ["请将我深埋","—","还原","—","—","—"],
+    ["丁达尔克的神奇夜","Sam","还原,情感","—","—","—"],
+    ["告别诗","十一、菠萝、Elsa","情感","—","—","—"],
     ["阴缘","—","未分类","—","—","—"],
     ["通缉令：掘齿者","Elsa","未分类","—","—","—"],
-    ["那一束月光","—","未分类","—","—","—"],
-    ["叫爸爸","Elsa、菠萝","未分类","—","—","—"],
-    ["顶楼·极恶之宴","—","未分类","—","—","—"],
-    ["人偶之匣","Elsa","未分类","—","—","—"],
-    ["雾鸦馆","Elsa","未分类","—","—","—"],
-    ["好帅的吨吨吨冒险","—","未分类","—","—","—"],
-    ["年轮","菠萝","未分类","—","—","—"],
-    ["蜇蜂之死","菠萝","未分类","—","—","—"],
-    ["死者在幻夜中醒来","菠萝、欧姆","未分类","—","—","—"],
-    ["搞钱！","菠萝","未分类","—","—","—"],
-    ["作者不详","菠萝、Elsa","未分类","—","—","—"],
-    ["风中有朵雨做的云","Elsa","未分类","—","—","—"],
-    ["一座城","菠萝、Elsa","未分类","—","—","—"],
-    ["虚拟游戏","—","未分类","—","—","—"],
-    ["月光下的持刀者","—","未分类","—","—","—"],
-    ["2026","—","未分类","—","—","—"],
-    ["马丁内斯死在惊奇馆","Elsa","未分类","—","—","—"],
+    ["那一束月光","—","情感","—","—","—"],
+    ["叫爸爸","Elsa、菠萝","欢乐,情感","—","—","—"],
+    ["顶楼·极恶之宴","—","硬核,还原","—","—","—"],
+    ["人偶之匣","Elsa","硬核,还原","—","—","—"],
+    ["雾鸦馆","Elsa","硬核","—","—","—"],
+    ["好帅的吨吨吨冒险","—","情感","—","—","—"],
+    ["年轮","菠萝","还原","—","—","—"],
+    ["蜇蜂之死","菠萝","硬核,还原","—","—","—"],
+    ["死者在幻夜中醒来","菠萝、欧姆","还原","—","—","—"],
+    ["搞钱！","菠萝","欢乐","—","—","—"],
+    ["作者不详","菠萝、Elsa","还原","—","—","—"],
+    ["风中有朵雨做的云","Elsa","还原","—","—","—"],
+    ["一座城","菠萝、Elsa","还原","—","—","—"],
+    ["虚拟游戏","—","硬核","—","—","—"],
+    ["月光下的持刀者","—","还原","—","—","—"],
+    ["2026","—","硬核","—","—","—"],
+    ["马丁内斯死在惊奇馆","Elsa","硬核,还原","—","—","—"],
     ["有间客栈","—","未分类","—","—","—"],
     ["上钟儿","—","未分类","—","—","—"],
     ["龙宴","—","未分类","—","—","—"],
     ["第二十二条校规","—","未分类","—","—","—"],
-    ["漓川怪谈簿","菠萝、Elsa","未分类","—","—","—"],
-    ["声声慢","—","未分类","—","—","—"],
-    ["木夕僧之戏-木偶","菠萝、Elsa","未分类","—","—","—"],
-    ["眠梦不老泉","Elsa","未分类","—","—","—"],
-    ["涂川","Elsa","未分类","—","—","—"],
-    ["春运","菠萝","未分类","—","—","—"],
-    ["蜕变俱乐部","Elsa","未分类","—","—","—"],
-    ["再见萤火虫","—","未分类","—","—","—"],
+    ["漓川怪谈簿","菠萝、Elsa","硬核,还原","—","—","—"],
+    ["声声慢","—","情感","—","—","—"],
+    ["木夕僧之戏-木偶","菠萝、Elsa","还原","—","—","—"],
+    ["眠梦不老泉","Elsa","还原","—","—","—"],
+    ["涂川","Elsa","情感","—","—","—"],
+    ["春运","菠萝","欢乐","—","—","—"],
+    ["蜕变俱乐部","Elsa","还原","—","—","—"],
+    ["再见萤火虫","—","情感","—","—","—"],
     ["花田喜事","—","未分类","—","—","—"],
     ["宿醉","—","未分类","—","—","—"],
-    ["舍离2 断念","—","未分类","—","—","—"],
-    ["逢山遇鬼","—","未分类","—","—","—"],
-    ["金玉良缘","—","未分类","—","—","—"],
+    ["舍离2 断念","—","情感","—","—","—"],
+    ["逢山遇鬼","—","情感","—","—","—"],
+    ["金玉良缘","—","欢乐","—","—","—"],
     ["游戏：神明酒局","Elsa","未分类","—","—","—"],
-    ["你妈逼你结婚了吗","—","未分类","—","—","—"],
-    ["山之神","Elsa","未分类","—","—","—"],
+    ["你妈逼你结婚了吗","—","欢乐","—","—","—"],
+    ["山之神","Elsa","情感","—","—","—"],
     ["拆迁","菠萝","未分类","—","—","—"],
     ["似灵寺","—","未分类","—","—","—"],
-    ["市井狂人","菠萝","未分类","—","—","—"],
-    ["窥镜","—","未分类","—","—","—"],
-    ["送你一朵小花花","—","未分类","—","—","—"],
-    ["宝格丽之夜","Elsa","未分类","—","—","—"],
-    ["戏精的诞生","Elsa","未分类","—","—","—"],
-    ["前男友的一百种死法","—","未分类","—","—","—"],
-    ["坠入深渊","—","未分类","—","—","—"],
-    ["老槐树","—","未分类","—","—","—"],
-    ["窗边的女人","菠萝、Elsa","未分类","—","—","—"],
+    ["市井狂人","菠萝","欢乐","—","—","—"],
+    ["窥镜","—","还原","—","—","—"],
+    ["送你一朵小花花","—","情感","—","—","—"],
+    ["宝格丽之夜","Elsa","欢乐","—","—","—"],
+    ["戏精的诞生","Elsa","欢乐","—","—","—"],
+    ["前男友的一百种死法","—","欢乐","—","—","—"],
+    ["坠入深渊","—","硬核,还原","—","—","—"],
+    ["老槐树","—","还原","—","—","—"],
+    ["窗边的女人","菠萝、Elsa","还原","—","—","—"],
     ["末班车","—","未分类","—","—","—"],
-    ["病娇男孩的精分日记","Sam、十一、菠萝、Elsa","未分类","—","—","—"],
-    ["病娇男孩的恋爱日记","菠萝、Elsa","未分类","—","—","—"],
+    ["病娇男孩的精分日记","Sam、十一、菠萝、Elsa","还原","—","—","—"],
+    ["病娇男孩的恋爱日记","菠萝、Elsa","还原","—","—","—"],
     ["两点半","—","未分类","—","—","—"],
     ["一点半","菠萝、十一","未分类","—","—","—"],
-    ["刺秦","—","未分类","—","—","—"],
-    ["鲸鱼马戏团","菠萝","未分类","—","—","—"],
+    ["刺秦","—","欢乐","—","—","—"],
+    ["鲸鱼马戏团","菠萝","情感","—","—","—"],
     ["酒转乾坤","—","未分类","—","—","—"],
-    ["野の蔷薇","—","未分类","—","—","—"],
-    ["古木吟","—","未分类","—","—","—"],
-    ["兵临城下","菠萝","未分类","—","—","—"],
+    ["野の蔷薇","—","硬核","—","—","—"],
+    ["古木吟","—","情感","—","—","—"],
+    ["兵临城下","菠萝","情感","—","—","—"],
     ["孤城","菠萝、Elsa","未分类","—","—","—"],
-    ["家宴2 继承者们","—","未分类","—","—","—"],
-    ["家宴","—","未分类","—","—","—"],
-    ["青楼","Elsa","未分类","—","—","—"],
-    ["抓小三","菠萝","未分类","—","—","—"],
-    ["抓小三2再爱J人","—","未分类","—","—","—"],
-    ["加个v呗","Sam、菠萝、十一","未分类","—","—","—"],
-    ["离婚吧赶紧的","菠萝","未分类","—","—","—"],
-    ["来解决一切的名侦探也死了","—","未分类","—","—","—"],
-    ["死亡回响","欧姆","未分类","—","—","—"],
-    ["悲鸣城怪奇谋杀始末","Elsa、欧姆","未分类","—","—","—"],
+    ["家宴2 继承者们","—","欢乐","—","—","—"],
+    ["家宴","—","欢乐","—","—","—"],
+    ["青楼","Elsa","欢乐","—","—","—"],
+    ["抓小三","菠萝","欢乐","—","—","—"],
+    ["抓小三2再爱J人","—","欢乐","—","—","—"],
+    ["加个v呗","Sam、菠萝、十一","欢乐","—","—","—"],
+    ["离婚吧赶紧的","菠萝","欢乐","—","—","—"],
+    ["来解决一切的名侦探也死了","—","还原","—","—","—"],
+    ["死亡回响","欧姆","硬核","—","—","—"],
+    ["悲鸣城怪奇谋杀始末","Elsa、欧姆","硬核,还原","—","—","—"],
     ["应邪化仆","菠萝、Elsa","未分类","—","—","—"],
-    ["因火成烟","菠萝、Elsa","未分类","—","—","—"],
+    ["因火成烟","菠萝、Elsa","还原","—","—","—"],
     ["暗波崖","—","未分类","—","—","—"],
-    ["病娇3：近乎正常的我们","—","未分类","—","—","—"],
-    ["巧夺天工·默剧师","Elsa","未分类","—","—","—"],
-    ["魔王城诡计法则","—","未分类","—","—","—"],
-    ["推理作家的谋杀艺术","欧姆","未分类","—","—","—"],
-    ["诡计甜美的死去","欧姆","未分类","—","—","—"],
-    ["撕裂神之诡面","—","未分类","—","—","—"],
-    ["Crows！乌合之众","菠萝","未分类","—","—","—"],
-    ["双羽馆解体妄想","—","未分类","—","—","—"],
-    ["安美纳斯DE死亡推想","—","未分类","—","—","—"],
-    ["不良少女与独眼Kitty猫","菠萝","未分类","—","—","—"],
+    ["病娇3：近乎正常的我们","—","情感","—","—","—"],
+    ["巧夺天工·默剧师","Elsa","还原","—","—","—"],
+    ["魔王城诡计法则","—","硬核,还原","—","—","—"],
+    ["推理作家的谋杀艺术","欧姆","硬核","—","—","—"],
+    ["诡计甜美的死去","欧姆","硬核","—","—","—"],
+    ["撕裂神之诡面","—","硬核","—","—","—"],
+    ["Crows！乌合之众","菠萝","欢乐","—","—","—"],
+    ["双羽馆解体妄想","—","硬核","—","—","—"],
+    ["安美纳斯DE死亡推想","—","硬核","—","—","—"],
+    ["不良少女与独眼Kitty猫","菠萝","硬核,还原","—","—","—"],
     ["祸心","—","未分类","—","—","—"],
     ["雪夜城谜案","—","未分类","—","—","—"],
     ["无相人考古奇案","—","未分类","—","—","—"],
     ["三间堂斩妖讲义","—","未分类","—","—","—"],
     ["阿姐鼓","—","未分类","—","—","—"],
     ["双影共秀","菠萝、Elsa","未分类","—","—","—"],
-    ["死不容观","Elsa","未分类","—","—","—"],
-    ["关于Y的奇迹","—","未分类","—","—","—"],
+    ["死不容观","Elsa","还原","—","—","—"],
+    ["关于Y的奇迹","—","还原","—","—","—"],
     ["power·逆转节点","菠萝","未分类","—","—","—"],
-    ["猫岛2犬山谋杀循环","菠萝、Elsa","未分类","—","—","—"],
-    ["如是我观","Elsa","未分类","—","—","—"],
+    ["猫岛2犬山谋杀循环","菠萝、Elsa","硬核,还原","—","—","—"],
+    ["如是我观","Elsa","还原","—","—","—"],
     ["蓝色大丽花","—","未分类","—","—","—"],
-    ["曼陀罗的安魂曲","Elsa","未分类","—","—","—"],
+    ["曼陀罗的安魂曲","Elsa","还原","—","—","—"],
     ["离地三寸","Elsa","未分类","—","—","—"],
     ["蛇聘","—","未分类","—","—","—"],
   ];
 
-  const THEMES = ["硬核","还原","欢乐","情感","恐怖","阵营","机制","刑侦","豪门"];
+  const THEMES = ["硬核","还原","欢乐","情感","恐怖","阵营","机制","刑侦","豪门","酒本"];
   const THEME_NAMES_EN = {
     "硬核":"Hardcore","还原":"Restore","欢乐":"Fun","情感":"Emotional",
     "恐怖":"Horror","阵营":"Faction","机制":"Mechanic","刑侦":"Detective","豪门":"Elite",
+    "酒本":"Drinking",
     "未分类":"Uncategorised"
   };
 
@@ -797,10 +836,13 @@
       ? `<span class="script-tag tbd" data-zh>时长待定</span><span class="script-tag tbd" data-en>Duration TBD</span>`
       : `<span class="script-tag">${duration}</span>`;
 
+    const primaryTheme = theme.split(',')[0].trim();
     const card = document.createElement('div');
     card.className = 'script-card';
     card.dataset.theme = theme;
     card.dataset.name = name;
+    card.dataset.primaryTheme = primaryTheme;
+    card.dataset.theme = theme;
     card.innerHTML = `
       <div class="script-name">${name}</div>
       <div class="script-meta-row">
@@ -813,14 +855,16 @@
 
   // Populate grids
   function populate() {
-    // Group by theme
     const groups = {};
     THEMES.forEach(t => groups[t] = []);
     groups['未分类'] = [];
+
     SCRIPTS.forEach(s => {
-      const t = s[2];
-      if (groups[t] !== undefined) groups[t].push(s);
-      else groups['未分类'].push(s);
+      const themes = s[2].split(',').map(t => t.trim());
+      themes.forEach(t => {
+        if (groups[t] !== undefined) groups[t].push(s);
+        else groups['未分类'].push(s);
+      });
     });
 
     THEMES.forEach(theme => {
@@ -834,7 +878,11 @@
         return;
       }
       count.textContent = `(${scripts.length})`;
-      scripts.forEach(s => grid.appendChild(buildCard(s)));
+      scripts.forEach(s => {
+        const card = buildCard(s);
+        card.dataset.primaryTheme = theme;
+        grid.appendChild(card);
+      });
     });
 
     // Uncategorised — add to all blocks as placeholder if empty
@@ -862,11 +910,49 @@
 
   populate();
 
+  // ── THEME DESCRIPTIONS ──
+  const THEME_DESCS = {
+    "硬核": "以推理作案手法为主，重点破解作案手法和密室行程原理，剧本中的角色性别仅供参考，玩家可反串。",
+    "还原": "以推理作案动机为主，重点破解角色的背景故事还原案发时间线，剧本中的角色性别仅供参考，玩家可反串。",
+    "欢乐": "剧情轻松搞怪，内容诙谐幽默，以整蛊玩家为主，剧本中的角色性别仅供参考，玩家可反串。",
+    "情感": "注重剧情反转，故事催人泪下，DM会在开场时对玩家进行一个短小的心理问卷调查便于选择最适合的角色，剧本中的角色性别不建议玩家反串。",
+    "恐怖": "剧情以幽灵鬼怪等都市传说为主，游戏过程中可能会在任何经意或不经意的瞬间出现一个意想不到的NPC吓你一跳，胆小勿入。剧本中的角色性别仅供参考，玩家可反串。",
+    "阵营": "玩家根据剧情要求组成不同阵营或联盟强强对抗，分数或资源最多的队伍获得最终的胜利。剧本中的角色性别仅供参考，玩家可反串。",
+    "机制": "游戏过程中总会遇到意想不到的反转，可能在你得意洋洋时忽然受到强烈打击，也可能在你失意懊恼时逆风翻盘，如同游戏闯关一般惊喜不断。剧本中的角色性别仅供参考，玩家可反串。",
+    "刑侦": "所有玩家身份统一为侦探或警察，真实还原刑侦探案的完整过程，体验一场酣畅淋漓的头脑风暴。剧本中的角色性别仅供参考，玩家可反串。",
+    "豪门": "民国1914年发生在同一世界观下全国各地不同地点不同时间的故事，剧情错综复杂，每个剧本之间都会有令人意想不到的彩蛋与联动等待玩家发掘。剧本中的角色性别仅供参考，玩家可反串。",
+    "酒本": "特殊剧本，参与玩家需要21岁以上并自备适合自己酒量的酒精饮料，游戏过程中会出现许多喝酒环节，玩家需要努力保持清醒直到最后。剧本中的角色性别仅供参考，玩家可反串。"
+  };
+  const THEME_DESCS_EN = {
+    "硬核": "Focused on deducing the method of the crime — players must crack the killer's technique and unravel locked-room logic. Character genders are for reference only; cross-casting is welcome.",
+    "还原": "Focused on deducing the motive — players reconstruct each character's backstory and piece together the true timeline of events. Character genders are for reference only; cross-casting is welcome.",
+    "欢乐": "Light-hearted and full of laughs. Expect absurd twists, playful tricks, and plenty of surprises designed to catch players off guard. Character genders are for reference only; cross-casting is welcome.",
+    "情感": "Story-driven with emotional depth and unexpected plot twists. Your DM will conduct a brief personality survey at the start to match you with the most fitting role. Cross-casting is not recommended.",
+    "恐怖": "Rooted in urban legends, ghost stories, and things that go bump in the night. An unexpected NPC may appear at any moment to give you a fright — enter at your own risk. Character genders are for reference only; cross-casting is welcome.",
+    "阵营": "Players form competing factions or alliances and go head-to-head. The team with the most points or resources at the end wins. Character genders are for reference only; cross-casting is welcome.",
+    "机制": "Expect the unexpected — you may be riding high one moment and blindsided the next, or stage a dramatic comeback when all seems lost. Full of game-like twists and surprises. Character genders are for reference only; cross-casting is welcome.",
+    "刑侦": "All players take on the role of detectives or police officers, working together to reconstruct a real investigation from start to finish. A pure, satisfying mental workout. Character genders are for reference only; cross-casting is welcome.",
+    "豪门": "Stories set across different locations and times in 1914 Republican China — all within the same shared universe. Intricate plots, surprising crossovers, and hidden Easter eggs connecting each script. Character genders are for reference only; cross-casting is welcome.",
+    "酒本": "A special script for players aged 21 and above. Bring your own drinks — the game is filled with drinking challenges, and your goal is to stay sharp until the very end. Character genders are for reference only; cross-casting is welcome."
+  };
+
+  const themeDescBar = document.getElementById('themeDesc');
+  const themeDescText = document.getElementById('themeDescText');
+
   // ── FILTER ──
   let currentTheme = '全部';
   function filterTheme(theme) {
     currentTheme = theme;
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+
+    // Show/hide theme description
+    if (theme !== '全部' && THEME_DESCS[theme]) {
+      const lang = body.classList.contains('lang-en') ? 'en' : 'zh';
+      themeDescText.textContent = lang === 'en' ? (THEME_DESCS_EN[theme] || THEME_DESCS[theme]) : THEME_DESCS[theme];
+      themeDescBar.style.display = 'block';
+    } else {
+      themeDescBar.style.display = 'none';
+    }
 
     const blocks = document.querySelectorAll('.theme-block');
     blocks.forEach(block => {
@@ -887,8 +973,9 @@
 
     document.querySelectorAll('.script-card').forEach(card => {
       const name = card.dataset.name.toLowerCase();
-      const theme = card.dataset.theme;
-      const themeMatch = currentTheme === '全部' || theme === currentTheme;
+      const themes = card.dataset.theme.split(',').map(t => t.trim());
+      const blockTheme = card.closest('.theme-block')?.id?.replace('block-','') || '';
+      const themeMatch = currentTheme === '全部' || blockTheme === currentTheme;
       const searchMatch = !q || name.includes(q);
       const visible = themeMatch && searchMatch;
       card.classList.toggle('hidden', !visible);
