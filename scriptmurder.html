@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>剧本杀 · Script (Murder Mystery) · W两个世界</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8d08a;
+    --gray: #1e1e1e;
+    --gray2: #2a2a2a;
+    /* Theme colors */
+    --c-hardcore:  #c94c4c;
+    --c-restore:   #5b8dd9;
+    --c-fun:       #d4883a;
+    --c-emotion:   #c97a8a;
+    --c-horror:    #6a3fa0;
+    --c-faction:   #4caf7d;
+    --c-mechanic:  #4a9aba;
+    --c-detective: #c9a84c;
+    --c-elite:     #8a6a3a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Noto Sans SC', 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body.lang-en [data-zh] { display: none !important; }
+  body.lang-zh [data-en] { display: none !important; }
+  body.lang-en { font-family: 'Inter', sans-serif; }
+
+  .lang-toggle {
+    display: flex; align-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 2px; overflow: hidden;
+    cursor: pointer; user-select: none;
+  }
+  .lang-btn { padding: 6px 14px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; color: rgba(245,240,232,0.45); transition: all 0.25s; }
+  .lang-btn.active { background: var(--gold); color: var(--black); }
+  .lang-divider { width: 1px; height: 20px; background: rgba(201,168,76,0.25); }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 60px;
+    background: rgba(10,10,10,0.9); backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-left { display: flex; align-items: center; gap: 20px; }
+  .nav-back {
+    display: flex; align-items: center; gap: 8px;
+    color: rgba(245,240,232,0.5); text-decoration: none;
+    font-size: 0.8rem; letter-spacing: 0.08em; transition: color 0.3s;
+  }
+  .nav-back:hover { color: var(--gold); }
+  .nav-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.1); }
+  .nav-title { font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 900; letter-spacing: 0.08em; }
+  .nav-title span { color: var(--gold); font-style: italic; }
+
+  /* HERO */
+  #hero {
+    min-height: 55vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background: var(--black); padding-top: 80px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 50% 50%, rgba(30,10,10,0.8) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 20%, rgba(201,168,76,0.04) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .corner-deco { position: absolute; width: 50px; height: 50px; border-color: rgba(201,168,76,0.2); border-style: solid; }
+  .corner-deco.tl { top: 24px; left: 24px; border-width: 1px 0 0 1px; }
+  .corner-deco.tr { top: 24px; right: 24px; border-width: 1px 1px 0 0; }
+  .corner-deco.bl { bottom: 24px; left: 24px; border-width: 0 0 1px 1px; }
+  .corner-deco.br { bottom: 24px; right: 24px; border-width: 0 1px 1px 0; }
+  .hero-content { position: relative; z-index: 2; text-align: center; padding: 0 20px; }
+  .hero-badge {
+    display: inline-block; border: 1px solid rgba(201,168,76,0.5);
+    color: var(--gold); font-size: 0.68rem; letter-spacing: 0.35em;
+    padding: 6px 22px; margin-bottom: 28px; text-transform: uppercase;
+  }
+  .hero-icon { font-size: 4rem; margin-bottom: 20px; }
+  .hero-title { font-weight: 900; line-height: 1.05; margin-bottom: 12px; }
+  .hero-title.zh { font-family: 'Noto Serif SC', serif; font-size: clamp(2.4rem, 6vw, 4.5rem); }
+  .hero-title.en { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4.5vw, 3.5rem); font-style: italic; }
+  .hero-sub {
+    font-size: clamp(0.85rem, 1.6vw, 1rem); font-weight: 300;
+    color: rgba(245,240,232,0.5); letter-spacing: 0.2em; margin-bottom: 36px; line-height: 1.8;
+  }
+  .hero-sub span { color: var(--gold); opacity: 0.8; }
+  .hero-tags { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .hero-tag { border: 1px solid rgba(201,168,76,0.3); color: var(--gold); font-size: 0.72rem; padding: 5px 14px; letter-spacing: 0.1em; }
+
+  /* SECTIONS */
+  .page-section { padding: 70px 60px; }
+  .page-section.dark { background: #0d0d0d; }
+  .section-label {
+    font-size: 0.68rem; letter-spacing: 0.42em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-label::before { content: ''; display: block; width: 38px; height: 1px; background: var(--gold); flex-shrink: 0; }
+  .section-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 900; line-height: 1.2; margin-bottom: 16px; }
+  .section-title.zh { font-family: 'Noto Serif SC', serif; }
+  .section-title.en { font-family: 'Playfair Display', serif; }
+
+  /* FILTER BAR */
+  .filter-bar {
+    position: sticky; top: 56px; z-index: 50;
+    background: rgba(10,10,10,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    padding: 14px 60px;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .filter-label {
+    font-size: 0.68rem; letter-spacing: 0.2em; color: rgba(245,240,232,0.4);
+    text-transform: uppercase; margin-right: 4px; white-space: nowrap;
+  }
+  .filter-btn {
+    padding: 6px 16px; font-size: 0.72rem; letter-spacing: 0.06em;
+    border: 1px solid rgba(255,255,255,0.1); background: transparent;
+    color: rgba(245,240,232,0.5); cursor: pointer; transition: all 0.25s;
+    font-family: 'Noto Sans SC', sans-serif;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: rgba(201,168,76,0.4); color: var(--white); }
+  .filter-btn.active { background: var(--gold); color: var(--black); border-color: var(--gold); font-weight: 700; }
+  .filter-btn[data-theme="硬核"].active  { background: var(--c-hardcore);  border-color: var(--c-hardcore); }
+  .filter-btn[data-theme="还原"].active  { background: var(--c-restore);   border-color: var(--c-restore); }
+  .filter-btn[data-theme="欢乐"].active  { background: var(--c-fun);       border-color: var(--c-fun); }
+  .filter-btn[data-theme="情感"].active  { background: var(--c-emotion);   border-color: var(--c-emotion); }
+  .filter-btn[data-theme="恐怖"].active  { background: var(--c-horror);    border-color: var(--c-horror); }
+  .filter-btn[data-theme="阵营"].active  { background: var(--c-faction);   border-color: var(--c-faction); }
+  .filter-btn[data-theme="机制"].active  { background: var(--c-mechanic);  border-color: var(--c-mechanic); }
+  .filter-btn[data-theme="刑侦"].active  { background: var(--c-detective); border-color: var(--c-detective); }
+  .filter-btn[data-theme="豪门"].active  { background: var(--c-elite);     border-color: var(--c-elite); }
+
+  /* SEARCH */
+  .search-wrap {
+    margin-left: auto;
+    position: relative;
+  }
+  .search-input {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--white); padding: 7px 16px 7px 36px;
+    font-size: 0.8rem; font-family: 'Noto Sans SC', sans-serif;
+    outline: none; width: 200px; transition: border-color 0.3s;
+  }
+  .search-input::placeholder { color: rgba(245,240,232,0.25); }
+  .search-input:focus { border-color: var(--gold); }
+  .search-icon {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    font-size: 0.85rem; color: rgba(245,240,232,0.3); pointer-events: none;
+  }
+
+  /* SCRIPT GRID */
+  .scripts-section { padding: 50px 60px 80px; }
+  .theme-block { margin-bottom: 60px; }
+  .theme-header {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 24px; padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .theme-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .theme-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.2rem; font-weight: 900;
+  }
+  .theme-count {
+    font-size: 0.72rem; color: rgba(245,240,232,0.35);
+    letter-spacing: 0.1em; margin-left: 4px;
+  }
+
+  .script-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+  }
+
+  /* SCRIPT CARD */
+  .script-card {
+    background: var(--gray);
+    padding: 22px 18px;
+    position: relative; overflow: hidden;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    border: 1px solid rgba(255,255,255,0.03);
+  }
+  .script-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+  }
+  .script-card::after {
+    content: ''; position: absolute; inset: 0;
+    opacity: 0; transition: opacity 0.3s; pointer-events: none;
+  }
+  .script-card:hover { background: #242424; transform: translateY(-3px); z-index: 2; }
+  .script-card:hover::after { opacity: 1; }
+
+  /* Theme colors for cards */
+  .script-card[data-theme="硬核"]::before  { background: var(--c-hardcore); }
+  .script-card[data-theme="还原"]::before  { background: var(--c-restore); }
+  .script-card[data-theme="欢乐"]::before  { background: var(--c-fun); }
+  .script-card[data-theme="情感"]::before  { background: var(--c-emotion); }
+  .script-card[data-theme="恐怖"]::before  { background: var(--c-horror); }
+  .script-card[data-theme="阵营"]::before  { background: var(--c-faction); }
+  .script-card[data-theme="机制"]::before  { background: var(--c-mechanic); }
+  .script-card[data-theme="刑侦"]::before  { background: var(--c-detective); }
+  .script-card[data-theme="豪门"]::before  { background: var(--c-elite); }
+
+  .script-card[data-theme="硬核"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(201,76,76,0.08) 0%, transparent 70%); }
+  .script-card[data-theme="还原"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(91,141,217,0.08) 0%, transparent 70%); }
+  .script-card[data-theme="欢乐"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(212,136,58,0.08) 0%, transparent 70%); }
+  .script-card[data-theme="情感"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(201,122,138,0.08) 0%, transparent 70%); }
+  .script-card[data-theme="恐怖"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(106,63,160,0.08) 0%, transparent 70%); }
+  .script-card[data-theme="阵营"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(76,175,125,0.08) 0%, transparent 70%); }
+  .script-card[data-theme="机制"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(74,154,186,0.08) 0%, transparent 70%); }
+  .script-card[data-theme="刑侦"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(201,168,76,0.08) 0%, transparent 70%); }
+  .script-card[data-theme="豪门"]::after  { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(138,106,58,0.08) 0%, transparent 70%); }
+
+  .script-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.95rem; font-weight: 700;
+    line-height: 1.3; margin-bottom: 10px;
+    color: var(--white);
+  }
+  .script-meta-row {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;
+  }
+  .script-tag {
+    font-size: 0.62rem; padding: 2px 8px; letter-spacing: 0.05em;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(245,240,232,0.4);
+  }
+  .script-tag.price { border-color: rgba(201,168,76,0.25); color: var(--gold); }
+  .script-tag.tbd { border-color: rgba(255,255,255,0.06); color: rgba(245,240,232,0.2); font-style: italic; }
+
+  /* HIDDEN */
+  .script-card.hidden { display: none; }
+  .theme-block.hidden { display: none; }
+
+  /* EMPTY STATE */
+  .empty-state {
+    display: none; text-align: center; padding: 80px 20px;
+    color: rgba(245,240,232,0.3); font-size: 0.9rem; letter-spacing: 0.1em;
+  }
+  .empty-state.show { display: block; }
+
+  /* PRICING INFO */
+  .pricing-note {
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 16px 24px; margin-bottom: 40px;
+    font-size: 0.8rem; color: rgba(245,240,232,0.5); line-height: 1.8;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .pricing-note-icon { font-size: 1.2rem; flex-shrink: 0; color: var(--gold); }
+
+  /* CTA */
+  .cta-bar {
+    background: linear-gradient(135deg, #0c0800, #160f00);
+    border-top: 1px solid rgba(201,168,76,0.12);
+    padding: 60px; text-align: center;
+  }
+  .cta-bar h2 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 12px; }
+  .cta-bar h2.en { font-family: 'Playfair Display', serif; font-style: italic; }
+  .cta-bar p { color: rgba(245,240,232,0.5); font-size: 0.9rem; margin-bottom: 30px; line-height: 1.8; }
+  .btn-primary {
+    background: var(--gold); color: var(--black);
+    padding: 14px 44px; font-size: 0.92rem; font-weight: 700; letter-spacing: 0.12em;
+    text-decoration: none; display: inline-block; transition: all 0.3s;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); margin: 0 8px;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    padding: 14px 44px; font-size: 0.92rem; letter-spacing: 0.12em;
+    text-decoration: none; display: inline-block; transition: all 0.3s;
+    border: 1px solid rgba(245,240,232,0.25);
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); margin: 0 8px;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  .page-footer {
+    background: #050505; padding: 24px 60px;
+    border-top: 1px solid rgba(201,168,76,0.08);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.72rem; color: rgba(245,240,232,0.22);
+  }
+  .footer-logo { font-family: 'Noto Serif SC', serif; font-weight: 900; }
+  .footer-logo span { color: var(--gold); font-style: italic; }
+
+  @media (max-width: 1100px) { .script-grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 860px) {
+    nav { padding: 14px 22px; }
+    .filter-bar { padding: 12px 22px; }
+    .scripts-section { padding: 40px 22px 60px; }
+    .page-section { padding: 60px 22px; }
+    .script-grid { grid-template-columns: repeat(3, 1fr); }
+    .cta-bar { padding: 50px 22px; }
+    .page-footer { flex-direction: column; gap: 10px; text-align: center; }
+    .search-wrap { margin-left: 0; width: 100%; }
+    .search-input { width: 100%; }
+  }
+  @media (max-width: 560px) { .script-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body class="lang-zh">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-back">
+      <span>←</span>
+      <span data-zh>返回主页</span>
+      <span data-en>Back</span>
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-title"><span>W</span> <span data-zh>两个世界</span><span data-en>Two Worlds</span></div>
+  </div>
+  <div class="lang-toggle" id="langToggle">
+    <div class="lang-btn active" id="btnZh">中文</div>
+    <div class="lang-divider"></div>
+    <div class="lang-btn" id="btnEn">EN</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="corner-deco tl"></div>
+  <div class="corner-deco tr"></div>
+  <div class="corner-deco bl"></div>
+  <div class="corner-deco br"></div>
+  <div class="hero-content">
+    <div class="hero-badge" data-zh>W两个世界 · 剧本杀</div>
+    <div class="hero-badge" data-en>W Two Worlds · Script (Murder Mystery)</div>
+    <div class="hero-icon">🎭</div>
+    <h1 class="hero-title zh" data-zh>剧本杀</h1>
+    <h1 class="hero-title en" data-en>Script (Murder Mystery)</h1>
+    <p class="hero-sub" data-zh>200+ 剧本 <span>·</span> 专业主持人 <span>·</span> 4～8人 <span>·</span> 2～10小时</p>
+    <p class="hero-sub" data-en>200+ Scripts <span>·</span> Professional DM <span>·</span> 4–8 Players <span>·</span> 2–10 hrs</p>
+    <div class="hero-tags">
+      <span class="hero-tag" style="border-color:rgba(201,76,76,0.4);color:#c94c4c" data-zh>硬核</span>
+      <span class="hero-tag" style="border-color:rgba(201,76,76,0.4);color:#c94c4c" data-en>Hardcore</span>
+      <span class="hero-tag" style="border-color:rgba(91,141,217,0.4);color:#5b8dd9" data-zh>还原</span>
+      <span class="hero-tag" style="border-color:rgba(91,141,217,0.4);color:#5b8dd9" data-en>Restore</span>
+      <span class="hero-tag" style="border-color:rgba(212,136,58,0.4);color:#d4883a" data-zh>欢乐</span>
+      <span class="hero-tag" style="border-color:rgba(212,136,58,0.4);color:#d4883a" data-en>Fun</span>
+      <span class="hero-tag" style="border-color:rgba(201,122,138,0.4);color:#c97a8a" data-zh>情感</span>
+      <span class="hero-tag" style="border-color:rgba(201,122,138,0.4);color:#c97a8a" data-en>Emotional</span>
+      <span class="hero-tag" style="border-color:rgba(106,63,160,0.4);color:#6a3fa0" data-zh>恐怖</span>
+      <span class="hero-tag" style="border-color:rgba(106,63,160,0.4);color:#6a3fa0" data-en>Horror</span>
+      <span class="hero-tag" style="border-color:rgba(76,175,125,0.4);color:#4caf7d" data-zh>阵营</span>
+      <span class="hero-tag" style="border-color:rgba(76,175,125,0.4);color:#4caf7d" data-en>Faction</span>
+      <span class="hero-tag" style="border-color:rgba(74,154,186,0.4);color:#4a9aba" data-zh>机制</span>
+      <span class="hero-tag" style="border-color:rgba(74,154,186,0.4);color:#4a9aba" data-en>Mechanic</span>
+      <span class="hero-tag" style="border-color:rgba(201,168,76,0.4);color:#c9a84c" data-zh>刑侦</span>
+      <span class="hero-tag" style="border-color:rgba(201,168,76,0.4);color:#c9a84c" data-en>Detective</span>
+      <span class="hero-tag" style="border-color:rgba(138,106,58,0.4);color:#8a6a3a" data-zh>豪门</span>
+      <span class="hero-tag" style="border-color:rgba(138,106,58,0.4);color:#8a6a3a" data-en>Elite</span>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" id="filterBar">
+  <span class="filter-label" data-zh>筛选</span>
+  <span class="filter-label" data-en>Filter</span>
+  <button class="filter-btn active" data-theme="全部" onclick="filterTheme('全部')">
+    <span data-zh>全部</span><span data-en>All</span>
+  </button>
+  <button class="filter-btn" data-theme="硬核" onclick="filterTheme('硬核')" style="--hover:#c94c4c">硬核</button>
+  <button class="filter-btn" data-theme="还原" onclick="filterTheme('还原')">还原</button>
+  <button class="filter-btn" data-theme="欢乐" onclick="filterTheme('欢乐')">欢乐</button>
+  <button class="filter-btn" data-theme="情感" onclick="filterTheme('情感')">情感</button>
+  <button class="filter-btn" data-theme="恐怖" onclick="filterTheme('恐怖')">恐怖</button>
+  <button class="filter-btn" data-theme="阵营" onclick="filterTheme('阵营')">阵营</button>
+  <button class="filter-btn" data-theme="机制" onclick="filterTheme('机制')">机制</button>
+  <button class="filter-btn" data-theme="刑侦" onclick="filterTheme('刑侦')">刑侦</button>
+  <button class="filter-btn" data-theme="豪门" onclick="filterTheme('豪门')">豪门</button>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="searchInput" type="text"
+      placeholder="搜索剧本..." oninput="searchScripts(this.value)">
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<div class="scripts-section">
+
+  <div class="pricing-note">
+    <span class="pricing-note-icon">💰</span>
+    <span data-zh>各剧本价格根据类型与时长有所不同，详细定价请预约咨询或到店了解。专业主持人全程带场，新手友好。</span>
+    <span data-en>Pricing varies by script type and duration. Please enquire when booking or visit us in store. Professional DM throughout — beginner friendly.</span>
+  </div>
+
+  <div id="emptyState" class="empty-state">
+    <p data-zh>🔍 没有找到匹配的剧本</p>
+    <p data-en>🔍 No scripts found</p>
+  </div>
+
+  <!-- 硬核 -->
+  <div class="theme-block" id="block-硬核">
+    <div class="theme-header">
+      <div class="theme-dot" style="background:var(--c-hardcore)"></div>
+      <div class="theme-title" data-zh>硬核</div>
+      <div class="theme-title" data-en>Hardcore</div>
+      <span class="theme-count" id="count-硬核"></span>
+    </div>
+    <div class="script-grid" id="grid-硬核"></div>
+  </div>
+
+  <!-- 还原 -->
+  <div class="theme-block" id="block-还原">
+    <div class="theme-header">
+      <div class="theme-dot" style="background:var(--c-restore)"></div>
+      <div class="theme-title" data-zh>还原</div>
+      <div class="theme-title" data-en>Restore</div>
+      <span class="theme-count" id="count-还原"></span>
+    </div>
+    <div class="script-grid" id="grid-还原"></div>
+  </div>
+
+  <!-- 欢乐 -->
+  <div class="theme-block" id="block-欢乐">
+    <div class="theme-header">
+      <div class="theme-dot" style="background:var(--c-fun)"></div>
+      <div class="theme-title" data-zh>欢乐</div>
+      <div class="theme-title" data-en>Fun</div>
+      <span class="theme-count" id="count-欢乐"></span>
+    </div>
+    <div class="script-grid" id="grid-欢乐"></div>
+  </div>
+
+  <!-- 情感 -->
+  <div class="theme-block" id="block-情感">
+    <div class="theme-header">
+      <div class="theme-dot" style="background:var(--c-emotion)"></div>
+      <div class="theme-title" data-zh>情感</div>
+      <div class="theme-title" data-en>Emotional</div>
+      <span class="theme-count" id="count-情感"></span>
+    </div>
+    <div class="script-grid" id="grid-情感"></div>
+  </div>
+
+  <!-- 恐怖 -->
+  <div class="theme-block" id="block-恐怖">
+    <div class="theme-header">
+      <div class="theme-dot" style="background:var(--c-horror)"></div>
+      <div class="theme-title" data-zh>恐怖</div>
+      <div class="theme-title" data-en>Horror</div>
+      <span class="theme-count" id="count-恐怖"></span>
+    </div>
+    <div class="script-grid" id="grid-恐怖"></div>
+  </div>
+
+  <!-- 阵营 -->
+  <div class="theme-block" id="block-阵营">
+    <div class="theme-header">
+      <div class="theme-dot" style="background:var(--c-faction)"></div>
+      <div class="theme-title" data-zh>阵营</div>
+      <div class="theme-title" data-en>Faction</div>
+      <span class="theme-count" id="count-阵营"></span>
+    </div>
+    <div class="script-grid" id="grid-阵营"></div>
+  </div>
+
+  <!-- 机制 -->
+  <div class="theme-block" id="block-机制">
+    <div class="theme-header">
+      <div class="theme-dot" style="background:var(--c-mechanic)"></div>
+      <div class="theme-title" data-zh>机制</div>
+      <div class="theme-title" data-en>Mechanic</div>
+      <span class="theme-count" id="count-机制"></span>
+    </div>
+    <div class="script-grid" id="grid-机制"></div>
+  </div>
+
+  <!-- 刑侦 -->
+  <div class="theme-block" id="block-刑侦">
+    <div class="theme-header">
+      <div class="theme-dot" style="background:var(--c-detective)"></div>
+      <div class="theme-title" data-zh>刑侦</div>
+      <div class="theme-title" data-en>Detective</div>
+      <span class="theme-count" id="count-刑侦"></span>
+    </div>
+    <div class="script-grid" id="grid-刑侦"></div>
+  </div>
+
+  <!-- 豪门 -->
+  <div class="theme-block" id="block-豪门">
+    <div class="theme-header">
+      <div class="theme-dot" style="background:var(--c-elite)"></div>
+      <div class="theme-title" data-zh>豪门</div>
+      <div class="theme-title" data-en>Elite</div>
+      <span class="theme-count" id="count-豪门"></span>
+    </div>
+    <div class="script-grid" id="grid-豪门"></div>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<div class="cta-bar">
+  <h2 class="zh" data-zh>找到心仪的剧本了吗？</h2>
+  <h2 class="en" data-en>Found the perfect script?</h2>
+  <p data-zh>立即预约，专业主持人为你打造沉浸式剧本杀体验。</p>
+  <p data-en>Book now — our professional DM will guide you through an unforgettable immersive experience.</p>
+  <div>
+    <a href="index.html#booking" class="btn-primary" data-zh>立即预约</a>
+    <a href="index.html#booking" class="btn-primary" data-en>Book Now</a>
+    <a href="index.html" class="btn-outline" data-zh>返回主页</a>
+    <a href="index.html" class="btn-outline" data-en>Back to Home</a>
+  </div>
+</div>
+
+<div class="page-footer">
+  <div class="footer-logo"><span>W</span> 两个世界 · W Two Worlds</div>
+  <span>© 2025 W Two Worlds Board Game Studio</span>
+</div>
+
+<script>
+  // ── LANG ──
+  const body = document.body;
+  const btnZh = document.getElementById('btnZh');
+  const btnEn = document.getElementById('btnEn');
+  function setLang(lang) {
+    body.className = 'lang-' + lang;
+    btnZh.classList.toggle('active', lang === 'zh');
+    btnEn.classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.getElementById('searchInput').placeholder = lang === 'zh' ? '搜索剧本...' : 'Search scripts...';
+    try { localStorage.setItem('wtwLang', lang); } catch(e) {}
+  }
+  document.getElementById('langToggle').addEventListener('click', function() {
+    setLang(body.classList.contains('lang-zh') ? 'en' : 'zh');
+  });
+  try { const s = localStorage.getItem('wtwLang'); if (s) setLang(s); } catch(e) {}
+
+  // ── SCRIPT DATA ──
+  // All 209 scripts — theme will be populated later
+  // Format: [name, dm, theme, players, duration, price]
+  const SCRIPTS = [
+    ["无限调查局","欧姆","未分类","—","—","—"],
+    ["诡计患者的谜题","欧姆、Elsa","未分类","—","—","—"],
+    ["丹水山庄","Elsa","未分类","—","—","—"],
+    ["傀儡的记忆","Elsa","未分类","—","—","—"],
+    ["幽灵复仇","Elsa","未分类","—","—","—"],
+    ["惊魂醉阳楼","—","未分类","—","—","—"],
+    ["孝衣新娘","Elsa","未分类","—","—","—"],
+    ["跌落的玫瑰","菠萝、Elsa","未分类","—","—","—"],
+    ["珠帘异梦","Elsa","未分类","—","—","—"],
+    ["孽岛疑云","菠萝","未分类","—","—","—"],
+    ["瑾园孤花","Elsa","未分类","—","—","—"],
+    ["紫藤夫人","Elsa","未分类","—","—","—"],
+    ["水袖情","菠萝、Elsa","未分类","—","—","—"],
+    ["嗜睡蔷薇","菠萝","未分类","—","—","—"],
+    ["裂镜重圆","—","未分类","—","—","—"],
+    ["岳麓山下","Elsa","未分类","—","—","—"],
+    ["鄂西山灵","Elsa","未分类","—","—","—"],
+    ["月落洼","菠萝","未分类","—","—","—"],
+    ["待月弑杀","—","未分类","—","—","—"],
+    ["章东镇谜案","—","未分类","—","—","—"],
+    ["绝崖雕","菠萝","未分类","—","—","—"],
+    ["失真的旋律","菠萝","未分类","—","—","—"],
+    ["野狐悠谈","Elsa","未分类","—","—","—"],
+    ["雾起云浮","菠萝、Elsa","未分类","—","—","—"],
+    ["期须乃至","Elsa","未分类","—","—","—"],
+    ["泉之馆","—","未分类","—","—","—"],
+    ["复泉楼","—","未分类","—","—","—"],
+    ["望海祠","Elsa","未分类","—","—","—"],
+    ["仪式之门","Elsa","未分类","—","—","—"],
+    ["枉痴心","菠萝、Elsa","未分类","—","—","—"],
+    ["孤舟萤","—","未分类","—","—","—"],
+    ["曼娜","菠萝","未分类","—","—","—"],
+    ["冥海缒幽","菠萝、Elsa","未分类","—","—","—"],
+    ["诅家庄","菠萝","未分类","—","—","—"],
+    ["春味社","—","未分类","—","—","—"],
+    ["魍魉塔","Elsa","未分类","—","—","—"],
+    ["雨异妍","Elsa","未分类","—","—","—"],
+    ["先灵祭","菠萝","未分类","—","—","—"],
+    ["蠹虫","—","未分类","—","—","—"],
+    ["烛影额妆","菠萝","未分类","—","—","—"],
+    ["猫岛谋杀循环","菠萝、Elsa","未分类","—","—","—"],
+    ["雪乡连环杀人事件","Sam、菠萝","未分类","—","—","—"],
+    ["红豆","十一","未分类","—","—","—"],
+    ["七日囚徒","Elsa","未分类","—","—","—"],
+    ["贵阴贱璧","菠萝、Elsa","未分类","—","—","—"],
+    ["七月十三日","Elsa","未分类","—","—","—"],
+    ["芥子：弥望之川","—","未分类","—","—","—"],
+    ["离家出走","Elsa","未分类","—","—","—"],
+    ["弥留","Elsa","未分类","—","—","—"],
+    ["官渡","—","未分类","—","—","—"],
+    ["须臾","Elsa","未分类","—","—","—"],
+    ["曦和失焰","十一、Elsa","未分类","—","—","—"],
+    ["月下沙利叶","十一、Elsa","未分类","—","—","—"],
+    ["大山","—","未分类","—","—","—"],
+    ["破晓","—","未分类","—","—","—"],
+    ["周公游记","—","未分类","—","—","—"],
+    ["挟剑惊风","Elsa","未分类","—","—","—"],
+    ["北宋奇案·汴京","Elsa、欧姆","未分类","—","—","—"],
+    ["恋路十六夜","Elsa","未分类","—","—","—"],
+    ["此时彼刻之人","欧姆","未分类","—","—","—"],
+    ["谜案集·一叶障木","Elsa","未分类","—","—","—"],
+    ["北原千叶2烈烈朝晖","Elsa","未分类","—","—","—"],
+    ["十字馆事件","欧姆","未分类","—","—","—"],
+    ["艾希什影院：无人循环","欧姆","未分类","—","—","—"],
+    ["三分天下","菠萝","未分类","—","—","—"],
+    ["猎人笔记·正午","Elsa","未分类","—","—","—"],
+    ["罗拉西里的巫女","Elsa","未分类","—","—","—"],
+    ["将至2","—","未分类","—","—","—"],
+    ["关于北原千叶的一切","菠萝、Elsa、欧姆","未分类","—","—","—"],
+    ["RE：新世界","Elsa","未分类","—","—","—"],
+    ["黑羊公馆","菠萝","未分类","—","—","—"],
+    ["剧本诡谈","—","未分类","—","—","—"],
+    ["权倾天下","Elsa","未分类","—","—","—"],
+    ["怪谈事务所：破界","—","未分类","—","—","—"],
+    ["虚构推理2：狩猎","—","未分类","—","—","—"],
+    ["你听…...","—","未分类","—","—","—"],
+    ["白衣倾城2青山云海","Elsa","未分类","—","—","—"],
+    ["九不思议街","—","未分类","—","—","—"],
+    ["云使","—","未分类","—","—","—"],
+    ["恶鬼道","—","未分类","—","—","—"],
+    ["在人间","—","未分类","—","—","—"],
+    ["日日是好日","—","未分类","—","—","—"],
+    ["水镜八奇","Elsa","未分类","—","—","—"],
+    ["将至","Elsa","未分类","—","—","—"],
+    ["刀鞘","—","未分类","—","—","—"],
+    ["金陵有座东君书院","—","未分类","—","—","—"],
+    ["持斧奥夫","Elsa","未分类","—","—","—"],
+    ["白衣倾城","—","未分类","—","—","—"],
+    ["就像水消失在水中","—","未分类","—","—","—"],
+    ["粉灯","菠萝、Elsa","未分类","—","—","—"],
+    ["山百合怒放的冬夜","Elsa","未分类","—","—","—"],
+    ["第七号嫌疑人","欧姆、菠萝、Elsa","未分类","—","—","—"],
+    ["来电","菠萝、Elsa","未分类","—","—","—"],
+    ["一个死去的朋友","菠萝","未分类","—","—","—"],
+    ["造访者·人非物是","—","未分类","—","—","—"],
+    ["拆迁2：买房","—","未分类","—","—","—"],
+    ["瘆","—","未分类","—","—","—"],
+    ["酒中仙","Elsa","未分类","—","—","—"],
+    ["Inside终章：七个密室","—","未分类","—","—","—"],
+    ["备忘录：死后即阅","Elsa","未分类","—","—","—"],
+    ["山田洋子","Sam、Elsa","未分类","—","—","—"],
+    ["暗黑者：七宗欲","Elsa","未分类","—","—","—"],
+    ["青楼2","菠萝、Elsa","未分类","—","—","—"],
+    ["野の蔷薇2：落椿","Elsa","未分类","—","—","—"],
+    ["一座城2","菠萝","未分类","—","—","—"],
+    ["mojito","Elsa","未分类","—","—","—"],
+    ["请将我深埋","—","未分类","—","—","—"],
+    ["丁达尔克的神奇夜","Sam","未分类","—","—","—"],
+    ["告别诗","十一、菠萝、Elsa","未分类","—","—","—"],
+    ["阴缘","—","未分类","—","—","—"],
+    ["通缉令：掘齿者","Elsa","未分类","—","—","—"],
+    ["那一束月光","—","未分类","—","—","—"],
+    ["叫爸爸","Elsa、菠萝","未分类","—","—","—"],
+    ["顶楼·极恶之宴","—","未分类","—","—","—"],
+    ["人偶之匣","Elsa","未分类","—","—","—"],
+    ["雾鸦馆","Elsa","未分类","—","—","—"],
+    ["好帅的吨吨吨冒险","—","未分类","—","—","—"],
+    ["年轮","菠萝","未分类","—","—","—"],
+    ["蜇蜂之死","菠萝","未分类","—","—","—"],
+    ["死者在幻夜中醒来","菠萝、欧姆","未分类","—","—","—"],
+    ["搞钱！","菠萝","未分类","—","—","—"],
+    ["作者不详","菠萝、Elsa","未分类","—","—","—"],
+    ["风中有朵雨做的云","Elsa","未分类","—","—","—"],
+    ["一座城","菠萝、Elsa","未分类","—","—","—"],
+    ["虚拟游戏","—","未分类","—","—","—"],
+    ["月光下的持刀者","—","未分类","—","—","—"],
+    ["2026","—","未分类","—","—","—"],
+    ["马丁内斯死在惊奇馆","Elsa","未分类","—","—","—"],
+    ["有间客栈","—","未分类","—","—","—"],
+    ["上钟儿","—","未分类","—","—","—"],
+    ["龙宴","—","未分类","—","—","—"],
+    ["第二十二条校规","—","未分类","—","—","—"],
+    ["漓川怪谈簿","菠萝、Elsa","未分类","—","—","—"],
+    ["声声慢","—","未分类","—","—","—"],
+    ["木夕僧之戏-木偶","菠萝、Elsa","未分类","—","—","—"],
+    ["眠梦不老泉","Elsa","未分类","—","—","—"],
+    ["涂川","Elsa","未分类","—","—","—"],
+    ["春运","菠萝","未分类","—","—","—"],
+    ["蜕变俱乐部","Elsa","未分类","—","—","—"],
+    ["再见萤火虫","—","未分类","—","—","—"],
+    ["花田喜事","—","未分类","—","—","—"],
+    ["宿醉","—","未分类","—","—","—"],
+    ["舍离2 断念","—","未分类","—","—","—"],
+    ["逢山遇鬼","—","未分类","—","—","—"],
+    ["金玉良缘","—","未分类","—","—","—"],
+    ["游戏：神明酒局","Elsa","未分类","—","—","—"],
+    ["你妈逼你结婚了吗","—","未分类","—","—","—"],
+    ["山之神","Elsa","未分类","—","—","—"],
+    ["拆迁","菠萝","未分类","—","—","—"],
+    ["似灵寺","—","未分类","—","—","—"],
+    ["市井狂人","菠萝","未分类","—","—","—"],
+    ["窥镜","—","未分类","—","—","—"],
+    ["送你一朵小花花","—","未分类","—","—","—"],
+    ["宝格丽之夜","Elsa","未分类","—","—","—"],
+    ["戏精的诞生","Elsa","未分类","—","—","—"],
+    ["前男友的一百种死法","—","未分类","—","—","—"],
+    ["坠入深渊","—","未分类","—","—","—"],
+    ["老槐树","—","未分类","—","—","—"],
+    ["窗边的女人","菠萝、Elsa","未分类","—","—","—"],
+    ["末班车","—","未分类","—","—","—"],
+    ["病娇男孩的精分日记","Sam、十一、菠萝、Elsa","未分类","—","—","—"],
+    ["病娇男孩的恋爱日记","菠萝、Elsa","未分类","—","—","—"],
+    ["两点半","—","未分类","—","—","—"],
+    ["一点半","菠萝、十一","未分类","—","—","—"],
+    ["刺秦","—","未分类","—","—","—"],
+    ["鲸鱼马戏团","菠萝","未分类","—","—","—"],
+    ["酒转乾坤","—","未分类","—","—","—"],
+    ["野の蔷薇","—","未分类","—","—","—"],
+    ["古木吟","—","未分类","—","—","—"],
+    ["兵临城下","菠萝","未分类","—","—","—"],
+    ["孤城","菠萝、Elsa","未分类","—","—","—"],
+    ["家宴2 继承者们","—","未分类","—","—","—"],
+    ["家宴","—","未分类","—","—","—"],
+    ["青楼","Elsa","未分类","—","—","—"],
+    ["抓小三","菠萝","未分类","—","—","—"],
+    ["抓小三2再爱J人","—","未分类","—","—","—"],
+    ["加个v呗","Sam、菠萝、十一","未分类","—","—","—"],
+    ["离婚吧赶紧的","菠萝","未分类","—","—","—"],
+    ["来解决一切的名侦探也死了","—","未分类","—","—","—"],
+    ["死亡回响","欧姆","未分类","—","—","—"],
+    ["悲鸣城怪奇谋杀始末","Elsa、欧姆","未分类","—","—","—"],
+    ["应邪化仆","菠萝、Elsa","未分类","—","—","—"],
+    ["因火成烟","菠萝、Elsa","未分类","—","—","—"],
+    ["暗波崖","—","未分类","—","—","—"],
+    ["病娇3：近乎正常的我们","—","未分类","—","—","—"],
+    ["巧夺天工·默剧师","Elsa","未分类","—","—","—"],
+    ["魔王城诡计法则","—","未分类","—","—","—"],
+    ["推理作家的谋杀艺术","欧姆","未分类","—","—","—"],
+    ["诡计甜美的死去","欧姆","未分类","—","—","—"],
+    ["撕裂神之诡面","—","未分类","—","—","—"],
+    ["Crows！乌合之众","菠萝","未分类","—","—","—"],
+    ["双羽馆解体妄想","—","未分类","—","—","—"],
+    ["安美纳斯DE死亡推想","—","未分类","—","—","—"],
+    ["不良少女与独眼Kitty猫","菠萝","未分类","—","—","—"],
+    ["祸心","—","未分类","—","—","—"],
+    ["雪夜城谜案","—","未分类","—","—","—"],
+    ["无相人考古奇案","—","未分类","—","—","—"],
+    ["三间堂斩妖讲义","—","未分类","—","—","—"],
+    ["阿姐鼓","—","未分类","—","—","—"],
+    ["双影共秀","菠萝、Elsa","未分类","—","—","—"],
+    ["死不容观","Elsa","未分类","—","—","—"],
+    ["关于Y的奇迹","—","未分类","—","—","—"],
+    ["power·逆转节点","菠萝","未分类","—","—","—"],
+    ["猫岛2犬山谋杀循环","菠萝、Elsa","未分类","—","—","—"],
+    ["如是我观","Elsa","未分类","—","—","—"],
+    ["蓝色大丽花","—","未分类","—","—","—"],
+    ["曼陀罗的安魂曲","Elsa","未分类","—","—","—"],
+    ["离地三寸","Elsa","未分类","—","—","—"],
+    ["蛇聘","—","未分类","—","—","—"],
+  ];
+
+  const THEMES = ["硬核","还原","欢乐","情感","恐怖","阵营","机制","刑侦","豪门"];
+  const THEME_NAMES_EN = {
+    "硬核":"Hardcore","还原":"Restore","欢乐":"Fun","情感":"Emotional",
+    "恐怖":"Horror","阵营":"Faction","机制":"Mechanic","刑侦":"Detective","豪门":"Elite",
+    "未分类":"Uncategorised"
+  };
+
+  // Build cards
+  function buildCard(s) {
+    const [name, dm, theme, players, duration, price] = s;
+    const dmText = '';
+    const pTag = price === '—'
+      ? `<span class="script-tag tbd" data-zh>待定</span><span class="script-tag tbd" data-en>TBD</span>`
+      : `<span class="script-tag price">${price}</span>`;
+    const playerTag = players === '—'
+      ? `<span class="script-tag tbd" data-zh>人数待定</span><span class="script-tag tbd" data-en>Players TBD</span>`
+      : `<span class="script-tag">${players}</span>`;
+    const durTag = duration === '—'
+      ? `<span class="script-tag tbd" data-zh>时长待定</span><span class="script-tag tbd" data-en>Duration TBD</span>`
+      : `<span class="script-tag">${duration}</span>`;
+
+    const card = document.createElement('div');
+    card.className = 'script-card';
+    card.dataset.theme = theme;
+    card.dataset.name = name;
+    card.innerHTML = `
+      <div class="script-name">${name}</div>
+      <div class="script-meta-row">
+        ${playerTag}
+        ${durTag}
+        ${pTag}
+      </div>`;
+    return card;
+  }
+
+  // Populate grids
+  function populate() {
+    // Group by theme
+    const groups = {};
+    THEMES.forEach(t => groups[t] = []);
+    groups['未分类'] = [];
+    SCRIPTS.forEach(s => {
+      const t = s[2];
+      if (groups[t] !== undefined) groups[t].push(s);
+      else groups['未分类'].push(s);
+    });
+
+    THEMES.forEach(theme => {
+      const grid = document.getElementById('grid-' + theme);
+      const count = document.getElementById('count-' + theme);
+      const block = document.getElementById('block-' + theme);
+      const scripts = groups[theme] || [];
+
+      if (scripts.length === 0) {
+        block.classList.add('hidden');
+        return;
+      }
+      count.textContent = `(${scripts.length})`;
+      scripts.forEach(s => grid.appendChild(buildCard(s)));
+    });
+
+    // Uncategorised — add to all blocks as placeholder if empty
+    // Actually show uncategorised under each theme as TBD placeholder
+    // For now show all uncategorised at bottom
+    if (groups['未分类'].length > 0) {
+      // Add an "uncategorised" block
+      const sec = document.querySelector('.scripts-section');
+      const block = document.createElement('div');
+      block.className = 'theme-block';
+      block.id = 'block-未分类';
+      block.innerHTML = `
+        <div class="theme-header">
+          <div class="theme-dot" style="background:rgba(245,240,232,0.2)"></div>
+          <div class="theme-title" data-zh>待分类</div>
+          <div class="theme-title" data-en>Uncategorised</div>
+          <span class="theme-count">(${groups['未分类'].length})</span>
+        </div>
+        <div class="script-grid" id="grid-未分类"></div>`;
+      sec.appendChild(block);
+      const grid = document.getElementById('grid-未分类');
+      groups['未分类'].forEach(s => grid.appendChild(buildCard(s)));
+    }
+  }
+
+  populate();
+
+  // ── FILTER ──
+  let currentTheme = '全部';
+  function filterTheme(theme) {
+    currentTheme = theme;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+
+    const blocks = document.querySelectorAll('.theme-block');
+    blocks.forEach(block => {
+      if (theme === '全部') {
+        block.classList.remove('hidden');
+      } else {
+        const blockTheme = block.id.replace('block-','');
+        block.classList.toggle('hidden', blockTheme !== theme);
+      }
+    });
+    searchScripts(document.getElementById('searchInput').value);
+  }
+
+  // ── SEARCH ──
+  function searchScripts(query) {
+    const q = query.trim().toLowerCase();
+    let anyVisible = false;
+
+    document.querySelectorAll('.script-card').forEach(card => {
+      const name = card.dataset.name.toLowerCase();
+      const theme = card.dataset.theme;
+      const themeMatch = currentTheme === '全部' || theme === currentTheme;
+      const searchMatch = !q || name.includes(q);
+      const visible = themeMatch && searchMatch;
+      card.classList.toggle('hidden', !visible);
+      if (visible) anyVisible = true;
+    });
+
+    // Hide empty blocks
+    document.querySelectorAll('.theme-block').forEach(block => {
+      if (currentTheme !== '全部' && block.id !== 'block-' + currentTheme) {
+        block.classList.add('hidden');
+        return;
+      }
+      const visibleCards = block.querySelectorAll('.script-card:not(.hidden)');
+      block.classList.toggle('hidden', visibleCards.length === 0);
+    });
+
+    document.getElementById('emptyState').classList.toggle('show', !anyVisible);
+  }
+</script>
+</body>
+</html>
