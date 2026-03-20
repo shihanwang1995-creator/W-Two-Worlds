@@ -66,6 +66,9 @@
   .page-footer { background:#050505; padding:24px 60px; border-top:1px solid rgba(201,168,76,0.08); display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; color:rgba(245,240,232,0.22); }
   .footer-logo { font-family:'Noto Serif SC',serif; font-weight:900; }
   .footer-logo span { color:var(--gold); font-style:italic; }
+  @media (max-width:700px) {
+    #flow-grid { grid-template-columns: 1fr !important; }
+  }
   @media (max-width:860px) {
     nav { padding:14px 22px; }
     .page-section { padding:60px 22px; }
@@ -112,13 +115,17 @@
   <div class="section-label" data-en>OVERVIEW</div>
   <h2 class="section-title zh" data-zh>模板简介</h2>
   <h2 class="section-title en" data-en>Overview</h2>
-  <p class="section-desc" data-zh>经典四神配置，神民平衡稳健。愚者翻牌机制带来额外变数，适合追求纯粹推理博弈的玩家。</p>
+  <p class="section-desc" data-zh>经典四神配置，神民平衡稳健。白痴翻牌机制带来额外变数，适合追求纯粹推理博弈的玩家。</p>
   <p class="section-desc" data-en>Classic four-deity balance. The Fool's flip mechanic adds a crucial twist — ideal for pure deduction seekers.</p>
   <div style="margin-top:24px;border:1px solid rgba(201,168,76,0.15);padding:18px 24px;background:rgba(201,168,76,0.03);">
     <div style="font-size:0.7rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:10px;" data-zh>角色配置</div>
     <div style="font-size:0.7rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:10px;" data-en>Role Lineup</div>
-    <p style="font-size:0.85rem;color:rgba(245,240,232,0.6);line-height:1.8;" data-zh>预言家 · 女巫 · 猎人 · 愚者 · 狼人×4 · 平民×4</p>
+    <p style="font-size:0.85rem;color:rgba(245,240,232,0.6);line-height:1.8;" data-zh>预言家 · 女巫 · 猎人 · 白痴 · 狼人×4 · 平民×4</p>
     <p style="font-size:0.85rem;color:rgba(245,240,232,0.6);line-height:1.8;" data-en>Seer · Witch · Hunter · Fool · Werewolf×4 · Villager×4</p>
+  </div>
+  <div style="margin-top:20px;border-left:3px solid rgba(201,168,76,0.4);padding:12px 18px;background:rgba(201,168,76,0.04);font-size:0.8rem;color:rgba(245,240,232,0.5);line-height:1.8;">
+    <span data-zh>📌 备注：模板显示的是标准配置，角色分配会根据实际人数多少进行调整。</span>
+    <span data-en>📌 Note: The lineup shown is the standard configuration. Role assignments will be adjusted based on the actual number of players.</span>
   </div>
 </section>
 
@@ -138,9 +145,9 @@
           <div class="role-card-body"><p><span data-zh>拥有一瓶解药和一瓶毒药。持有解药时可看到狼人当夜刀口。每晚至多使用一瓶药，全程不可自救。</span><span data-en>Holds one antidote and one poison. When holding the antidote, sees the wolf's kill target. At most one potion per night. Cannot save herself.</span></p></div>
         </div><div class="role-card" onclick="toggleRole(this)">
           <div class="role-card-header"><span class="role-name" data-zh>猎人</span><span class="role-name" data-en>Hunter</span><span class="role-toggle">＋</span></div>
-          <div class="role-card-body"><p><span data-zh>出局时可带走一名存活玩家。被毒或梦游不可开枪。</span><span data-en>When eliminated, may take one surviving player. Cannot fire if poisoned or sleepwalking.</span></p></div>
+          <div class="role-card-body"><p><span data-zh>出局时可带走一名存活玩家。被毒不可开枪。</span><span data-en>When eliminated, may take one surviving player. Cannot fire if poisoned.</span></p></div>
         </div><div class="role-card" onclick="toggleRole(this)">
-          <div class="role-card-header"><span class="role-name" data-zh>愚者</span><span class="role-name" data-en>Fool</span><span class="role-toggle">＋</span></div>
+          <div class="role-card-header"><span class="role-name" data-zh>白痴</span><span class="role-name" data-en>Fool</span><span class="role-toggle">＋</span></div>
           <div class="role-card-body"><p><span data-zh>被放逐出局后可以翻牌，失去警徽拥有权。翻牌后仍被视为存活神职，投票时记为0.5票。</span><span data-en>After exile, may flip their card and lose badge rights. Still counts as a living deity — worth 0.5 votes.</span></p></div>
         </div></div><div class="faction-block"><div class="faction-label neutral" data-zh>👤 村民</div><div class="faction-label neutral" data-en>👤 Villager</div><div class="role-card" onclick="toggleRole(this)">
           <div class="role-card-header"><span class="role-name" data-zh>平民 ×4</span><span class="role-name" data-en>Villager ×4</span><span class="role-toggle">＋</span></div>
@@ -149,6 +156,67 @@
           <div class="role-card-header"><span class="role-name" data-zh>狼人 ×4</span><span class="role-name" data-en>Werewolf ×4</span><span class="role-toggle">＋</span></div>
           <div class="role-card-body"><p><span data-zh>每晚共同击杀一名玩家。白天可以自爆（PK发言期间除外）。</span><span data-en>Each night, collectively eliminate one player. May self-destruct during the day (except during PK speeches).</span></p></div>
         </div></div></div>
+  </div>
+</section>
+
+<section class="page-section dark">
+  <div class="section-label" data-zh>HOW TO PLAY · 游戏流程</div>
+  <div class="section-label" data-en>HOW TO PLAY</div>
+  <h2 class="section-title zh" data-zh>游戏流程</h2>
+  <h2 class="section-title en" data-en>Game Flow</h2>
+  <p class="section-desc" data-zh>预女猎白为12人标准竞技版型，以下为完整游戏流程。</p>
+  <p class="section-desc" data-en>A 12-player competitive template. Below is the complete game flow.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px;margin-top:32px;">
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">01</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>分配身份</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Role Assignment</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>主持人秘密发放身份牌。本局共12张：预言家、女巫、猎人、白痴各1张，狼人4张，平民4张。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>The host secretly deals 12 role cards: 1 Seer, 1 Witch, 1 Hunter, 1 Idiot, 4 Werewolves, and 4 Villagers.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">02</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>第一夜行动</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Night One</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>所有人闭眼。狼人睁眼互认队友，商定首刀目标。女巫睁眼查看刀口并决定是否使用解药。预言家睁眼查验一名玩家身份。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>All close eyes. Wolves open to identify teammates and select a kill target. Witch opens to see the target and decide whether to save. Seer opens to check one player's identity.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">03</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>警长竞选</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Sheriff Election</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>天亮前进行警长竞选。玩家自愿参选并发言拉票，未参选玩家投票选出警长。警长投票权重为1.5票，出局时可传递或销毁警徽。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>Before dawn, players campaign for Sheriff. Non-candidates vote. The Sheriff's vote counts as 1.5 and may pass or destroy the badge upon elimination.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">04</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>天亮公布</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Dawn Announcement</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>主持人公布夜间死亡结果。死亡玩家可留下遗言。猎人若被狼刀击杀，可在遗言阶段选择是否开枪带走一名存活玩家。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>The host announces the night's deaths. Deceased may leave a final statement. If the Hunter is killed by wolves, they may choose to take a surviving player with them.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">05</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>白天讨论与投票</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Day Discussion & Vote</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>所有存活玩家轮流发言，分享情报或制造谎言。讨论结束后全体投票，得票最多的玩家被淘汰出局。白痴若被放逐可翻牌保留0.5票权，仍视为存活神职。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>All surviving players speak in turn — sharing clues or spinning lies. All then vote; the most-voted player is eliminated. If the Idiot is exiled, they may flip their card and retain 0.5 votes, still counted as a living deity.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">06</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>循环与胜利条件</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Loop & Victory</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>投票结束后进入下一个黑夜，如此循环。好人阵营淘汰所有狼人即获胜；狼人阵营淘汰所有村民或所有神职即获胜。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>After each vote, night falls again. The cycle continues. Good wins by eliminating all wolves. Wolves win by eliminating all villagers or all deity roles.</p>
+    </div>
+
   </div>
 </section>
 
