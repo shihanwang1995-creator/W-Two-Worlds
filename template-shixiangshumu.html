@@ -112,13 +112,17 @@
   <div class="section-label" data-en>OVERVIEW</div>
   <h2 class="section-title zh" data-zh>模板简介</h2>
   <h2 class="section-title en" data-en>Overview</h2>
-  <p class="section-desc" data-zh>守墓人从放逐信息中获取情报，石像鬼带来独特的第三方变数，信息链错综复杂，步步惊心。</p>
-  <p class="section-desc" data-en>The Gravedigger reads exile results for clues; the Gargoyle adds a wild third-party twist. Every step is treacherous.</p>
+  <p class="section-desc" data-zh>守墓人从放逐信息中获取情报，石像鬼作为隐秘的独立狼人单独行动，信息链错综复杂，步步惊心。</p>
+  <p class="section-desc" data-en>The Gravedigger reads exile results for clues; the Gargoyle lurks as a lone wolf acting independently. Every step is treacherous.</p>
   <div style="margin-top:24px;border:1px solid rgba(201,168,76,0.15);padding:18px 24px;background:rgba(201,168,76,0.03);">
     <div style="font-size:0.7rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:10px;" data-zh>角色配置</div>
     <div style="font-size:0.7rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:10px;" data-en>Role Lineup</div>
     <p style="font-size:0.85rem;color:rgba(245,240,232,0.6);line-height:1.8;" data-zh>预言家 · 女巫 · 猎人 · 守墓人 · 石像鬼 · 狼人×3 · 平民×4</p>
     <p style="font-size:0.85rem;color:rgba(245,240,232,0.6);line-height:1.8;" data-en>Seer · Witch · Hunter · Gravedigger · Gargoyle · Werewolf×3 · Villager×4</p>
+  </div>
+  <div style="margin-top:20px;border-left:3px solid rgba(201,168,76,0.4);padding:12px 18px;background:rgba(201,168,76,0.04);font-size:0.8rem;color:rgba(245,240,232,0.5);line-height:1.8;">
+    <span data-zh>📌 备注：模板显示的是标准配置，角色分配会根据实际人数多少进行调整。</span>
+    <span data-en>📌 Note: The lineup shown is the standard configuration. Role assignments will be adjusted based on the actual number of players.</span>
   </div>
 </section>
 
@@ -138,7 +142,7 @@
           <div class="role-card-body"><p><span data-zh>拥有一瓶解药和一瓶毒药。每晚至多使用一瓶药，全程不可自救。</span><span data-en>Holds one antidote and one poison. At most one per night. Cannot save herself.</span></p></div>
         </div><div class="role-card" onclick="toggleRole(this)">
           <div class="role-card-header"><span class="role-name" data-zh>猎人</span><span class="role-name" data-en>Hunter</span><span class="role-toggle">＋</span></div>
-          <div class="role-card-body"><p><span data-zh>出局时可带走一名存活玩家。被毒或梦游不可开枪。</span><span data-en>When eliminated, may take one surviving player. Cannot fire if poisoned or sleepwalking.</span></p></div>
+          <div class="role-card-body"><p><span data-zh>出局时可带走一名存活玩家。被毒不可开枪。</span><span data-en>When eliminated, may take one surviving player. Cannot fire if poisoned.</span></p></div>
         </div><div class="role-card" onclick="toggleRole(this)">
           <div class="role-card-header"><span class="role-name" data-zh>守墓人</span><span class="role-name" data-en>Gravedigger</span><span class="role-toggle">＋</span></div>
           <div class="role-card-body"><p><span data-zh>从第二夜起，会得知上一个被放逐的玩家为好人还是狼人。如前日有狼人自爆，则守墓人当夜无信息。</span><span data-en>From night two, learns whether the last exiled player was Good or Evil. No info on nights following a wolf self-destruct.</span></p></div>
@@ -150,11 +154,70 @@
           <div class="role-card-body"><p><span data-zh>每晚共同击杀一名玩家。</span><span data-en>Each night, collectively eliminate one player.</span></p></div>
         </div><div class="role-card" onclick="toggleRole(this)">
           <div class="role-card-header"><span class="role-name" data-zh>石像鬼</span><span class="role-name" data-en>Gargoyle</span><span class="role-toggle">＋</span></div>
-          <div class="role-card-body"><p><span data-zh>第三方阵营，具体技能待补充。</span><span data-en>Third-party faction. Skill details to be added.</span></p></div>
+          <div class="role-card-body"><p><span data-zh>狼人阵营，但单独行动。不可自爆，夜晚不与狼人一起睁眼，无法击杀，也无法与其他狼队友互知身份。每晚可以查验一名玩家的具体身份。当其他所有狼队友均出局后，石像鬼开始带刀，可以击杀玩家。</span><span data-en>Evil faction, but acts alone. Cannot self-destruct, does not open eyes with the wolves at night, cannot kill, and does not know the identities of other wolves. Each night, may check one player's exact role. Once all other wolf teammates are eliminated, the Gargoyle gains the kill.</span></p></div>
         </div></div></div>
   </div>
 </section>
+<section class="page-section dark">
+  <div class="section-label" data-zh>HOW TO PLAY · 游戏流程</div>
+  <div class="section-label" data-en>HOW TO PLAY</div>
+  <h2 class="section-title zh" data-zh>游戏流程</h2>
+  <h2 class="section-title en" data-en>Game Flow</h2>
+  <p class="section-desc" data-zh>石像守墓为12人标准竞技版型，以下为完整游戏流程。</p>
+  <p class="section-desc" data-en>A 12-player competitive template. Below is the complete game flow.</p>
 
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px;margin-top:32px;">
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">01</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>分配身份</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Role Assignment</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>主持人秘密发放身份牌。本局共12张：预言家、女巫、猎人、守墓人各1张，石像鬼1张（第三方），狼人3张，平民4张。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>The host secretly deals 12 role cards: 1 Seer, 1 Witch, 1 Hunter, 1 Gravedigger, 1 Gargoyle (third-party), 3 Werewolves, and 4 Villagers.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">02</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>第一夜行动</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Night One</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>所有人闭眼。狼人睁眼互认队友，商定首刀目标。女巫睁眼查看刀口并决定是否使用解药。预言家睁眼查验一名玩家身份。守墓人从第二夜起才开始获得信息。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>All close eyes. Wolves open to identify teammates and select a kill. Witch sees the target and decides whether to save. Seer checks one player. Gravedigger begins receiving info from night two onward.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">03</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>警长竞选</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Sheriff Election</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>天亮前进行警长竞选。玩家自愿参选并发言拉票，未参选玩家投票选出警长。警长投票权重为1.5票，出局时可传递或销毁警徽。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>Before dawn, players campaign for Sheriff. Non-candidates vote. The Sheriff's vote counts as 1.5 and may pass or destroy the badge upon elimination.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">04</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>天亮公布</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Dawn Announcement</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>主持人公布夜间死亡结果。死亡玩家可留下遗言。猎人若被狼刀击杀，可在遗言阶段选择是否开枪带走一名存活玩家。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>The host announces the night's deaths. Deceased may leave a final statement. If the Hunter is killed by wolves, they may choose to take a surviving player with them.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">05</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>白天讨论与投票</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Day Discussion & Vote</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>守墓人将获得上一个被放逐玩家的好坏信息（若前日有狼人自爆则无信息）。石像鬼属于狼人阵营但单独行动，不与狼人互知身份，无法自爆，每夜查验一名玩家具体身份，队友全出局后带刀。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>The Gravedigger learns whether the last exiled player was Good or Evil (no info if a wolf self-destructed). The Gargoyle is Evil but acts alone — does not know other wolves, cannot self-destruct, checks one exact role per night, and gains the kill once all other wolves are eliminated.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">06</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>循环与胜利条件</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Loop & Victory</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>投票结束后进入下一个黑夜，如此循环。好人阵营淘汰所有狼人即获胜；狼人阵营淘汰所有村民或所有神职即获胜。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>After each vote, night falls again. The cycle continues. Good wins by eliminating all wolves. Wolves win by eliminating all villagers or all deity roles.</p>
+    </div>
+
+  </div>
+</section>
 <div class="cta-bar">
   <h2 class="zh" data-zh>准备好了吗？</h2>
   <h2 class="en" data-en>Ready to play?</h2>
