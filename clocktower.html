@@ -160,10 +160,21 @@
     content: ''; position: absolute; top: 0; left: 0;
     width: 3px; height: 100%;
   }
+  .script-card::after {
+    content: ''; position: absolute; inset: 0;
+    opacity: 0; transition: opacity 0.4s; pointer-events: none;
+  }
   .script-card.beginner::before { background: #4caf7d; }
   .script-card.intermediate::before { background: #c9a84c; }
   .script-card.advanced::before { background: #c94c4c; }
-  .script-card:hover { background: rgba(201,168,76,0.05); border-color: rgba(201,168,76,0.35); transform: translateY(-3px); }
+  .script-card.beginner::after { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(76,175,125,0.1) 0%, transparent 70%); }
+  .script-card.intermediate::after { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(201,168,76,0.1) 0%, transparent 70%); }
+  .script-card.advanced::after { background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(201,76,76,0.1) 0%, transparent 70%); }
+  .script-card:hover { background: rgba(255,255,255,0.03); transform: translateY(-3px); }
+  .script-card.beginner:hover { border-color: rgba(76,175,125,0.4); }
+  .script-card.intermediate:hover { border-color: rgba(201,168,76,0.4); }
+  .script-card.advanced:hover { border-color: rgba(201,76,76,0.4); }
+  .script-card:hover::after { opacity: 1; }
   .script-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; font-style: italic; margin-bottom: 3px; }
   .script-name-zh { font-family: 'Noto Serif SC', serif; font-size: 0.82rem; color: rgba(245,240,232,0.5); margin-bottom: 12px; }
   .script-desc { font-size: 0.8rem; color: rgba(245,240,232,0.48); line-height: 1.8; margin-bottom: 14px; }
@@ -802,12 +813,10 @@
   <div class="section-label" data-en>ROLES</div>
   <h2 class="section-title zh" data-zh>角色介绍</h2>
   <h2 class="section-title en" data-en>Role Guide</h2>
-  <div class="roles-soon">
-    <div class="roles-soon-icon">🔔</div>
-    <p data-zh>详细角色介绍即将上线<br>敬请期待 · 说书人为你揭晓每一个秘密</p>
-    <p data-en>Detailed role descriptions coming soon<br>Stay tuned — the Storyteller will reveal every secret in time</p>
-  </div>
+  <p class="section-desc" data-zh>点击上方剧本卡片，查看该剧本的完整角色列表与技能说明。</p>
+  <p class="section-desc" data-en>Click any script card above to view its full role list and skill descriptions.</p>
 </section>
+
 
 <!-- CTA -->
 <div class="cta-bar">
@@ -868,6 +877,19 @@
     el.style.transition = 'opacity 0.5s ease ' + (i * 0.06) + 's, transform 0.5s ease ' + (i * 0.06) + 's';
     obs.observe(el);
   });
+
+  function toggleRole(el) {
+    el.classList.toggle('open');
+    const t = el.querySelector('.role-toggle');
+    if (t) t.textContent = el.classList.contains('open') ? '－' : '＋';
+  }
+  function showRoleScript(id) {
+    document.querySelectorAll('.role-script-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+    const panel = document.getElementById('roles-' + id);
+    if (panel) panel.classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
 </script>
 
 </body>
