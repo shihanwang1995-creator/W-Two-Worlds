@@ -112,13 +112,17 @@
   <div class="section-label" data-en>OVERVIEW</div>
   <h2 class="section-title zh" data-zh>模板简介</h2>
   <h2 class="section-title en" data-en>Overview</h2>
-  <p class="section-desc" data-zh>首夜狼队将邻座好人转化为傀儡，傀儡本人毫不知情。好人须在不知谁是傀儡的情况下找出真正的威胁。</p>
+  <p class="section-desc" data-zh>首夜狼队将邻座任意一名玩家转化为傀儡，傀儡本人毫不知情。好人须在不确定谁是傀儡的情况下找出真正的威胁。</p>
   <p class="section-desc" data-en>Night one, wolves convert an adjacent player into a puppet — unknown to the puppet. Good must find the threat without knowing who's been turned.</p>
   <div style="margin-top:24px;border:1px solid rgba(201,168,76,0.15);padding:18px 24px;background:rgba(201,168,76,0.03);">
     <div style="font-size:0.7rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:10px;" data-zh>角色配置</div>
     <div style="font-size:0.7rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:10px;" data-en>Role Lineup</div>
     <p style="font-size:0.85rem;color:rgba(245,240,232,0.6);line-height:1.8;" data-zh>预言家 · 女巫 · 猎人 · 摄梦人 · 觉醒狼王 · 狼人×2 · 平民×4</p>
     <p style="font-size:0.85rem;color:rgba(245,240,232,0.6);line-height:1.8;" data-en>Seer · Witch · Hunter · Dreamwalker · Awakened Wolf King · Werewolf×2 · Villager×4</p>
+  </div>
+  <div style="margin-top:20px;border-left:3px solid rgba(201,168,76,0.4);padding:12px 18px;background:rgba(201,168,76,0.04);font-size:0.8rem;color:rgba(245,240,232,0.5);line-height:1.8;">
+    <span data-zh>📌 备注：模板显示的是标准配置，角色分配会根据实际人数多少进行调整。</span>
+    <span data-en>📌 Note: The lineup shown is the standard configuration. Role assignments will be adjusted based on the actual number of players.</span>
   </div>
 </section>
 
@@ -138,13 +142,13 @@
           <div class="role-card-body"><p><span data-zh>拥有一瓶解药和一瓶毒药。每晚至多使用一瓶，全程不可自救。</span><span data-en>One antidote and one poison. At most one per night. Cannot save herself.</span></p></div>
         </div><div class="role-card" onclick="toggleRole(this)">
           <div class="role-card-header"><span class="role-name" data-zh>猎人</span><span class="role-name" data-en>Hunter</span><span class="role-toggle">＋</span></div>
-          <div class="role-card-body"><p><span data-zh>出局时可带走一名存活玩家。</span><span data-en>When eliminated, may take one surviving player.</span></p></div>
+          <div class="role-card-body"><p><span data-zh>出局时可带走一名存活玩家。被毒或梦游不可开枪。</span><span data-en>When eliminated, may take one surviving player. Cannot fire if poisoned or sleepwalking.</span></p></div>
         </div><div class="role-card" onclick="toggleRole(this)">
           <div class="role-card-header"><span class="role-name" data-zh>摄梦人</span><span class="role-name" data-en>Dreamwalker</span><span class="role-toggle">＋</span></div>
           <div class="role-card-body"><p><span data-zh>每晚必须选择一名玩家进入梦游，该玩家免疫狼刀与毒药。若连续两晚梦游同一人，该玩家出局。摄梦人夜间出局时，被梦游的玩家跟随出局。</span><span data-en>Each night, forces one player into sleepwalking — immune to wolf kills and poison. If the same player is chosen two nights running, they exit. If the Dreamwalker is eliminated at night, the sleepwalking player also exits.</span></p></div>
         </div></div><div class="faction-block"><div class="faction-label neutral" data-zh>👤 村民</div><div class="faction-label neutral" data-en>👤 Villager</div><div class="role-card" onclick="toggleRole(this)">
-          <div class="role-card-header"><span class="role-name" data-zh>平民 ×4（含傀儡）</span><span class="role-name" data-en>Villager ×4 (incl. Puppet)</span><span class="role-toggle">＋</span></div>
-          <div class="role-card-body"><p><span data-zh>其中一名平民可能在首夜被转化为傀儡，本人不知情，技能失效，被查验为狼人。好人胜利须傀儡出局。</span><span data-en>One villager may be converted into a Puppet on night one — unknown to them, skills nullified, appears Evil to the Seer. Good must eliminate the Puppet to win.</span></p></div>
+          <div class="role-card-header"><span class="role-name" data-zh>平民 ×4</span><span class="role-name" data-en>Villager ×4</span><span class="role-toggle">＋</span></div>
+          <div class="role-card-body"><p><span data-zh>无特殊技能，凭直觉与逻辑找出狼人。</span><span data-en>No special ability. Use logic and instinct to identify the wolves.</span></p></div>
         </div></div><div class="faction-block"><div class="faction-label evil" data-zh>🐺 狼人</div><div class="faction-label evil" data-en>🐺 Werewolf</div><div class="role-card" onclick="toggleRole(this)">
           <div class="role-card-header"><span class="role-name" data-zh>狼人 ×2</span><span class="role-name" data-en>Werewolf ×2</span><span class="role-toggle">＋</span></div>
           <div class="role-card-body"><p><span data-zh>每晚共同击杀一名玩家。首夜共同选择邻座的一名玩家转化为傀儡。狼人无需击杀傀儡即可屠边；傀儡不带刀。</span><span data-en>Collectively eliminate one player each night. On night one, convert an adjacent player into a Puppet. Wolves do not need to eliminate the Puppet to win; the Puppet cannot carry the kill.</span></p></div>
@@ -154,7 +158,66 @@
         </div></div></div>
   </div>
 </section>
+<section class="page-section dark">
+  <div class="section-label" data-zh>HOW TO PLAY · 游戏流程</div>
+  <div class="section-label" data-en>HOW TO PLAY</div>
+  <h2 class="section-title zh" data-zh>游戏流程</h2>
+  <h2 class="section-title en" data-en>Game Flow</h2>
+  <p class="section-desc" data-zh>唯邻是从为11人竞技版型，首夜狼队将邻座任意好人（平民或神职）转化为傀儡，以下为完整游戏流程。</p>
+  <p class="section-desc" data-en>An 11-player competitive template. On night one, the wolves convert any adjacent Good player — villager or deity — into a Puppet. Below is the complete game flow.</p>
 
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px;margin-top:32px;">
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">01</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>分配身份</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Role Assignment</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>主持人秘密发放身份牌。本局共11张：预言家、女巫、猎人、摄梦人各1张，觉醒狼王1张，狼人2张，平民4张。首夜任意一名好人玩家（包括平民或神职）均可能被转化为傀儡，傀儡本人不知情。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>The host secretly deals 11 role cards: 1 Seer, 1 Witch, 1 Hunter, 1 Dreamwalker, 1 Awakened Wolf King, 2 Werewolves, and 4 Villagers. On night one, any Good player — villager or deity — may be converted into the Puppet, unknown to them.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">02</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>第一夜行动</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Night One</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>所有人闭眼。狼人与觉醒狼王睁眼互认，共同选择邻座的任意一名好人玩家（平民或神职均可）转化为傀儡（傀儡本人不知情，技能失效，被预言家查验为狼人）。女巫查看刀口，预言家查验一名玩家，摄梦人选择梦游目标。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>All close eyes. Wolves and Awakened Wolf King open to identify each other and select any adjacent Good player — villager or deity — to convert into a Puppet. That player's skills are nullified and they appear Evil to the Seer, unknown to them. Witch sees the kill; Seer checks one player; Dreamwalker selects a sleepwalking target.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">03</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>警长竞选</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Sheriff Election</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>天亮前进行警长竞选。玩家自愿参选并发言拉票，未参选玩家投票选出警长。警长投票权重为1.5票，出局时可传递或销毁警徽。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>Before dawn, players campaign for Sheriff. Non-candidates vote. The Sheriff's vote counts as 1.5 and may pass or destroy the badge upon elimination.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">04</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>天亮公布</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Dawn Announcement</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>主持人公布夜间死亡结果。死亡玩家可留下遗言。猎人若被狼刀击杀，可在遗言阶段选择是否开枪带走一名存活玩家。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>The host announces the night's deaths. Deceased may leave a final statement. If the Hunter is killed by wolves, they may choose to take a surviving player with them.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">05</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>白天讨论与投票</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Day Discussion & Vote</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>好人阵营需在不确定谁是傀儡的情况下找出真正的威胁。傀儡不带刀，狼人无需击杀傀儡即可屠边，但好人胜利须傀儡出局。摄梦人每晚强制一名玩家梦游，连续两晚梦游同一人则该玩家出局。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>Good must identify the real threats without knowing who the Puppet is. Wolves do not need to eliminate the Puppet to win, but Good must do so. Dreamwalker forces one player into sleepwalking each night — same target two nights in a row causes elimination.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">06</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>循环与胜利条件</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Loop & Victory</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>投票结束后进入下一个黑夜，如此循环。好人阵营淘汰所有狼人即获胜；狼人阵营淘汰所有村民或所有神职即获胜。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>After each vote, night falls again. The cycle continues. Good wins by eliminating all wolves. Wolves win by eliminating all villagers or all deity roles.</p>
+    </div>
+
+  </div>
+</section>
 <div class="cta-bar">
   <h2 class="zh" data-zh>准备好了吗？</h2>
   <h2 class="en" data-en>Ready to play?</h2>

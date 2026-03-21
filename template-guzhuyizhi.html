@@ -120,6 +120,10 @@
     <p style="font-size:0.85rem;color:rgba(245,240,232,0.6);line-height:1.8;" data-zh>预言家 · 女巫 · 猎人 · 摄梦人 · 典狱长 · 狼人×3 · 平民×4</p>
     <p style="font-size:0.85rem;color:rgba(245,240,232,0.6);line-height:1.8;" data-en>Seer · Witch · Hunter · Dreamwalker · Warden · Werewolf×3 · Villager×4</p>
   </div>
+  <div style="margin-top:20px;border-left:3px solid rgba(201,168,76,0.4);padding:12px 18px;background:rgba(201,168,76,0.04);font-size:0.8rem;color:rgba(245,240,232,0.5);line-height:1.8;">
+    <span data-zh>📌 备注：模板显示的是标准配置，角色分配会根据实际人数多少进行调整。</span>
+    <span data-en>📌 Note: The lineup shown is the standard configuration. Role assignments will be adjusted based on the actual number of players.</span>
+  </div>
 </section>
 
 <section class="page-section">
@@ -138,7 +142,7 @@
           <div class="role-card-body"><p><span data-zh>拥有一瓶解药和一瓶毒药。每晚至多使用一瓶，全程不可自救。</span><span data-en>One antidote and one poison. At most one per night. Cannot save herself.</span></p></div>
         </div><div class="role-card" onclick="toggleRole(this)">
           <div class="role-card-header"><span class="role-name" data-zh>猎人</span><span class="role-name" data-en>Hunter</span><span class="role-toggle">＋</span></div>
-          <div class="role-card-body"><p><span data-zh>出局时可带走一名存活玩家。</span><span data-en>When eliminated, may take one surviving player.</span></p></div>
+          <div class="role-card-body"><p><span data-zh>出局时可带走一名存活玩家。被毒或梦游不可开枪。</span><span data-en>When eliminated, may take one surviving player. Cannot fire if poisoned or sleepwalking.</span></p></div>
         </div><div class="role-card" onclick="toggleRole(this)">
           <div class="role-card-header"><span class="role-name" data-zh>摄梦人</span><span class="role-name" data-en>Dreamwalker</span><span class="role-toggle">＋</span></div>
           <div class="role-card-body"><p><span data-zh>每晚必须选择一名玩家进入梦游，该玩家免疫狼刀与毒药。</span><span data-en>Forces one player into sleepwalking each night — immune to kills and poison.</span></p></div>
@@ -154,7 +158,66 @@
         </div></div></div>
   </div>
 </section>
+<section class="page-section dark">
+  <div class="section-label" data-zh>HOW TO PLAY · 游戏流程</div>
+  <div class="section-label" data-en>HOW TO PLAY</div>
+  <h2 class="section-title zh" data-zh>游戏流程</h2>
+  <h2 class="section-title en" data-en>Game Flow</h2>
+  <p class="section-desc" data-zh>孤注一掷为12人竞技版型，典狱长每夜制造囚徒困境，以下为完整游戏流程。</p>
+  <p class="section-desc" data-en>A 12-player competitive template. The Warden creates a nightly prisoner's dilemma. Below is the complete game flow.</p>
 
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px;margin-top:32px;">
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">01</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>分配身份</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Role Assignment</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>主持人秘密发放身份牌。本局共12张：预言家、女巫、猎人、摄梦人各1张，典狱长1张，狼人3张，平民4张。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>The host secretly deals 12 role cards: 1 Seer, 1 Witch, 1 Hunter, 1 Dreamwalker, 1 Warden, 3 Werewolves, and 4 Villagers.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">02</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>第一夜行动</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Night One</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>所有人闭眼。狼人（含典狱长）互相睁眼确认身份。女巫查看刀口，预言家查验一名玩家，摄梦人选择梦游目标。典狱长首夜与狼人一同行动，从第二夜起率先选择两名玩家进入囚笼。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>All close eyes. Wolves (including the Warden) open to identify each other. Witch sees the kill; Seer checks one player; Dreamwalker selects a target. The Warden acts with wolves on night one; from night two, acts first to select two players for the cage.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">03</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>警长竞选</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Sheriff Election</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>天亮前进行警长竞选。玩家自愿参选并发言拉票，未参选玩家投票选出警长。警长投票权重为1.5票，出局时可传递或销毁警徽。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>Before dawn, players campaign for Sheriff. Non-candidates vote. The Sheriff's vote counts as 1.5 and may pass or destroy the badge upon elimination.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">04</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>天亮公布</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Dawn Announcement</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>主持人公布夜间死亡结果。死亡玩家可留下遗言。猎人若被狼刀击杀，可在遗言阶段选择是否开枪带走一名存活玩家。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>The host announces the night's deaths. Deceased may leave a final statement. If the Hunter is killed by wolves, they may choose to take a surviving player with them.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">05</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>白天讨论与投票</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Day Discussion & Vote</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>囚笼内两名玩家互相确认号码后同时选择交易或背叛：双方交易则均免于夜间伤害；双方背叛则技能目标互相转移；手势不同则交易者出局。典狱长在囚笼内时规则有所不同，请咨询主持人。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>Caged players simultaneously choose cooperate or betray: both cooperate = both immune to night kills; both betray = skill targets swap; different choices = the cooperating player exits. Special rules apply when the Warden is in the cage — ask your host.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">06</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>循环与胜利条件</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Loop & Victory</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>投票结束后进入下一个黑夜，如此循环。好人阵营淘汰所有狼人即获胜；狼人阵营淘汰所有村民或所有神职即获胜。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>After each vote, night falls again. The cycle continues. Good wins by eliminating all wolves. Wolves win by eliminating all villagers or all deity roles.</p>
+    </div>
+
+  </div>
+</section>
 <div class="cta-bar">
   <h2 class="zh" data-zh>准备好了吗？</h2>
   <h2 class="en" data-en>Ready to play?</h2>
