@@ -53,7 +53,7 @@
   .role-name { font-family:'Noto Serif SC',serif; font-size:0.88rem; font-weight:700; }
   .role-toggle { font-size:1rem; color:var(--gold); flex-shrink:0; }
   .role-card-body { max-height:0; overflow:hidden; transition:max-height 0.35s ease; }
-  .role-card.open .role-card-body { max-height:400px; }
+  .role-card.open .role-card-body { max-height:600px; }
   .role-card-body p { padding:0 14px 14px; font-size:0.8rem; color:rgba(245,240,232,0.5); line-height:1.85; }
   .cta-bar { background:linear-gradient(135deg,#0c0800,#160f00); border-top:1px solid rgba(201,168,76,0.12); padding:60px; text-align:center; }
   .cta-bar h2 { font-family:'Noto Serif SC',serif; font-size:1.6rem; font-weight:900; margin-bottom:12px; }
@@ -104,12 +104,49 @@
   <div class="section-label" data-en>ROLES</div>
   <h2 class="section-title zh" data-zh>角色列表</h2>
   <h2 class="section-title en" data-en>Role List</h2>
-  <p class="section-desc" data-zh>点击角色卡片查看详细技能说明。</p>
-  <p class="section-desc" data-en>Click a role card to view its skill description.</p>
+    <div style="border:1px solid rgba(201,168,76,0.15);padding:20px 24px;background:rgba(201,168,76,0.03);margin-bottom:28px;font-size:0.82rem;color:rgba(245,240,232,0.5);line-height:1.9;font-style:italic;">
+    <span data-zh>乌云在鸦木布拉夫的天空中翻滚着，让这个沉睡中的小镇和迷信的居民们笼罩在不祥的阴影之中。刚洗过的衣物在屋舍间的细绳上诡异地起舞。烟囱向外吐出滚滚的浓烟。坩埚在角落里悄悄地冒着泡，混杂着奇异的气味从窗户和门缝中飘散开来。只有那些读懂迹象的人，才能明白，有什么正在……暗流涌动</span>
+    <span data-en>Storm clouds roll over the sleeping town of Ravenswood Bluff. Freshly washed clothes dance eerily on the lines between houses. Chimneys belch smoke. A cauldron bubbles quietly in the corner, strange smells drifting through windows and cracks. Only those who can read the signs will know that something is... Trouble Brewing.</span>
+  </div>
   <div class="role-grid" id="roleGrid">
-    <!-- 待填充 -->
-    <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:rgba(245,240,232,0.25);font-size:0.85rem;" data-zh>角色详情即将补充</div>
-    <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:rgba(245,240,232,0.25);font-size:0.85rem;" data-en>Role details coming soon</div>
+<div class="role-grid">
+      <div class="faction-block">
+        <div class="faction-label good" data-zh>☀️ 镇民</div>
+        <div class="faction-label good" data-en>☀️ Townsfolk</div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>洗衣妇</span><span class="role-name" data-en>Washerwoman</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>图书管理员</span><span class="role-name" data-en>Librarian</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>调查员</span><span class="role-name" data-en>Investigator</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>厨师</span><span class="role-name" data-en>Chef</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>共情者</span><span class="role-name" data-en>Empath</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>占卜师</span><span class="role-name" data-en>Fortune Teller</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>送葬者</span><span class="role-name" data-en>Undertaker</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>僧侣</span><span class="role-name" data-en>Monk</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>守鸦人</span><span class="role-name" data-en>Ravenkeeper</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>贞洁者</span><span class="role-name" data-en>Virgin</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>猎手</span><span class="role-name" data-en>Slayer</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>士兵</span><span class="role-name" data-en>Soldier</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>镇长</span><span class="role-name" data-en>Mayor</span></div></div>
+      </div>
+      <div class="faction-block">
+        <div class="faction-label neutral" data-zh>🌫️ 外来者</div>
+        <div class="faction-label neutral" data-en>🌫️ Outsider</div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>管家</span><span class="role-name" data-en>Butler</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>酒鬼</span><span class="role-name" data-en>Drunk</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>陌客</span><span class="role-name" data-en>Recluse</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>圣徒</span><span class="role-name" data-en>Saint</span></div></div>
+      </div>
+      <div class="faction-block">
+        <div class="faction-label evil" data-zh>🩸 爪牙</div>
+        <div class="faction-label evil" data-en>🩸 Minion</div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>投毒者</span><span class="role-name" data-en>Poisoner</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>间谍</span><span class="role-name" data-en>Spy</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>红唇女郎</span><span class="role-name" data-en>Scarlet Woman</span></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>男爵</span><span class="role-name" data-en>Baron</span></div></div>
+        <div class="faction-label demon" style="margin-top:16px;" data-zh>😈 恶魔</div>
+        <div class="faction-label demon" data-en>😈 Demon</div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>小恶魔</span><span class="role-name" data-en>Imp</span></div></div>
+      </div>
+    </div>
   </div>
 </section>
 
