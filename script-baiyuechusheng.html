@@ -40,24 +40,24 @@
   .section-title.zh { font-family:'Noto Serif SC',serif; }
   .section-title.en { font-family:'Playfair Display',serif; }
   .section-desc { color:rgba(245,240,232,0.5); font-size:0.88rem; line-height:1.9; max-width:600px; }
-  .role-grid { display:flex; flex-direction:column; gap:24px; margin-top:28px; }
-  .faction-block { display:flex; flex-direction:column; gap:0; }
-  .faction-roles { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
-  .faction-block .role-card { width:calc(25% - 6px); min-width:180px; }
+  .role-grid { display:block; margin-top:28px; }
+  .faction-block { display:flex; flex-direction:column; gap:2px; margin-bottom:32px; }
+  
+  .faction-block
   .faction-block { display:flex; flex-direction:column; gap:8px; }
-  .faction-label { font-size:0.7rem; letter-spacing:0.18em; font-weight:700; padding:6px 14px; text-transform:uppercase; margin-bottom:4px; }
+  .faction-label { font-size:0.7rem; letter-spacing:0.18em; font-weight:700; padding:6px 14px; text-transform:uppercase; margin-bottom:0; }
   .faction-label.good { background:rgba(76,175,125,0.12); color:#4caf7d; border-left:3px solid #4caf7d; }
   .faction-label.neutral { background:rgba(74,140,186,0.12); color:#4a8cba; border-left:3px solid #4a8cba; }
   .faction-label.evil { background:rgba(201,76,76,0.12); color:#c94c4c; border-left:3px solid #c94c4c; }
   .faction-label.demon { background:rgba(160,30,30,0.18); color:#e05050; border-left:3px solid #e05050; }
-  .role-card { border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); cursor:pointer; overflow:hidden; transition:background 0.25s; }
-  .faction-block .role-card { width:calc(25% - 6px); min-width:160px; flex-shrink:0; }
+  .role-card { border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); cursor:pointer; overflow:hidden; transition:background 0.25s; width:100%; }
+  .faction-block
   .role-card:hover { background:rgba(201,168,76,0.04); }
   .role-card-header { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; }
   .role-name { font-family:'Noto Serif SC',serif; font-size:0.88rem; font-weight:700; }
   .role-toggle { font-size:1rem; color:var(--gold); flex-shrink:0; }
-  .role-card-body { max-height:0; overflow:hidden; transition:max-height 0.35s ease; }
-  .role-card.open .role-card-body { max-height:600px; }
+  .role-card-body { max-height:0; overflow:hidden; transition:max-height 0.6s ease; }
+  .role-card.open .role-card-body { max-height:3000px; }
   .role-card-body p { padding:0 14px 14px; font-size:0.8rem; color:rgba(245,240,232,0.5); line-height:1.85; }
   .cta-bar { background:linear-gradient(135deg,#0c0800,#160f00); border-top:1px solid rgba(201,168,76,0.12); padding:60px; text-align:center; }
   .cta-bar h2 { font-family:'Noto Serif SC',serif; font-size:1.6rem; font-weight:900; margin-bottom:12px; }
@@ -114,7 +114,7 @@
     <span data-en>The sun is swallowed by a jagged horizon as another winter's day surrenders to the night. Flecks of orange and red decay into deeper browns, the forest transforming in silent anticipation of the coming snow. Ravenous wolves howl from the bowels of a rocky crevasse beyond the town borders, sending birds scattering from their cozy rooks. Travellers hurry into the inn, seeking shelter from the gathering chill. They warm themselves with hot tea, sweet strains of music and hearty ale, unaware that strange and nefarious eyes stalk them from the ruins of this once great city. Tonight, even the livestock know there is a... Bad Moon Rising.</span>
   </div>
   <div class="role-grid" id="roleGrid">
-      <div class="faction-block"><div class="faction-label good" data-zh>☀️ 镇民</div><div class="faction-label good" data-en>☀️ Townsfolk</div><div class="faction-roles"><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>祖母</span><span class="role-name" data-en>Grandmother</span></div></div></div></div>
+      <div class="faction-block"><div class="faction-label good"><span data-zh>☀️ 镇民</span><span data-en>☀️ Townsfolk</span></div><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>祖母</span><span class="role-name" data-en>Grandmother</span></div></div></div></div>
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>水手</span><span class="role-name" data-en>Sailor</span></div></div>
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>侍女</span><span class="role-name" data-en>Chambermaid</span></div></div>
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>驱魔人</span><span class="role-name" data-en>Exorcist</span></div></div>
@@ -128,12 +128,12 @@
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>和平主义者</span><span class="role-name" data-en>Pacifist</span></div></div>
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>弄臣</span><span class="role-name" data-en>Fool</span></div></div>
       </div>
-      <div class="faction-block"><div class="faction-label neutral" data-zh>🌫️ 外来者</div><div class="faction-label neutral" data-en>🌫️ Outsider</div><div class="faction-roles"><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>修补匠</span><span class="role-name" data-en>Tinker</span></div></div></div></div>
+      <div class="faction-block"><div class="faction-label neutral"><span data-zh>🌫️ 外来者</span><span data-en>🌫️ Outsider</span></div><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>修补匠</span><span class="role-name" data-en>Tinker</span></div></div></div></div>
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>月之子</span><span class="role-name" data-en>Moonchild</span></div></div>
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>莽夫</span><span class="role-name" data-en>Goon</span></div></div>
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>疯子</span><span class="role-name" data-en>Lunatic</span></div></div>
       </div>
-      <div class="faction-block"><div class="faction-label evil" data-zh>🩸 爪牙</div><div class="faction-label evil" data-en>🩸 Minion</div><div class="faction-roles"><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>教父</span><span class="role-name" data-en>Godfather</span></div></div></div></div>
+      <div class="faction-block"><div class="faction-label evil"><span data-zh>🩸 爪牙</span><span data-en>🩸 Minion</span></div><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>教父</span><span class="role-name" data-en>Godfather</span></div></div></div></div>
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>魔鬼代言人</span><span class="role-name" data-en>Devil's Advocate</span></div></div>
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>刺客</span><span class="role-name" data-en>Assassin</span></div></div>
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>主谋</span><span class="role-name" data-en>Mastermind</span></div></div>
@@ -143,9 +143,6 @@
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>普卡</span><span class="role-name" data-en>Pukka</span></div></div>
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>沙巴洛斯</span><span class="role-name" data-en>Shabaloth</span></div></div>
         <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>珀</span><span class="role-name" data-en>Po</span></div></div>
-      </div>
-    </div>
-  </div>
 </section>
 
 <div class="cta-bar">
@@ -182,9 +179,18 @@
   try { const s = localStorage.getItem('wtwLang'); if (s) setLang(s); } catch(e) {}
 
   function toggleRole(el) {
-    el.classList.toggle('open');
-    const t = el.querySelector('.role-toggle');
-    if (t) t.textContent = el.classList.contains('open') ? '－' : '＋';
+    const body = el.querySelector('.role-card-body');
+    const toggle = el.querySelector('.role-toggle');
+    const isOpen = el.classList.contains('open');
+    if (isOpen) {
+      body.style.maxHeight = '0';
+      el.classList.remove('open');
+      if (toggle) toggle.textContent = '＋';
+    } else {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      el.classList.add('open');
+      if (toggle) toggle.textContent = '－';
+    }
   }
 </script>
 </body>
