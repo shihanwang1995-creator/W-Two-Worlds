@@ -48,6 +48,22 @@
   .btn-outline:hover { border-color:var(--gold); color:var(--gold); }
   .page-footer { background:#050505; padding:24px 60px; border-top:1px solid rgba(201,168,76,0.08); display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; color:rgba(245,240,232,0.22); }
   @media(max-width:860px) { nav { padding:14px 22px; } .page-section { padding:60px 22px; } .cta-bar { padding:50px 22px; } .page-footer { flex-direction:column; gap:10px; text-align:center; } }
+
+  .roles-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px; }
+  .faction-block { display:flex; flex-direction:column; gap:8px; }
+  .faction-label { font-size:0.7rem; letter-spacing:0.18em; font-weight:700; padding:6px 14px; text-transform:uppercase; margin-bottom:0; }
+  .faction-label.good { background:rgba(76,175,125,0.12); color:#4caf7d; border-left:3px solid #4caf7d; }
+  .faction-label.neutral { background:rgba(160,120,200,0.12); color:#a078c8; border-left:3px solid #a078c8; }
+  .faction-label.evil { background:rgba(201,76,76,0.12); color:#c94c4c; border-left:3px solid #c94c4c; }
+  .role-card { border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); cursor:pointer; overflow:hidden; transition:background 0.25s; width:100%; margin-top:8px; }
+  .role-card:hover { background:rgba(201,168,76,0.04); }
+  .role-card-header { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; }
+  .role-name { font-family:'Noto Serif SC',serif; font-size:0.88rem; font-weight:700; }
+  .role-toggle { font-size:1rem; color:var(--gold); flex-shrink:0; }
+  .role-card-body { max-height:0; overflow:hidden; transition:max-height 0.6s ease; }
+  .role-card.open .role-card-body { max-height:3000px; }
+  .role-card-body p { padding:0 14px 14px; font-size:0.8rem; color:rgba(245,240,232,0.55); line-height:1.85; }
+  @media(max-width:860px) { .roles-grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body class="lang-zh">
@@ -99,6 +115,33 @@
     <span data-en>📌 Note: The lineup shown is the standard configuration. Role assignments will be adjusted based on the actual number of players.</span>
   </div>
 </section>
+<section class="page-section dark">
+  <div class="section-label" data-zh>ROLES · 角色介绍</div>
+  <div class="section-label" data-en>ROLES</div>
+  <h2 class="section-title zh" data-zh>角色介绍</h2>
+  <h2 class="section-title en" data-en>Role Guide</h2>
+  <p class="section-desc" data-zh>点击角色卡片查看详细技能说明。</p>
+  <p class="section-desc" data-en>Click a role card to view its skill description.</p>
+  
+  <div class="roles-grid" id="rolesGrid"><div class="faction-block">
+      <div class="faction-label good"><span data-zh>✨ 神职</span><span data-en>✨ Deity</span></div>
+      <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>预言家</span><span class="role-name" data-en>Seer</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每晚可以查验一名玩家的身份是好人还是狼人。</span><span data-en>Each night, check whether a player is Good or Evil.</span></p></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>女巫</span><span class="role-name" data-en>Witch</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>拥有一瓶解药和一瓶毒药，持有解药时可看到狼人当夜刀口。每晚至多使用一瓶药，全程不可自救。</span><span data-en>Holds one antidote and one poison. When holding the antidote, sees the wolf kill target. At most one potion per night. Cannot save herself.</span></p></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>骑士</span><span class="role-name" data-en>Knight</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>常规发言时间，可以选择一名玩家进行决斗。若该玩家为狼人则其出局并直接进入黑夜；若为好人则骑士出局，发言阶段继续。每局限一次。</span><span data-en>During normal speaking time, may duel one player. If Evil, they exit and night begins immediately; if Good, the Knight exits and speaking continues. Once per game.</span></p></div></div>
+        <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>守卫</span><span class="role-name" data-en>Guard</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每晚可以守护一名玩家，该玩家免疫狼刀。不能连续两晚守护同一名玩家。</span><span data-en>Each night, protect one player from the wolf kill. Cannot protect the same player two nights in a row.</span></p></div></div>
+    </div><div class="faction-block">
+      <div class="faction-label good"><span data-zh>👥 平民</span><span data-en>👥 Villager</span></div>
+      <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>平民</span><span class="role-name" data-en>Villager</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>无特殊技能，凭直觉与逻辑找出狼人。</span><span data-en>No special ability. Use logic and instinct to identify the wolves.</span></p></div></div>
+      
+    </div><div class="faction-block">
+      <div class="faction-label evil"><span data-zh>🐺 狼人阵营</span><span data-en>🐺 Wolf Team</span></div>
+      <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>狼人</span><span class="role-name" data-en>Werewolf</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每晚可以共同击杀一名玩家。白天可以自爆，pk发言除外。</span><span data-en>Each night, collectively eliminate one player. May self-destruct during the day (not during duel/last words).</span></p></div></div>
+      <div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>白狼王</span><span class="role-name" data-en>White Wolf King</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>白天任意阶段可以自爆并带走一名玩家，游戏立即进入黑夜。若被毒则失去自爆技能，视为普通狼人自爆。</span><span data-en>May self-destruct anytime during the day (outside voting/last words) to drag a player into night. If poisoned, loses this ability and counts as a normal wolf self-destruct.</span></p></div></div>
+    </div>
+    
+  </div>
+</section>
+
 <section class="page-section">
   <div class="section-label" data-zh>HOW TO PLAY · 游戏流程</div>
   <div class="section-label" data-en>HOW TO PLAY</div>
@@ -149,7 +192,6 @@
     </div>
   </div>
 </section>
-
 <div class="cta-bar">
   <h2 class="zh" data-zh>准备好了吗？</h2>
   <h2 class="en" data-en>Ready to play?</h2>
@@ -182,6 +224,21 @@
     setLang(body.classList.contains('lang-zh') ? 'en' : 'zh');
   });
   try { const s = localStorage.getItem('wtwLang'); if (s) setLang(s); } catch(e) {}
+
+  function toggleRole(el) {
+    const body = el.querySelector('.role-card-body');
+    const toggle = el.querySelector('.role-toggle');
+    const isOpen = el.classList.contains('open');
+    if (isOpen) {
+      body.style.maxHeight = '0';
+      el.classList.remove('open');
+      if (toggle) toggle.textContent = '＋';
+    } else {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      el.classList.add('open');
+      if (toggle) toggle.textContent = '－';
+    }
+  }
 </script>
 </body>
 </html>
