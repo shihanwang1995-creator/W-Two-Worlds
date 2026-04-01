@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>狼美骑士 · W两个世界</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+  :root { --black:#0a0a0a; --white:#f5f0e8; --gold:#c9a84c; --gold-light:#e8d08a; --gray:#1e1e1e; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--black); color:var(--white); font-family:'Noto Sans SC','Inter',sans-serif; }
+  body.lang-en [data-zh] { display:none !important; }
+  body.lang-zh [data-en] { display:none !important; }
+  .lang-toggle { display:flex; align-items:center; background:rgba(255,255,255,0.06); border:1px solid rgba(201,168,76,0.25); border-radius:2px; overflow:hidden; cursor:pointer; user-select:none; }
+  .lang-btn { padding:6px 14px; font-size:0.75rem; font-weight:600; letter-spacing:0.08em; color:rgba(245,240,232,0.45); transition:all 0.25s; }
+  .lang-btn.active { background:var(--gold); color:var(--black); }
+  .lang-divider { width:1px; height:20px; background:rgba(201,168,76,0.25); }
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:16px 60px; background:rgba(10,10,10,0.9); backdrop-filter:blur(14px); border-bottom:1px solid rgba(201,168,76,0.15); }
+  .nav-left { display:flex; align-items:center; gap:20px; }
+  .nav-back { display:flex; align-items:center; gap:8px; color:rgba(245,240,232,0.5); text-decoration:none; font-size:0.8rem; letter-spacing:0.08em; transition:color 0.3s; }
+  .nav-back:hover { color:var(--gold); }
+  .nav-divider { width:1px; height:18px; background:rgba(255,255,255,0.1); }
+  .nav-title { font-family:'Noto Serif SC',serif; font-size:1rem; font-weight:900; letter-spacing:0.08em; }
+  .nav-title span { color:var(--gold); font-style:italic; }
+  #hero { min-height:50vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; background:var(--black); padding-top:80px; }
+  .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 60% 60% at 50% 50%, rgba(20,10,0,0.8) 0%, transparent 70%); }
+  .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px); background-size:60px 60px; }
+  .hero-content { position:relative; z-index:2; text-align:center; padding:0 20px; }
+  .hero-badge { display:inline-block; border:1px solid rgba(201,168,76,0.5); color:var(--gold); font-size:0.68rem; letter-spacing:0.35em; padding:6px 22px; margin-bottom:28px; }
+  .hero-title { font-weight:900; line-height:1.05; margin-bottom:10px; }
+  .hero-title.zh { font-family:'Noto Serif SC',serif; font-size:clamp(2.4rem,6vw,4rem); }
+  .hero-title.en { font-family:'Playfair Display',serif; font-size:clamp(1.4rem,3vw,2.2rem); font-style:italic; color:rgba(245,240,232,0.7); }
+  .hero-tags { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:24px; }
+  .hero-tag { border:1px solid rgba(201,168,76,0.3); color:var(--gold); font-size:0.72rem; padding:5px 14px; letter-spacing:0.1em; }
+  .page-section { padding:70px 60px; }
+  .page-section.dark { background:#0d0d0d; }
+  .section-label { font-size:0.68rem; letter-spacing:0.42em; color:var(--gold); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:14px; }
+  .section-label::before { content:''; display:block; width:38px; height:1px; background:var(--gold); flex-shrink:0; }
+  .section-title { font-size:clamp(1.6rem,3vw,2.2rem); font-weight:900; line-height:1.2; margin-bottom:16px; }
+  .section-title.zh { font-family:'Noto Serif SC',serif; }
+  .section-title.en { font-family:'Playfair Display',serif; }
+  .section-desc { color:rgba(245,240,232,0.5); font-size:0.9rem; line-height:1.9; max-width:520px; }
+  .cta-bar { background:linear-gradient(135deg,#0c0800,#160f00); border-top:1px solid rgba(201,168,76,0.12); padding:60px; text-align:center; }
+  .cta-bar h2 { font-family:'Noto Serif SC',serif; font-size:1.6rem; font-weight:900; margin-bottom:12px; }
+  .btn-primary { background:var(--gold); color:var(--black); padding:14px 44px; font-size:0.92rem; font-weight:700; letter-spacing:0.12em; text-decoration:none; display:inline-block; transition:all 0.3s; clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); margin:0 8px; }
+  .btn-primary:hover { background:var(--gold-light); transform:translateY(-2px); }
+  .btn-outline { background:transparent; color:var(--white); padding:14px 44px; font-size:0.92rem; letter-spacing:0.12em; text-decoration:none; display:inline-block; transition:all 0.3s; border:1px solid rgba(245,240,232,0.25); clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); margin:0 8px; }
+  .btn-outline:hover { border-color:var(--gold); color:var(--gold); }
+  .page-footer { background:#050505; padding:24px 60px; border-top:1px solid rgba(201,168,76,0.08); display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; color:rgba(245,240,232,0.22); }
+  @media(max-width:860px) { nav { padding:14px 22px; } .page-section { padding:60px 22px; } .cta-bar { padding:50px 22px; } .page-footer { flex-direction:column; gap:10px; text-align:center; } }
+</style>
+</head>
+<body class="lang-zh">
+<nav>
+  <div class="nav-left">
+    <a href="werewolf.html" class="nav-back"><span>←</span><span data-zh>返回狼人杀</span><span data-en>Back</span></a>
+    <div class="nav-divider"></div>
+    <div class="nav-title"><span>W</span> <span data-zh>两个世界</span><span data-en>Two Worlds</span></div>
+  </div>
+  <div class="lang-toggle" id="langToggle">
+    <div class="lang-btn active" id="btnZh">中文</div>
+    <div class="lang-divider"></div>
+    <div class="lang-btn" id="btnEn">EN</div>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge" data-zh>狼人杀 · 基础板</div>
+    <div class="hero-badge" data-en>Werewolf · Standard</div>
+    <h1 class="hero-title zh" data-zh>狼美骑士</h1>
+    <h1 class="hero-title en" data-en>Wolf Beauty · Knight</h1>
+    <div class="hero-tags">
+      <span class="hero-tag" data-zh>👥 12人</span>
+      <span class="hero-tag" data-en>👥 12 Players</span>
+      <span class="hero-tag" style="color:#4caf7d;border-color:#4caf7d40;">⭐ 新手</span>
+      <span class="hero-tag" style="color:#4caf7d;border-color:#4caf7d40;" data-zh>基础板</span>
+      <span class="hero-tag" style="color:#4caf7d;border-color:#4caf7d40;" data-en>Standard</span>
+    </div>
+  </div>
+</section>
+
+<section class="page-section dark">
+  <div class="section-label" data-zh>OVERVIEW · 简介</div>
+  <div class="section-label" data-en>OVERVIEW</div>
+  <h2 class="section-title zh" data-zh>模板简介</h2>
+  <h2 class="section-title en" data-en>Overview</h2>
+  <p class="section-desc" data-zh>狼美人与骑士的正面博弈，骑士决斗可直接击杀狼美人，狼美人则以特殊自爆扰乱局势。</p>
+  <p class="section-desc" data-en>Direct clash between Wolf Beauty and Knight. The Knight can duel to kill; the Wolf Beauty disrupts with a special self-destruct.</p>
+  <div style="margin-top:24px;border:1px solid rgba(201,168,76,0.15);padding:18px 24px;background:rgba(201,168,76,0.03);">
+    <div style="font-size:0.7rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:10px;" data-zh>角色配置</div>
+    <div style="font-size:0.7rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:10px;" data-en>Role Lineup</div>
+    <p style="font-size:0.85rem;color:rgba(245,240,232,0.6);line-height:1.8;" data-zh>预言家 · 女巫 · 骑士 · 守卫 · 狼美人 · 狼人×3 · 平民×4</p>
+    <p style="font-size:0.85rem;color:rgba(245,240,232,0.6);line-height:1.8;" data-en>Seer · Witch · Knight · Guard · Wolf Beauty · Werewolf×3 · Villager×4</p>
+  </div>
+  
+</section>
+
+<section class="page-section">
+  <div class="section-label" data-zh>HOW TO PLAY · 游戏流程</div>
+  <div class="section-label" data-en>HOW TO PLAY</div>
+  <h2 class="section-title zh" data-zh>游戏流程</h2>
+  <h2 class="section-title en" data-en>Game Flow</h2>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px;margin-top:32px;">
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">01</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>分配身份</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Role Assignment</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>主持人秘密发放身份牌。本局共12张：预言家 · 女巫 · 骑士 · 守卫 · 狼美人 · 狼人×3 · 平民×4。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>The host secretly deals 12 role cards: Seer · Witch · Knight · Guard · Wolf Beauty · Werewolf×3 · Villager×4.</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">02</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>第一夜行动</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Night One</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>所有人闭眼。狼人与狼美人睁眼互认，商定首刀目标。女巫查看刀口并决定是否使用解药。预言家查验一名玩家身份。守卫选择守护目标。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>All close eyes. Wolves and Wolf Beauty open to identify each other and select a kill. Witch sees the kill. Seer checks one player. Guard chooses a protection target.</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">03</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>警长竞选</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Sheriff Election</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>天亮前进行警长竞选。玩家自愿参选并发言拉票，未参与竞选的玩家投票选出警长。警长发言顺序享有优先权，投票时拥有1.5票权重。警长出局时可将警徽传递给任意存活玩家，或选择销毁警徽。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>Before dawn, players campaign for Sheriff. Non-candidates vote. The Sheriff gains priority in speaking order and their vote counts as 1.5. Upon elimination, the Sheriff may pass the badge to any surviving player — or destroy it.</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">04</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>天亮公布</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Dawn Announcement</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>主持人公布夜间死亡结果。死亡玩家可留下遗言。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>The host announces the night's deaths. Deceased may leave a final statement.</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">05</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>白天讨论与投票</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Day Discussion & Vote</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>骑士在常规发言时间可发动决斗：若对方为狼人则出局并直接入夜；若为好人则骑士出局，发言继续。每局限一次。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>The Knight may duel once per game during normal speaking time. If the target is a wolf, they exit and night begins immediately; if good, the Knight exits and speaking continues.</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(201,168,76,0.12);line-height:1;margin-bottom:12px;">06</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;margin-bottom:8px;" data-zh>循环与胜利条件</div>
+      <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-style:italic;font-weight:700;margin-bottom:8px;" data-en>Loop & Victory</div>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-zh>投票结束后进入下一个黑夜，如此循环。好人阵营淘汰所有狼人即获胜；狼人阵营淘汰所有村民或所有神职即获胜。</p>
+      <p style="font-size:0.8rem;color:rgba(245,240,232,0.45);line-height:1.85;" data-en>After each vote, night falls again. The cycle continues. Good wins by eliminating all wolves. Wolves win by eliminating all villagers or all deity roles.</p>
+    </div>
+  </div>
+</section>
+
+<div class="cta-bar">
+  <h2 class="zh" data-zh>准备好了吗？</h2>
+  <h2 class="en" data-en>Ready to play?</h2>
+  <p data-zh>立即预约，专业主持人全程带场。</p>
+  <p data-en>Book now — professional host guides every game.</p>
+  <div style="margin-top:24px;">
+    <a href="index.html#booking" class="btn-primary" data-zh>立即预约</a>
+    <a href="index.html#booking" class="btn-primary" data-en>Book Now</a>
+    <a href="werewolf.html" class="btn-outline" data-zh>返回狼人杀</a>
+    <a href="werewolf.html" class="btn-outline" data-en>Back to Werewolf</a>
+  </div>
+</div>
+
+<div class="page-footer">
+  <div style="font-family:'Noto Serif SC',serif;font-weight:900;"><span style="color:var(--gold);font-style:italic;">W</span> 两个世界 · W Two Worlds</div>
+  <span>© 2025 W Two Worlds Board Game Studio</span>
+</div>
+
+<script>
+  const body = document.body;
+  const btnZh = document.getElementById('btnZh');
+  const btnEn = document.getElementById('btnEn');
+  function setLang(lang) {
+    body.className = 'lang-' + lang;
+    btnZh.classList.toggle('active', lang === 'zh');
+    btnEn.classList.toggle('active', lang === 'en');
+    try { localStorage.setItem('wtwLang', lang); } catch(e) {}
+  }
+  document.getElementById('langToggle').addEventListener('click', function() {
+    setLang(body.classList.contains('lang-zh') ? 'en' : 'zh');
+  });
+  try { const s = localStorage.getItem('wtwLang'); if (s) setLang(s); } catch(e) {}
+</script>
+</body>
+</html>
