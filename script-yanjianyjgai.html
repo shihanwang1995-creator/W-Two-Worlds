@@ -40,20 +40,23 @@
   .section-title.zh { font-family:'Noto Serif SC',serif; }
   .section-title.en { font-family:'Playfair Display',serif; }
   .section-desc { color:rgba(245,240,232,0.5); font-size:0.88rem; line-height:1.9; max-width:600px; }
-  .role-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:28px; }
+  .role-grid { display:block; margin-top:28px; }
+  .faction-block { display:flex; flex-direction:column; gap:2px; margin-bottom:32px; }
+  
+  .faction-block
   .faction-block { display:flex; flex-direction:column; gap:8px; }
-  .faction-label { font-size:0.7rem; letter-spacing:0.18em; font-weight:700; padding:6px 14px; text-transform:uppercase; margin-bottom:4px; }
+  .faction-label { font-size:0.7rem; letter-spacing:0.18em; font-weight:700; padding:6px 14px; text-transform:uppercase; margin-bottom:0; }
   .faction-label.good { background:rgba(76,175,125,0.12); color:#4caf7d; border-left:3px solid #4caf7d; }
   .faction-label.neutral { background:rgba(74,140,186,0.12); color:#4a8cba; border-left:3px solid #4a8cba; }
   .faction-label.evil { background:rgba(201,76,76,0.12); color:#c94c4c; border-left:3px solid #c94c4c; }
   .faction-label.demon { background:rgba(160,30,30,0.18); color:#e05050; border-left:3px solid #e05050; }
-  .role-card { border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); cursor:pointer; overflow:hidden; transition:background 0.25s; }
+  .role-card { border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); cursor:pointer; overflow:hidden; transition:background 0.25s; width:100%; }
   .role-card:hover { background:rgba(201,168,76,0.04); }
   .role-card-header { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; }
   .role-name { font-family:'Noto Serif SC',serif; font-size:0.88rem; font-weight:700; }
   .role-toggle { font-size:1rem; color:var(--gold); flex-shrink:0; }
-  .role-card-body { max-height:0; overflow:hidden; transition:max-height 0.35s ease; }
-  .role-card.open .role-card-body { max-height:400px; }
+  .role-card-body { max-height:0; overflow:hidden; transition:max-height 0.6s ease; }
+  .role-card.open .role-card-body { max-height:3000px; }
   .role-card-body p { padding:0 14px 14px; font-size:0.8rem; color:rgba(245,240,232,0.5); line-height:1.85; }
   .cta-bar { background:linear-gradient(135deg,#0c0800,#160f00); border-top:1px solid rgba(201,168,76,0.12); padding:60px; text-align:center; }
   .cta-bar h2 { font-family:'Noto Serif SC',serif; font-size:1.6rem; font-weight:900; margin-bottom:12px; }
@@ -107,9 +110,25 @@
   <p class="section-desc" data-zh>点击角色卡片查看详细技能说明。</p>
   <p class="section-desc" data-en>Click a role card to view its skill description.</p>
   <div class="role-grid" id="roleGrid">
-    <!-- 待填充 -->
-    <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:rgba(245,240,232,0.25);font-size:0.85rem;" data-zh>角色详情即将补充</div>
-    <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:rgba(245,240,232,0.25);font-size:0.85rem;" data-en>Role details coming soon</div>
+    <div class="faction-block"><div class="faction-label good"><span data-zh>☀️ 镇民</span><span data-en>☀️ Townsfolk</span></div><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>小精灵</span><span class="role-name" data-en>Pixie</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>在你的首个夜晚，你会得知一个在场的镇民角色。如果你"疯狂"地证明你是该角色，当他死亡时你获得该角色的能力。</span><span data-en>You start knowing 1 in-play Townsfolk. If you were mad that you were this character, you gain their ability when they die.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>贵族</span><span class="role-name" data-en>Noble</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>在你的首个夜晚，你会得知三名玩家：其中有且只有一名玩家是邪恶的。</span><span data-en>You start knowing 3 players, 1 and only 1 of which is evil.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>修行者</span><span class="role-name" data-en>Shugenja</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>在你的首个夜晚，你会得知距离最近的邪恶玩家位于你的顺时针还是逆时针方向。如果两侧的邪恶玩家与你距离相等，你得知的信息由说书人决定。</span><span data-en>You start knowing if your closest evil player is clockwise or anti-clockwise. If equidistant, this info is arbitrary.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>筑梦师</span><span class="role-name" data-en>Dreamer</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚，你要选择（除你及旅行者以外的）一名玩家：你会得知一名善良角色和一个邪恶角色，该玩家是其中一个角色。</span><span data-en>Each night, choose a player (not yourself, or Travellers): you learn 1 good character & 1 evil character, 1 of which is correct.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>女祭司</span><span class="role-name" data-en>High Priestess</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚，你会得知一名说书人认为你最应该与其交流的玩家。</span><span data-en>Each night, learn which player the Storyteller believes you should talk to most.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>将军</span><span class="role-name" data-en>General</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚，你会得知说书人认为哪个阵营当前更有优势。（善良／邪恶／均势）</span><span data-en>Each night, you learn which alignment the Storyteller believes is winning: good, evil, or neither.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>女裁缝</span><span class="role-name" data-en>Seamstress</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每局游戏限一次，在夜晚时，你可以选择（除你以外）的两名玩家：你会得知他们是否为同一阵营。</span><span data-en>Once per game, at night, choose 2 players (not yourself): you learn if they are the same alignment.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>哲学家</span><span class="role-name" data-en>Philosopher</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每局游戏限一次，在夜晚时，你可以选择一个善良角色：你获得该角色的能力。如果这个角色在场，他酒。</span><span data-en>Once per game, at night, choose a good character: gain that ability. If this character is in play, they are drunk.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>守夜人</span><span class="role-name" data-en>Nightwatchman</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每局游戏限一次，在夜晚时，你可以选择一名玩家：他会得知你是守夜人。</span><span data-en>Once per game, at night, choose a player: they learn you are the Nightwatchman.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>戏法师</span><span class="role-name" data-en>Alsaahir</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个白天，你可以公开进行一次谁是爪牙，谁是恶魔的猜测。如果你猜对，善良阵营获胜。</span><span data-en>Each day, if you publicly guess which players are Minion(s) and which are Demon(s), good wins.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>渔夫</span><span class="role-name" data-en>Fisherman</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每局游戏限一次，在白天时，你可以让说书人给你一些能帮助你的阵营获胜的建议。</span><span data-en>Once per game, during the day, visit the Storyteller for some advice to help your team win.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>博学者</span><span class="role-name" data-en>Savant</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个白天，你可以私下拜访说书人获得两条信息：一个是正确的，一个是错误的。</span><span data-en>Each day, you may visit the Storyteller to learn 2 things in private: 1 is true & 1 is false.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>杂耍艺人</span><span class="role-name" data-en>Juggler</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>在你的首个白天，你可以公开猜测任意玩家的角色最多五次。在当晚，你会得知你猜测正确的角色数量。</span><span data-en>On your 1st day, publicly guess up to 5 players' characters. That night, you learn how many you got correct.</span></p></div></div></div><div class="faction-block"><div class="faction-label neutral"><span data-zh>🌫️ 外来者</span><span data-en>🌫️ Outsider</span></div><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>政客</span><span class="role-name" data-en>Politician</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>如果你是对你的阵营落败负最大责任的人，你转变阵营并获胜，即使你已死亡。</span><span data-en>If you were the player most responsible for your team losing, you change alignment and win, even if dead.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>解谜大师</span><span class="role-name" data-en>Puzzlemaster</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>一名玩家酒，即使你已死亡。每局游戏限一次，你可以猜测谁是那个酒的玩家，如果你猜对了，你会得知谁是恶魔，但如果你猜错了，你会得知错误的"谁是恶魔"信息。</span><span data-en>1 player is drunk, even if you die. If you guess (once) who it is, learn the Demon player, but guess wrong and get false info.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>食人魔</span><span class="role-name" data-en>Ogre</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>在你的首个夜晚，你要选择除你以外的一名玩家：你转变为他的阵营，即使你已酒或中毒，但你不知道你转变后的阵营。</span><span data-en>On your 1st night, choose a player (not yourself): you become their alignment (you don't know which) even if drunk or poisoned.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>告密者</span><span class="role-name" data-en>Snitch</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>在你的首个夜晚，所有爪牙分别会得知三个不在场的角色。</span><span data-en>Each Minion gets 3 bluffs.</span></p></div></div></div><div class="faction-block"><div class="faction-label evil"><span data-zh>🩸 爪牙</span><span data-en>🩸 Minion</span></div><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>间谍</span><span class="role-name" data-en>Spy</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚，你都能查看魔典。你可能会被当作善良阵营、镇民角色或外来者角色，即使你已死亡。</span><span data-en>Each night, you see the Grimoire. You might register as good & as a Townsfolk or Outsider, even if dead.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>限</span><span class="role-name" data-en>Xaan</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>在等同于初始外来者数量的夜晚，所有镇民玩家中毒直到下个黄昏。[外来者数量注意]</span><span data-en>On night X, all Townsfolk are poisoned until dusk. [X Outsiders]</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>提线木偶</span><span class="role-name" data-en>Marionette</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>你以为你是一个善良角色，但其实你不是。恶魔会知道你是提线木偶。[提线木偶会与恶魔邻座]</span><span data-en>You think you are a good character, but you are not. The Demon knows who you are. [You neighbor the Demon]</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>科学怪人</span><span class="role-name" data-en>Boffin</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>恶魔拥有一个不在场的善良角色的能力，即使他酒或中毒。你和他都知道是哪个角色。</span><span data-en>The Demon (even if drunk or poisoned) has a not-in-play good character's ability. You both know which.</span></p></div></div></div><div class="faction-block"><div class="faction-label evil"><span data-zh>😈 恶魔</span><span data-en>😈 Demon</span></div><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>暴乱</span><span class="role-name" data-en>Riot</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>在第三个白天，所有爪牙会变成暴乱，当天被提名的玩家会立即死亡且必须再次提名一名存活的玩家。</span><span data-en>On day 3, Minions become Riot and nominees die but nominate an alive player immediately. This must happen.</span></p></div></div></div>
   </div>
 </section>
 
@@ -147,9 +166,18 @@
   try { const s = localStorage.getItem('wtwLang'); if (s) setLang(s); } catch(e) {}
 
   function toggleRole(el) {
-    el.classList.toggle('open');
-    const t = el.querySelector('.role-toggle');
-    if (t) t.textContent = el.classList.contains('open') ? '－' : '＋';
+    const body = el.querySelector('.role-card-body');
+    const toggle = el.querySelector('.role-toggle');
+    const isOpen = el.classList.contains('open');
+    if (isOpen) {
+      body.style.maxHeight = '0';
+      el.classList.remove('open');
+      if (toggle) toggle.textContent = '＋';
+    } else {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      el.classList.add('open');
+      if (toggle) toggle.textContent = '－';
+    }
   }
 </script>
 </body>

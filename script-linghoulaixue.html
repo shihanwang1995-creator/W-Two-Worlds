@@ -40,20 +40,23 @@
   .section-title.zh { font-family:'Noto Serif SC',serif; }
   .section-title.en { font-family:'Playfair Display',serif; }
   .section-desc { color:rgba(245,240,232,0.5); font-size:0.88rem; line-height:1.9; max-width:600px; }
-  .role-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:28px; }
+  .role-grid { display:block; margin-top:28px; }
+  .faction-block { display:flex; flex-direction:column; gap:2px; margin-bottom:32px; }
+  
+  .faction-block
   .faction-block { display:flex; flex-direction:column; gap:8px; }
-  .faction-label { font-size:0.7rem; letter-spacing:0.18em; font-weight:700; padding:6px 14px; text-transform:uppercase; margin-bottom:4px; }
+  .faction-label { font-size:0.7rem; letter-spacing:0.18em; font-weight:700; padding:6px 14px; text-transform:uppercase; margin-bottom:0; }
   .faction-label.good { background:rgba(76,175,125,0.12); color:#4caf7d; border-left:3px solid #4caf7d; }
   .faction-label.neutral { background:rgba(74,140,186,0.12); color:#4a8cba; border-left:3px solid #4a8cba; }
   .faction-label.evil { background:rgba(201,76,76,0.12); color:#c94c4c; border-left:3px solid #c94c4c; }
   .faction-label.demon { background:rgba(160,30,30,0.18); color:#e05050; border-left:3px solid #e05050; }
-  .role-card { border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); cursor:pointer; overflow:hidden; transition:background 0.25s; }
+  .role-card { border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); cursor:pointer; overflow:hidden; transition:background 0.25s; width:100%; }
   .role-card:hover { background:rgba(201,168,76,0.04); }
   .role-card-header { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; }
   .role-name { font-family:'Noto Serif SC',serif; font-size:0.88rem; font-weight:700; }
   .role-toggle { font-size:1rem; color:var(--gold); flex-shrink:0; }
-  .role-card-body { max-height:0; overflow:hidden; transition:max-height 0.35s ease; }
-  .role-card.open .role-card-body { max-height:400px; }
+  .role-card-body { max-height:0; overflow:hidden; transition:max-height 0.6s ease; }
+  .role-card.open .role-card-body { max-height:3000px; }
   .role-card-body p { padding:0 14px 14px; font-size:0.8rem; color:rgba(245,240,232,0.5); line-height:1.85; }
   .cta-bar { background:linear-gradient(135deg,#0c0800,#160f00); border-top:1px solid rgba(201,168,76,0.12); padding:60px; text-align:center; }
   .cta-bar h2 { font-family:'Noto Serif SC',serif; font-size:1.6rem; font-weight:900; margin-bottom:12px; }
@@ -107,9 +110,28 @@
   <p class="section-desc" data-zh>点击角色卡片查看详细技能说明。</p>
   <p class="section-desc" data-en>Click a role card to view its skill description.</p>
   <div class="role-grid" id="roleGrid">
-    <!-- 待填充 -->
-    <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:rgba(245,240,232,0.25);font-size:0.85rem;" data-zh>角色详情即将补充</div>
-    <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:rgba(245,240,232,0.25);font-size:0.85rem;" data-en>Role details coming soon</div>
+    <div class="faction-block"><div class="faction-label good"><span data-zh>☀️ 镇民</span><span data-en>☀️ Townsfolk</span></div><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>水手</span><span class="role-name" data-en>Sailor</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚，你要选择一名存活的玩家：你或他之一会酒直到下个黄昏。你不会死亡。</span><span data-en>Each night, choose an alive player: either you or they are drunk until dusk. You can't die.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>数学家</span><span class="role-name" data-en>Mathematician</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚，你会得知有多少名玩家的能力因为其他角色的能力而未正常生效（从上个黎明到你被唤醒时）。</span><span data-en>Each night, you learn how many players' abilities worked abnormally (since dawn) due to another character's ability.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>村夫</span><span class="role-name" data-en>Village Idiot</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚，你要选择一名玩家：你会得知他的阵营。[+0～2 村夫，复数村夫中有一人酒]</span><span data-en>Each night, choose a player: you learn their alignment. [+0 to +2 Village Idiots. 1 of the extras is drunk]</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>旅店老板</span><span class="role-name" data-en>Innkeeper</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚＊，你要选择两名玩家：他们当晚不会死亡，但其中一人会酒到下个黄昏。</span><span data-en>Each night*, choose 2 players: they can't die tonight, but 1 is drunk until dusk.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>驱魔人</span><span class="role-name" data-en>Exorcist</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚＊，你要选择一名玩家（与上个夜晚不同）：如果你选中了恶魔，他会得知你是驱魔人，但他当晚不会因其自身能力而被唤醒。</span><span data-en>Each night*, choose a player (different to last night): the Demon, if chosen, learns who you are & doesn't wake tonight.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>半兽人</span><span class="role-name" data-en>Lycanthrope</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚＊，你要选择一名存活的玩家：如果他是善良的，他死亡，并且当晚恶魔不会造成死亡。会有一名善良玩家始终被当作邪恶阵营。</span><span data-en>Each night*, choose an alive player. If good, they die and the Demon doesn't kill tonight. One good player registers as evil.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>侍臣</span><span class="role-name" data-en>Courtier</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每局游戏限一次，在夜晚时，你可以选择一个角色：如果该角色在场，该角色之一从当晚开始酒三天三夜。</span><span data-en>Once per game, at night, choose a character: they are drunk for 3 nights & 3 days.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>炼金术士</span><span class="role-name" data-en>Alchemist</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>你拥有一个爪牙角色的能力。当你使用能力时，说书人可能会要求你更换选择。</span><span data-en>You have a Minion ability. When using this, the Storyteller may prompt you to choose differently.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>杂技演员</span><span class="role-name" data-en>Acrobat</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚＊，你要选择一名玩家：如果当晚他酒或中毒，你死亡。</span><span data-en>Each night*, choose a player: if they are or become drunk or poisoned tonight, you die.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>造谣者</span><span class="role-name" data-en>Gossip</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个白天，你可以公开发表一个声明。如果该声明正确，在当晚会有一名玩家死亡。</span><span data-en>Each day, you may make a public statement. Tonight, if it was true, a player dies.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>茶艺师</span><span class="role-name" data-en>Tea Lady</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>如果与你邻近的两名存活的玩家是善良的，他们不会死亡。</span><span data-en>If both your alive neighbors are good, they can't die.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>教授</span><span class="role-name" data-en>Professor</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每局游戏限一次，在夜晚时＊，你可以选择一名死亡的玩家：如果他是镇民，你会令他起死回生（复活）。</span><span data-en>Once per game, at night*, choose a dead player: if they are a Townsfolk, they are resurrected.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>镇长</span><span class="role-name" data-en>Mayor</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>如果只有三名玩家存活且白天没有人被处决，你的阵营获胜。如果你在夜晚即将死亡，可能会有一名其他玩家代替你死亡。</span><span data-en>If only 3 players live & no execution occurs, your team wins. If you die at night, another player might die instead.</span></p></div></div></div><div class="faction-block"><div class="faction-label neutral"><span data-zh>🌫️ 外来者</span><span data-en>🌫️ Outsider</span></div><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>月之子</span><span class="role-name" data-en>Moonchild</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>当你得知你死亡时，你要公开选择一名存活的玩家。如果他是善良的，在当晚他会死亡。</span><span data-en>When you learn that you died, publicly choose 1 alive player. Tonight, if it was a good player, they die.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>葬夫</span><span class="role-name" data-en>Goon</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚，首个使用其自身能力选择了你的玩家会酒直到下个黄昏。你可以转变为他的阵营。</span><span data-en>Each night, the 1st player to choose you with their ability is drunk until dusk. You become their alignment.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>修补匠</span><span class="role-name" data-en>Tinker</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>你随时可能死亡。</span><span data-en>You might die at any time.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>狂热者</span><span class="role-name" data-en>Zealot</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>如果有大于等于五名玩家存活，你必须在所有提名中投票。</span><span data-en>If there are 5 or more players alive, you must vote for every nomination.</span></p></div></div></div><div class="faction-block"><div class="faction-label evil"><span data-zh>🩸 爪牙</span><span data-en>🩸 Minion</span></div><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>刺客</span><span class="role-name" data-en>Assassin</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每局游戏限一次，在夜晚时＊，你可以选择一名玩家：他死亡，即使因为任何原因让他不会死亡（无视防御）。</span><span data-en>Once per game, at night*, choose a player: they die, even if for some reason they could not.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>街头风琴手</span><span class="role-name" data-en>Organ Grinder</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>所有玩家在投票时闭眼，且票数秘密统计。每个夜晚，你要选择自己是否酒直到下个黄昏。</span><span data-en>All players keep their eyes closed when voting and the vote tally is secret. Each night, choose if you are drunk until dusk.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>投毒者</span><span class="role-name" data-en>Poisoner</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚，你要选择一名玩家：他在当晚和明天白天中毒。</span><span data-en>Each night, choose a player: they are poisoned tonight and tomorrow day.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>魔鬼代言人</span><span class="role-name" data-en>Devil's Advocate</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚，你要选择一名存活的玩家（与上个夜晚不同）：如果明天白天他被处决，他不会死亡。</span><span data-en>Each night, choose a living player (different to last night): if executed tomorrow, they don't die.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>教父</span><span class="role-name" data-en>Godfather</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>在你的首个夜晚，你会得知哪些外来者角色在场。如果有外来者在白天死亡，你会在当晚被唤醒并且你要选择一名玩家：他死亡。[-1 或 +1 外来者]</span><span data-en>You start knowing which Outsiders are in play. If 1 died today, choose a player tonight: they die. [-1 or +1 Outsider]</span></p></div></div></div><div class="faction-block"><div class="faction-label evil"><span data-zh>😈 恶魔</span><span data-en>😈 Demon</span></div><div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>普卡</span><span class="role-name" data-en>Pukka</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚，你要选择一名玩家：他中毒。上个因你的能力中毒的玩家会死亡并恢复健康。</span><span data-en>Each night, choose a player: they are poisoned. The previously poisoned player dies then becomes healthy.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>沙巴洛斯</span><span class="role-name" data-en>Shabaloth</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚＊，你要选择两名玩家：他们死亡。你上个夜晚选择过且当前死亡的玩家之一可能会被你反刍（复活）。</span><span data-en>Each night*, choose 2 players: they die. A dead player you chose last night might be regurgitated.</span></p></div></div>
+<div class="role-card" onclick="toggleRole(this)"><div class="role-card-header"><span class="role-name" data-zh>僵怖</span><span class="role-name" data-en>Zombuul</span><span class="role-toggle">＋</span></div><div class="role-card-body"><p><span data-zh>每个夜晚＊，如果今天白天没有人死亡，你会被唤醒并要选择一名玩家：他死亡。当你首次死亡后，你仍存活，但是会被当作死亡。</span><span data-en>Each night*, if no-one died today, choose a player: they die. The 1st time you die, you live but register as dead.</span></p></div></div></div>
   </div>
 </section>
 
@@ -147,9 +169,18 @@
   try { const s = localStorage.getItem('wtwLang'); if (s) setLang(s); } catch(e) {}
 
   function toggleRole(el) {
-    el.classList.toggle('open');
-    const t = el.querySelector('.role-toggle');
-    if (t) t.textContent = el.classList.contains('open') ? '－' : '＋';
+    const body = el.querySelector('.role-card-body');
+    const toggle = el.querySelector('.role-toggle');
+    const isOpen = el.classList.contains('open');
+    if (isOpen) {
+      body.style.maxHeight = '0';
+      el.classList.remove('open');
+      if (toggle) toggle.textContent = '＋';
+    } else {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      el.classList.add('open');
+      if (toggle) toggle.textContent = '－';
+    }
   }
 </script>
 </body>
