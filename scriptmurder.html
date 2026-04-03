@@ -851,6 +851,9 @@
         ${durTag}
         ${pTag}
       </div>`;
+    const slug = name.toLowerCase().replace(/[^\w\u4e00-\u9fff]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => { window.location.href = `sm-${slug}.html`; });
     return card;
   }
 
