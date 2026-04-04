@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>此时彼刻之人 · The Person of This Moment and That · W两个世界</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+  :root { --black:#0a0a0a; --white:#f5f0e8; --gold:#c9a84c; --accent:#c94c4c; --gray:#1e1e1e; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--black); color:var(--white); font-family:'Noto Sans SC','Inter',sans-serif; }
+  body.lang-en [data-zh] { display:none !important; }
+  body.lang-zh [data-en] { display:none !important; }
+  .lang-toggle { display:flex; align-items:center; background:rgba(255,255,255,0.06); border:1px solid rgba(201,168,76,0.25); border-radius:2px; overflow:hidden; cursor:pointer; user-select:none; }
+  .lang-btn { padding:6px 14px; font-size:0.75rem; font-weight:600; letter-spacing:0.08em; color:rgba(245,240,232,0.45); transition:all 0.25s; }
+  .lang-btn.active { background:var(--gold); color:var(--black); }
+  .lang-divider { width:1px; height:20px; background:rgba(201,168,76,0.25); }
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:16px 60px; background:rgba(10,10,10,0.92); backdrop-filter:blur(14px); border-bottom:1px solid rgba(201,168,76,0.15); }
+  .nav-left { display:flex; align-items:center; gap:20px; }
+  .nav-back { display:flex; align-items:center; gap:8px; color:rgba(245,240,232,0.5); text-decoration:none; font-size:0.8rem; letter-spacing:0.08em; transition:color 0.3s; }
+  .nav-back:hover { color:var(--gold); }
+  .nav-divider { width:1px; height:18px; background:rgba(255,255,255,0.1); }
+  .nav-title { font-family:'Noto Serif SC',serif; font-size:1rem; font-weight:900; letter-spacing:0.08em; }
+  .nav-title span { color:var(--gold); font-style:italic; }
+  #hero { min-height:52vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding-top:80px; }
+  .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 70% 70% at 50% 50%, rgba(20,10,5,0.85) 0%, transparent 75%); }
+  .hero-accent { position:absolute; inset:0; background:radial-gradient(ellipse 40% 40% at 80% 30%, #c94c4c08 0%, transparent 60%); }
+  .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(201,168,76,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.025) 1px,transparent 1px); background-size:60px 60px; }
+  .hero-content { position:relative; z-index:2; text-align:center; padding:0 24px; }
+  .hero-badge { display:inline-block; border:1px solid #c94c4c80; color:#c94c4c; font-size:0.68rem; letter-spacing:0.35em; padding:6px 22px; margin-bottom:28px; text-transform:uppercase; }
+  .hero-title { font-weight:900; line-height:1.05; margin-bottom:10px; }
+  .hero-title.zh { font-family:'Noto Serif SC',serif; font-size:clamp(2.2rem,5.5vw,3.8rem); }
+  .hero-title.en { font-family:'Playfair Display',serif; font-size:clamp(1.2rem,2.8vw,2rem); font-style:italic; color:rgba(245,240,232,0.6); margin-bottom:28px; }
+  .hero-tags { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:32px; }
+  .hero-tag { border:1px solid; font-size:0.72rem; padding:5px 14px; letter-spacing:0.1em; }
+  .info-bar { display:flex; gap:0; justify-content:center; flex-wrap:wrap; border:1px solid rgba(255,255,255,0.07); background:rgba(255,255,255,0.02); }
+  .info-item { padding:14px 28px; text-align:center; border-right:1px solid rgba(255,255,255,0.07); }
+  .info-item:last-child { border-right:none; }
+  .info-label { font-size:0.62rem; letter-spacing:0.25em; color:rgba(245,240,232,0.35); text-transform:uppercase; margin-bottom:5px; }
+  .info-value { font-size:0.95rem; font-weight:700; color:var(--white); }
+  .page-section { padding:64px 60px; max-width:960px; margin:0 auto; }
+  .section-label { font-size:0.68rem; letter-spacing:0.42em; color:var(--accent); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:14px; }
+  .section-label::before { content:''; display:block; width:38px; height:1px; background:var(--accent); flex-shrink:0; }
+  .section-title { font-size:clamp(1.4rem,2.5vw,1.9rem); font-weight:900; line-height:1.2; margin-bottom:20px; }
+  .section-title.zh { font-family:'Noto Serif SC',serif; }
+  .section-title.en { font-family:'Playfair Display',serif; font-style:italic; }
+  .synopsis-text { font-size:0.9rem; line-height:2; color:rgba(245,240,232,0.7); border-left:2px solid #c94c4c60; padding-left:20px; font-style:italic; }
+  .divider { height:1px; background:rgba(255,255,255,0.06); margin:0 60px; }
+  .roles-section { padding:64px 60px; max-width:960px; margin:0 auto; }
+  .roles-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:2px; margin-top:24px; }
+  .role-item { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:18px 20px; display:grid; grid-template-columns:36px 1fr; grid-template-rows:auto auto; gap:4px 12px; transition:background 0.2s; }
+  .role-item:hover { background:rgba(201,168,76,0.04); }
+  .role-num { grid-row:1/3; display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:900; color:#c94c4c; font-family:'Playfair Display',serif; opacity:0.6; }
+  .role-name-zh { font-family:'Noto Serif SC',serif; font-size:0.92rem; font-weight:700; }
+  .role-name-en { font-family:'Playfair Display',serif; font-size:0.8rem; font-style:italic; color:rgba(245,240,232,0.45); }
+  .role-gender { font-size:0.72rem; color:rgba(245,240,232,0.35); letter-spacing:0.1em; }
+  .role-desc { grid-column:2; font-size:0.78rem; line-height:1.75; color:rgba(245,240,232,0.5); margin-top:6px; }
+  .placeholder-notice { border:1px dashed rgba(201,168,76,0.2); padding:20px 24px; background:rgba(201,168,76,0.02); font-size:0.8rem; color:rgba(245,240,232,0.35); line-height:1.8; margin-bottom:24px; }
+  @media(max-width:768px) { nav { padding:14px 20px; } .page-section,.roles-section { padding:48px 20px; } .roles-grid { grid-template-columns:1fr; } .info-item { padding:12px 16px; } }
+</style>
+</head>
+<body class="lang-zh">
+<nav>
+  <div class="nav-left">
+    <a href="scriptmurder.html" class="nav-back"><span>←</span><span data-zh>返回剧本杀</span><span data-en>Back</span></a>
+    <div class="nav-divider"></div>
+    <div class="nav-title"><span>W</span> <span data-zh>两个世界</span><span data-en>Two Worlds</span></div>
+  </div>
+  <div class="lang-toggle" id="langToggle">
+    <div class="lang-btn active" id="btnZh">中文</div>
+    <div class="lang-divider"></div>
+    <div class="lang-btn" id="btnEn">EN</div>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span data-zh>剧本杀</span><span data-en>Script Murder Mystery</span></div>
+    <h1 class="hero-title zh" data-zh>此时彼刻之人</h1>
+    <h1 class="hero-title en" data-en>The Person of This Moment and That</h1>
+    <div class="hero-tags">
+      <span class="hero-tag" style="color:#c94c4c;border-color:#c94c4c40;" data-zh>硬核</span>
+<span class="hero-tag" style="color:#c94c4c;border-color:#c94c4c40;" data-en>Hardcore</span>
+<span class="hero-tag" style="color:#5b8dd9;border-color:#5b8dd940;" data-zh>还原</span>
+<span class="hero-tag" style="color:#5b8dd9;border-color:#5b8dd940;" data-en>Narrative</span>
+    </div>
+    <div class="info-bar">
+      <div class="info-item">
+        <div class="info-label" data-zh>人数</div>
+        <div class="info-label" data-en>Players</div>
+        <div class="info-value" data-zh>6(3男3女)</div>
+        <div class="info-value" data-en>6(3M3F)</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label" data-zh>时长</div>
+        <div class="info-label" data-en>Duration</div>
+        <div class="info-value" data-zh>8小时</div>
+        <div class="info-value" data-en>8 hrs</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label" data-zh>价格</div>
+        <div class="info-label" data-en>Price</div>
+        <div class="info-value">$65</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<div class="page-section">
+  <div class="section-label" data-zh>STORY · 剧情简介</div>
+  <div class="section-label" data-en>STORY</div>
+  <h2 class="section-title zh" data-zh>剧情简介</h2>
+  <h2 class="section-title en" data-en>Synopsis</h2>
+  <div class="placeholder-notice" data-zh>📝 剧情简介尚待补充。</div>
+  <div class="placeholder-notice" data-en>📝 Synopsis coming soon.</div>
+  <p class="synopsis-text" data-zh>敬请期待……</p>
+  <p class="synopsis-text" data-en>Coming soon…</p>
+</div>
+
+          <div class="role-desc">
+            <span data-zh>角色简介待补充。</span>
+            <span data-en>Character description coming soon.</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">2</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>角色 2</div>
+            <div class="role-name-en" data-en>Character 2</div>
+            <div class="role-gender" data-zh>性别待定</div>
+            <div class="role-gender" data-en>TBD</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>角色简介待补充。</span>
+            <span data-en>Character description coming soon.</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">3</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>角色 3</div>
+            <div class="role-name-en" data-en>Character 3</div>
+            <div class="role-gender" data-zh>性别待定</div>
+            <div class="role-gender" data-en>TBD</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>角色简介待补充。</span>
+            <span data-en>Character description coming soon.</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">4</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>角色 4</div>
+            <div class="role-name-en" data-en>Character 4</div>
+            <div class="role-gender" data-zh>性别待定</div>
+            <div class="role-gender" data-en>TBD</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>角色简介待补充。</span>
+            <span data-en>Character description coming soon.</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">5</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>角色 5</div>
+            <div class="role-name-en" data-en>Character 5</div>
+            <div class="role-gender" data-zh>性别待定</div>
+            <div class="role-gender" data-en>TBD</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>角色简介待补充。</span>
+            <span data-en>Character description coming soon.</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">6</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>角色 6</div>
+            <div class="role-name-en" data-en>Character 6</div>
+            <div class="role-gender" data-zh>性别待定</div>
+            <div class="role-gender" data-en>TBD</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>角色简介待补充。</span>
+            <span data-en>Character description coming soon.</span>
+          </div>
+        </div>
+  </div>
+</div>
+
+<footer style="padding:40px 60px;border-top:1px solid rgba(255,255,255,0.06);text-align:center;color:rgba(245,240,232,0.2);font-size:0.75rem;letter-spacing:0.15em;">
+  <span data-zh>W两个世界 桌游工作室</span>
+  <span data-en>W Two Worlds Board Game Studio</span>
+</footer>
+
+<script>
+  const body = document.body;
+  const btnZh = document.getElementById('btnZh');
+  const btnEn = document.getElementById('btnEn');
+  document.getElementById('langToggle').addEventListener('click', () => {
+    const isZh = body.classList.contains('lang-zh');
+    body.className = isZh ? 'lang-en' : 'lang-zh';
+    btnZh.classList.toggle('active', !isZh);
+    btnEn.classList.toggle('active', isZh);
+  });
+</script>
+</body>
+</html>
