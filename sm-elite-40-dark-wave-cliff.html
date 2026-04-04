@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>豪门40：暗波崖 · Elite 40: Dark Wave Cliff · W两个世界</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+  :root { --black:#0a0a0a; --white:#f5f0e8; --gold:#c9a84c; --accent:#8a6a3a; --gray:#1e1e1e; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--black); color:var(--white); font-family:'Noto Sans SC','Inter',sans-serif; }
+  body.lang-en [data-zh] { display:none !important; }
+  body.lang-zh [data-en] { display:none !important; }
+  .lang-toggle { display:flex; align-items:center; background:rgba(255,255,255,0.06); border:1px solid rgba(201,168,76,0.25); border-radius:2px; overflow:hidden; cursor:pointer; user-select:none; }
+  .lang-btn { padding:6px 14px; font-size:0.75rem; font-weight:600; letter-spacing:0.08em; color:rgba(245,240,232,0.45); transition:all 0.25s; }
+  .lang-btn.active { background:var(--gold); color:var(--black); }
+  .lang-divider { width:1px; height:20px; background:rgba(201,168,76,0.25); }
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:16px 60px; background:rgba(10,10,10,0.92); backdrop-filter:blur(14px); border-bottom:1px solid rgba(201,168,76,0.15); }
+  .nav-left { display:flex; align-items:center; gap:20px; }
+  .nav-back { display:flex; align-items:center; gap:8px; color:rgba(245,240,232,0.5); text-decoration:none; font-size:0.8rem; letter-spacing:0.08em; transition:color 0.3s; }
+  .nav-back:hover { color:var(--gold); }
+  .nav-divider { width:1px; height:18px; background:rgba(255,255,255,0.1); }
+  .nav-title { font-family:'Noto Serif SC',serif; font-size:1rem; font-weight:900; letter-spacing:0.08em; }
+  .nav-title span { color:var(--gold); font-style:italic; }
+  #hero { min-height:52vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding-top:80px; }
+  .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 70% 70% at 50% 50%, rgba(20,10,5,0.85) 0%, transparent 75%); }
+  .hero-accent { position:absolute; inset:0; background:radial-gradient(ellipse 40% 40% at 80% 30%, #8a6a3a08 0%, transparent 60%); }
+  .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(201,168,76,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.025) 1px,transparent 1px); background-size:60px 60px; }
+  .hero-content { position:relative; z-index:2; text-align:center; padding:0 24px; }
+  .hero-badge { display:inline-block; border:1px solid #8a6a3a80; color:#8a6a3a; font-size:0.68rem; letter-spacing:0.35em; padding:6px 22px; margin-bottom:28px; text-transform:uppercase; }
+  .hero-title { font-weight:900; line-height:1.05; margin-bottom:10px; }
+  .hero-title.zh { font-family:'Noto Serif SC',serif; font-size:clamp(2.2rem,5.5vw,3.8rem); }
+  .hero-title.en { font-family:'Playfair Display',serif; font-size:clamp(1.2rem,2.8vw,2rem); font-style:italic; color:rgba(245,240,232,0.6); margin-bottom:28px; }
+  .hero-tags { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:32px; }
+  .hero-tag { border:1px solid; font-size:0.72rem; padding:5px 14px; letter-spacing:0.1em; }
+  .info-bar { display:flex; gap:0; justify-content:center; flex-wrap:wrap; border:1px solid rgba(255,255,255,0.07); background:rgba(255,255,255,0.02); }
+  .info-item { padding:14px 28px; text-align:center; border-right:1px solid rgba(255,255,255,0.07); }
+  .info-item:last-child { border-right:none; }
+  .info-label { font-size:0.62rem; letter-spacing:0.25em; color:rgba(245,240,232,0.35); text-transform:uppercase; margin-bottom:5px; }
+  .info-value { font-size:0.95rem; font-weight:700; color:var(--white); }
+  .page-section { padding:64px 60px; max-width:960px; margin:0 auto; }
+  .section-label { font-size:0.68rem; letter-spacing:0.42em; color:var(--accent); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:14px; }
+  .section-label::before { content:''; display:block; width:38px; height:1px; background:var(--accent); flex-shrink:0; }
+  .section-title { font-size:clamp(1.4rem,2.5vw,1.9rem); font-weight:900; line-height:1.2; margin-bottom:20px; }
+  .section-title.zh { font-family:'Noto Serif SC',serif; }
+  .section-title.en { font-family:'Playfair Display',serif; font-style:italic; }
+  .synopsis-text { font-size:0.9rem; line-height:2; color:rgba(245,240,232,0.7); border-left:2px solid #8a6a3a60; padding-left:20px; font-style:italic; }
+  .divider { height:1px; background:rgba(255,255,255,0.06); margin:0 60px; }
+  .roles-section { padding:64px 60px; max-width:960px; margin:0 auto; }
+  .roles-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:2px; margin-top:24px; }
+  .role-item { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:18px 20px; display:grid; grid-template-columns:36px 1fr; grid-template-rows:auto auto; gap:4px 12px; transition:background 0.2s; }
+  .role-item:hover { background:rgba(201,168,76,0.04); }
+  .role-num { grid-row:1/3; display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:900; color:#8a6a3a; font-family:'Playfair Display',serif; opacity:0.6; }
+  .role-name-zh { font-family:'Noto Serif SC',serif; font-size:0.92rem; font-weight:700; }
+  .role-name-en { font-family:'Playfair Display',serif; font-size:0.8rem; font-style:italic; color:rgba(245,240,232,0.45); }
+  .role-gender { font-size:0.72rem; color:rgba(245,240,232,0.35); letter-spacing:0.1em; }
+  .role-desc { grid-column:2; font-size:0.78rem; line-height:1.75; color:rgba(245,240,232,0.5); margin-top:6px; }
+  .placeholder-notice { border:1px dashed rgba(201,168,76,0.2); padding:20px 24px; background:rgba(201,168,76,0.02); font-size:0.8rem; color:rgba(245,240,232,0.35); line-height:1.8; margin-bottom:24px; }
+  @media(max-width:768px) { nav { padding:14px 20px; } .page-section,.roles-section { padding:48px 20px; } .roles-grid { grid-template-columns:1fr; } .info-item { padding:12px 16px; } }
+</style>
+</head>
+<body class="lang-zh">
+<nav>
+  <div class="nav-left">
+    <a href="scriptmurder.html" class="nav-back"><span>←</span><span data-zh>返回剧本杀</span><span data-en>Back</span></a>
+    <div class="nav-divider"></div>
+    <div class="nav-title"><span>W</span> <span data-zh>两个世界</span><span data-en>Two Worlds</span></div>
+  </div>
+  <div class="lang-toggle" id="langToggle">
+    <div class="lang-btn active" id="btnZh">中文</div>
+    <div class="lang-divider"></div>
+    <div class="lang-btn" id="btnEn">EN</div>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span data-zh>剧本杀</span><span data-en>Script Murder Mystery</span></div>
+    <h1 class="hero-title zh" data-zh>豪门40：暗波崖</h1>
+    <h1 class="hero-title en" data-en>Elite 40: Dark Wave Cliff</h1>
+    <div class="hero-tags">
+      <span class="hero-tag" style="color:#8a6a3a;border-color:#8a6a3a40;" data-zh>豪门</span>
+<span class="hero-tag" style="color:#8a6a3a;border-color:#8a6a3a40;" data-en>Elite</span>
+    </div>
+    <div class="info-bar">
+      <div class="info-item">
+        <div class="info-label" data-zh>人数</div>
+        <div class="info-label" data-en>Players</div>
+        <div class="info-value" data-zh>6(3男3女)</div>
+        <div class="info-value" data-en>6(3M3F)</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label" data-zh>时长</div>
+        <div class="info-label" data-en>Duration</div>
+        <div class="info-value" data-zh>5小时</div>
+        <div class="info-value" data-en>5 hrs</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label" data-zh>价格</div>
+        <div class="info-label" data-en>Price</div>
+        <div class="info-value">$55</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<div class="page-section">
+  <div class="section-label" data-zh>STORY · 剧情简介</div>
+  <div class="section-label" data-en>STORY</div>
+  <h2 class="section-title zh" data-zh>剧情简介</h2>
+  <h2 class="section-title en" data-en>Synopsis</h2>
+  <p class="synopsis-text" data-zh>1914年（民国三年）10月2日</p><br>  <p class="synopsis-text" data-zh>清朝末年，伴随一系列不平等条约，大量西洋人、物出现在神州大地之上，各行各业无不遭受冲击，有的行业就此沉沦、传承断绝，有的则借机变革、另辟蹊径……原本浪迹江湖的戏法人也纷纷改头换面，其中更有甚者，因其法术神通，受到洋人邀请，登堂入室。</p><br>  <p class="synopsis-text" data-zh>在无锡毗邻的惠山之中，有一处名为"暗波崖"的僻静山恋，上有一座"异法馆"，西临峭壁，山下是水流湍急的怪石深渊，其主人曾凭借精湛秘法，带徒弄扬名江南，如今早已归隐，却依然难避风波，这一切还要从1887年讲起——当时的"异法馆"还未曾增建的"应宅"……</p>
+</div>
+
+<div class="divider"></div>
+
+<div class="roles-section">
+  <div class="section-label" data-zh>CAST · 角色列表</div>
+  <div class="section-label" data-en>CAST</div>
+  <h2 class="section-title zh" data-zh>角色列表</h2>
+  <h2 class="section-title en" data-en>Characters</h2>
+  <div class="roles-grid">
+        <div class="role-item">
+          <div class="role-num">01</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>「师娘」韩二姑</div>
+            <div class="role-name-en" data-en>"Master's Wife" 韩二姑</div>
+            <div class="role-gender" data-zh>女</div>
+            <div class="role-gender" data-en>Female</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>是应动金的师父之女，嫁给师父生有一女，取名绮婚，十分柔顺，和丈夫住在"家庄房"。</span>
+          
+            <span data-en>The daughter of Ying Dongjin's master, who married the master and bore him a daughter. Gentle and obedient, residing in the family room with her husband.</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">02</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>「大徒弟」崔山道</div>
+            <div class="role-name-en" data-en>"First Disciple" 崔山道</div>
+            <div class="role-gender" data-zh>男</div>
+            <div class="role-gender" data-en>Male</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>孤儿出身，被师父事回家，不怕吃苦，也敢于尝试冒险，住在"徒弟房"。</span>
+          
+            <span data-en>Orphaned from birth, taken in by the master, unafraid of hardship and eager for adventure. Residing in the disciples' quarters.</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">03</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>「长女」应姗姗</div>
+            <div class="role-name-en" data-en>"Eldest Daughter" 应姗姗</div>
+            <div class="role-gender" data-zh>女</div>
+            <div class="role-gender" data-en>Female</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>是应动金和前妻所生，母亲早卒，做事认真，住在院楼的"长女房"，曾表演过"木乃伊复活"。</span>
+          
+            <span data-en>Born to Ying Dongjin and his first wife, who passed away early. Conscientious and capable, residing in the eldest daughter's room in the courtyard building. Once performed a 'mummy revival' act.</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">04</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>「二徒弟」陶山德</div>
+            <div class="role-name-en" data-en>"Second Disciple" 陶山德</div>
+            <div class="role-gender" data-zh>男</div>
+            <div class="role-gender" data-en>Male</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>富商子，原籍武昌，主动拜师，天纵高又好结缘，妻了师父的二女儿后自立门户。</span>
+          
+            <span data-en>Son of a wealthy merchant, originally from Wuchang, who sought out the master of his own accord. Naturally gifted and sociable, later married the master's second daughter and set up his own household.</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">05</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>「三徒弟」庞山仁</div>
+            <div class="role-name-en" data-en>"Third Disciple" 庞山仁</div>
+            <div class="role-gender" data-zh>男</div>
+            <div class="role-gender" data-en>Male</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>原籍上海，主动拜师，外观后家，心地活泼，妻了师人过门，住在"徒弟房"。</span>
+          
+            <span data-en>Originally from Shanghai, who sought out the master voluntarily. Outwardly carefree and sociable at heart, married into the master's family, residing in the disciples' quarters.</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">06</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>「Y鬟」玉笋</div>
+            <div class="role-name-en" data-en>"Handmaid" 玉笋</div>
+            <div class="role-gender" data-zh>女</div>
+            <div class="role-gender" data-en>Female</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>被父母所卖，懂事早，知恩图报，在院楼安家后旧候情境，随时时，与她们同住。</span>
+          
+            <span data-en>Sold by her parents at a young age, quickly matured and grateful for the kindness shown to her. Residing alongside others in the courtyard building after settling in.</span>
+          </div>
+        </div>
+  </div>
+        </div>
+  </div>
+</div>
+
+<footer style="padding:40px 60px;border-top:1px solid rgba(255,255,255,0.06);text-align:center;color:rgba(245,240,232,0.2);font-size:0.75rem;letter-spacing:0.15em;">
+  <span data-zh>W两个世界 桌游工作室</span>
+  <span data-en>W Two Worlds Board Game Studio</span>
+</footer>
+
+<script>
+  const body = document.body;
+  const btnZh = document.getElementById('btnZh');
+  const btnEn = document.getElementById('btnEn');
+  document.getElementById('langToggle').addEventListener('click', () => {
+    const isZh = body.classList.contains('lang-zh');
+    body.className = isZh ? 'lang-en' : 'lang-zh';
+    btnZh.classList.toggle('active', !isZh);
+    btnEn.classList.toggle('active', isZh);
+  });
+</script>
+</body>
+</html>
