@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>豪门45：猫大侠 · Elite 45: The Cat Hero · W两个世界</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+  :root { --black:#0a0a0a; --white:#f5f0e8; --gold:#c9a84c; --accent:#8a6a3a; --gray:#1e1e1e; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--black); color:var(--white); font-family:'Noto Sans SC','Inter',sans-serif; }
+  body.lang-en [data-zh] { display:none !important; }
+  body.lang-zh [data-en] { display:none !important; }
+  .lang-toggle { display:flex; align-items:center; background:rgba(255,255,255,0.06); border:1px solid rgba(201,168,76,0.25); border-radius:2px; overflow:hidden; cursor:pointer; user-select:none; }
+  .lang-btn { padding:6px 14px; font-size:0.75rem; font-weight:600; letter-spacing:0.08em; color:rgba(245,240,232,0.45); transition:all 0.25s; }
+  .lang-btn.active { background:var(--gold); color:var(--black); }
+  .lang-divider { width:1px; height:20px; background:rgba(201,168,76,0.25); }
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:16px 60px; background:rgba(10,10,10,0.92); backdrop-filter:blur(14px); border-bottom:1px solid rgba(201,168,76,0.15); }
+  .nav-left { display:flex; align-items:center; gap:20px; }
+  .nav-back { display:flex; align-items:center; gap:8px; color:rgba(245,240,232,0.5); text-decoration:none; font-size:0.8rem; letter-spacing:0.08em; transition:color 0.3s; }
+  .nav-back:hover { color:var(--gold); }
+  .nav-divider { width:1px; height:18px; background:rgba(255,255,255,0.1); }
+  .nav-title { font-family:'Noto Serif SC',serif; font-size:1rem; font-weight:900; letter-spacing:0.08em; }
+  .nav-title span { color:var(--gold); font-style:italic; }
+  #hero { min-height:52vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding-top:80px; }
+  .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 70% 70% at 50% 50%, rgba(20,10,5,0.85) 0%, transparent 75%); }
+  .hero-accent { position:absolute; inset:0; background:radial-gradient(ellipse 40% 40% at 80% 30%, #8a6a3a08 0%, transparent 60%); }
+  .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(201,168,76,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.025) 1px,transparent 1px); background-size:60px 60px; }
+  .hero-content { position:relative; z-index:2; text-align:center; padding:0 24px; }
+  .hero-badge { display:inline-block; border:1px solid #8a6a3a80; color:#8a6a3a; font-size:0.68rem; letter-spacing:0.35em; padding:6px 22px; margin-bottom:28px; text-transform:uppercase; }
+  .hero-title { font-weight:900; line-height:1.05; margin-bottom:10px; }
+  .hero-title.zh { font-family:'Noto Serif SC',serif; font-size:clamp(2.2rem,5.5vw,3.8rem); }
+  .hero-title.en { font-family:'Playfair Display',serif; font-size:clamp(1.2rem,2.8vw,2rem); font-style:italic; color:rgba(245,240,232,0.6); margin-bottom:28px; }
+  .hero-tags { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:32px; }
+  .hero-tag { border:1px solid; font-size:0.72rem; padding:5px 14px; letter-spacing:0.1em; }
+  .info-bar { display:flex; gap:0; justify-content:center; flex-wrap:wrap; border:1px solid rgba(255,255,255,0.07); background:rgba(255,255,255,0.02); }
+  .info-item { padding:14px 28px; text-align:center; border-right:1px solid rgba(255,255,255,0.07); }
+  .info-item:last-child { border-right:none; }
+  .info-label { font-size:0.62rem; letter-spacing:0.25em; color:rgba(245,240,232,0.35); text-transform:uppercase; margin-bottom:5px; }
+  .info-value { font-size:0.95rem; font-weight:700; color:var(--white); }
+  .page-section { padding:64px 60px; max-width:960px; margin:0 auto; }
+  .section-label { font-size:0.68rem; letter-spacing:0.42em; color:var(--accent); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:14px; }
+  .section-label::before { content:''; display:block; width:38px; height:1px; background:var(--accent); flex-shrink:0; }
+  .section-title { font-size:clamp(1.4rem,2.5vw,1.9rem); font-weight:900; line-height:1.2; margin-bottom:20px; }
+  .section-title.zh { font-family:'Noto Serif SC',serif; }
+  .section-title.en { font-family:'Playfair Display',serif; font-style:italic; }
+  .synopsis-text { font-size:0.9rem; line-height:2; color:rgba(245,240,232,0.7); border-left:2px solid #8a6a3a60; padding-left:20px; font-style:italic; }
+  .divider { height:1px; background:rgba(255,255,255,0.06); margin:0 60px; }
+  .roles-section { padding:64px 60px; max-width:960px; margin:0 auto; }
+  .roles-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:2px; margin-top:24px; }
+  .role-item { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:18px 20px; display:grid; grid-template-columns:36px 1fr; grid-template-rows:auto auto; gap:4px 12px; transition:background 0.2s; }
+  .role-item:hover { background:rgba(201,168,76,0.04); }
+  .role-num { grid-row:1/3; display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:900; color:#8a6a3a; font-family:'Playfair Display',serif; opacity:0.6; }
+  .role-name-zh { font-family:'Noto Serif SC',serif; font-size:0.92rem; font-weight:700; }
+  .role-name-en { font-family:'Playfair Display',serif; font-size:0.8rem; font-style:italic; color:rgba(245,240,232,0.45); }
+  .role-gender { font-size:0.72rem; color:rgba(245,240,232,0.35); letter-spacing:0.1em; }
+  .role-desc { grid-column:2; font-size:0.78rem; line-height:1.75; color:rgba(245,240,232,0.5); margin-top:6px; }
+  @media(max-width:768px) { nav { padding:14px 20px; } .page-section,.roles-section { padding:48px 20px; } .roles-grid { grid-template-columns:1fr; } .info-item { padding:12px 16px; } }
+</style>
+</head>
+<body class="lang-zh">
+<nav>
+  <div class="nav-left">
+    <a href="scriptmurder.html" class="nav-back"><span>←</span><span data-zh>返回剧本杀</span><span data-en>Back</span></a>
+    <div class="nav-divider"></div>
+    <div class="nav-title"><span>W</span> <span data-zh>两个世界</span><span data-en>Two Worlds</span></div>
+  </div>
+  <div class="lang-toggle" id="langToggle">
+    <div class="lang-btn active" id="btnZh">中文</div>
+    <div class="lang-divider"></div>
+    <div class="lang-btn" id="btnEn">EN</div>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span data-zh>剧本杀</span><span data-en>Script Murder Mystery</span></div>
+    <h1 class="hero-title zh" data-zh>豪门45：猫大侠</h1>
+    <h1 class="hero-title en" data-en>Elite 45: The Cat Hero</h1>
+    <div class="hero-tags">
+      <span class="hero-tag" style="color:#8a6a3a;border-color:#8a6a3a40;" data-zh>豪门</span>
+      <span class="hero-tag" style="color:#8a6a3a;border-color:#8a6a3a40;" data-en>Elite</span>
+    </div>
+    <div class="info-bar">
+      <div class="info-item">
+        <div class="info-label" data-zh>人数</div>
+        <div class="info-label" data-en>Players</div>
+        <div class="info-value" data-zh>5（3男2女）</div>
+        <div class="info-value" data-en>5 (3M 2F)</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label" data-zh>时长</div>
+        <div class="info-label" data-en>Duration</div>
+        <div class="info-value" data-zh>4小时</div>
+        <div class="info-value" data-en>4 hrs</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label" data-zh>价格</div>
+        <div class="info-label" data-en>Price</div>
+        <div class="info-value">$45</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<div class="page-section">
+  <div class="section-label" data-zh>STORY · 剧情简介</div>
+  <div class="section-label" data-en>STORY</div>
+  <h2 class="section-title zh" data-zh>剧情简介</h2>
+  <h2 class="section-title en" data-en>Synopsis</h2>
+  <p class="synopsis-text" data-zh>1914年（民国三年）10月10日，山西汾河西岸，襄陵，高家酿酒坊。<br><br>自从宋代发明了蒸馏设备，就有人尝试制作蒸馏酒，此后历经千余年，由黄酒演变、发展出白酒……明清以后，北方的白酒发展迅速，逐步代替了黄酒生产，早在唐代就已著名的汾州美酒更是成为蒸馏白酒的代表，许多酿酒世家不断改良工艺，留下许多不外传之秘密。<br><br>在汾河西岸的襄陵，有一户以酿酒闻名的"高家"，其宅高墙大院，东院内有专门的酿酒坊和两间酒库，晚上会在每间房门上挂一盏灯笼，里面的烛光只能照到房门附近……第五代继承人高守信除了祖传秘方，还不断尝试新技术，与妻子育有一双儿女，最上心的莫过于子女成家——儿子已有心仪对象，却在去年（1913年）出了一场意外……</p>
+  <p class="synopsis-text" data-en>October 10th, Year 3 of the Republic of China (1914). Xiangling, on the western bank of the Fen River, Shanxi — the Gao family distillery.<br><br>Since the Song dynasty's invention of distillation equipment, craftsmen have been refining the art of spirits. Over more than a thousand years, rice wine evolved into baijiu… After the Ming and Qing dynasties, northern baijiu flourished, gradually superseding the older brewing traditions. The famous Fenzhou liquor, celebrated since the Tang dynasty, became the defining example of distilled spirits — and many family distilleries jealously guarded their secret techniques across generations.<br><br>In Xiangling on the western bank of the Fen River stands the Gao family, renowned for their spirits. Their estate features a dedicated distillery and two storehouses in the eastern courtyard, with a lantern hung at each door each night — its candlelight barely reaching beyond the doorway… The fifth-generation heir 高守信 has built upon the ancestral recipe while embracing new techniques. He and his wife have a son and a daughter. His greatest wish is to see them settled — his son had already found someone he loved, but last year (1913), something went terribly wrong…</p>
+</div>
+
+<div class="divider"></div>
+
+<div class="roles-section">
+  <div class="section-label" data-zh>CAST · 角色列表</div>
+  <div class="section-label" data-en>CAST</div>
+  <h2 class="section-title zh" data-zh>角色列表</h2>
+  <h2 class="section-title en" data-en>Characters</h2>
+  <div class="roles-grid">
+        <div class="role-item">
+          <div class="role-num">01</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>「小姐」成雪</div>
+            <div class="role-name-en" data-en>"Young Miss" 成雪</div>
+            <div class="role-gender" data-zh>女</div>
+            <div class="role-gender" data-en>Female</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>女，高家长女，年纪十八、九岁，有主见，爱穿红衣绿裤，住在"家主楼"一层"小姐房"。</span>
+            <span data-en>Female, the eldest daughter of the Gao family, eighteen or nineteen years old. Opinionated, fond of wearing red tops and green trousers. Lives in the "Young Miss Room" on the ground floor of the main building.</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">02</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>「少爷」轻岳</div>
+            <div class="role-name-en" data-en>"Young Master" 轻岳</div>
+            <div class="role-gender" data-zh>男</div>
+            <div class="role-gender" data-en>Male</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>男，高家之子，年纪十六、七岁，个性急躁，不爱读书，住在"家主楼"一层"少爷房"。</span>
+            <span data-en>Male, the son of the Gao family, sixteen or seventeen years old. Hot-tempered and indifferent to studying. Lives in the "Young Master Room" on the ground floor of the main building.</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">03</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>「女客人」紫霜</div>
+            <div class="role-name-en" data-en>"Female Guest" 紫霜</div>
+            <div class="role-gender" data-zh>女</div>
+            <div class="role-gender" data-en>Female</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>女，莫家之女，年纪十六、七岁，从小学唱鼓书，身姿袅娜，衣着简朴，跟随父亲前来做客。</span>
+            <span data-en>Female, the daughter of the Mo family, sixteen or seventeen years old. Has sung drum ballads since childhood, graceful in bearing and simply dressed. Accompanying her father on a visit.</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">04</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>「经理」何有清</div>
+            <div class="role-name-en" data-en>"Manager" 何有清</div>
+            <div class="role-gender" data-zh>男</div>
+            <div class="role-gender" data-en>Male</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>男，高家聘用的经理，年纪二十出头，外表斯文，不怕吃苦，负责外销成酒，住在"客房"。</span>
+            <span data-en>Male, the Gao family's hired manager, early twenties. Refined in appearance, hardworking, responsible for the sale and distribution of the finished spirits. Lives in the "Guest Room."</span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div class="role-num">05</div>
+          <div class="role-info">
+            <div class="role-name-zh" data-zh>「工头」然诺</div>
+            <div class="role-name-en" data-en>"Foreman" 然诺</div>
+            <div class="role-gender" data-zh>男</div>
+            <div class="role-gender" data-en>Male</div>
+          </div>
+          <div class="role-desc">
+            <span data-zh>高家雇佣的工头，年纪二十上下，做事认真，负责管理工人和酒库，住在"学徒房"。</span>
+            <span data-en>The Gao family's foreman, around twenty years old. Conscientious and dependable, responsible for overseeing the workers and the storehouses. Lives in the "Apprentice Room."</span>
+          </div>
+        </div>
+  </div>
+</div>
+
+<footer style="padding:40px 60px;border-top:1px solid rgba(255,255,255,0.06);text-align:center;color:rgba(245,240,232,0.2);font-size:0.75rem;letter-spacing:0.15em;">
+  <span data-zh>W两个世界 桌游工作室</span>
+  <span data-en>W Two Worlds Board Game Studio</span>
+</footer>
+
+<script>
+  const body = document.body;
+  const btnZh = document.getElementById('btnZh');
+  const btnEn = document.getElementById('btnEn');
+  document.getElementById('langToggle').addEventListener('click', () => {
+    const isZh = body.classList.contains('lang-zh');
+    body.className = isZh ? 'lang-en' : 'lang-zh';
+    btnZh.classList.toggle('active', !isZh);
+    btnEn.classList.toggle('active', isZh);
+  });
+</script>
+</body>
+</html>
