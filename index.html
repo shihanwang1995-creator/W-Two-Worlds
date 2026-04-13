@@ -456,6 +456,67 @@
     .atm-grid { grid-template-columns: 1fr; }
     .atm-item, .atm-item:first-child { height: 200px; grid-row: auto; }
   }
+
+  /* TIME SLOT AVAILABILITY */
+  .timeslot-section {
+    grid-column: 1 / -1;
+    margin-top: 4px;
+  }
+  .timeslot-header {
+    font-size: 0.7rem; letter-spacing: 0.18em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .timeslot-tabs {
+    display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .timeslot-tab {
+    padding: 5px 14px; font-size: 0.72rem; letter-spacing: 0.08em;
+    border: 1px solid rgba(201,168,76,0.3); color: rgba(245,240,232,0.5);
+    cursor: pointer; transition: all 0.2s; background: transparent;
+  }
+  .timeslot-tab.active {
+    background: var(--gold); color: var(--black); border-color: var(--gold); font-weight: 700;
+  }
+  .timeslot-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+  }
+  .timeslot {
+    padding: 10px 8px; text-align: center; font-size: 0.75rem;
+    border: 1px solid rgba(255,255,255,0.07); cursor: pointer;
+    transition: all 0.2s; position: relative; letter-spacing: 0.04em;
+    background: rgba(255,255,255,0.02);
+  }
+  .timeslot:hover:not(.booked):not(.selected) {
+    border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.06);
+  }
+  .timeslot.selected {
+    border-color: var(--gold); background: rgba(201,168,76,0.15); color: var(--gold); font-weight: 700;
+  }
+  .timeslot.booked {
+    opacity: 0.45; cursor: not-allowed;
+    background: rgba(255,255,255,0.03);
+    text-decoration: line-through;
+  }
+  .timeslot.booked::after {
+    content: attr(data-by);
+    display: block; font-size: 0.6rem; color: rgba(245,240,232,0.35);
+    margin-top: 2px; text-decoration: none; letter-spacing: 0;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .timeslot-note {
+    margin-top: 10px; font-size: 0.72rem; color: rgba(245,240,232,0.35);
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .timeslot-note span { display: flex; align-items: center; gap: 5px; }
+  .slot-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .slot-dot.available { background: rgba(201,168,76,0.5); }
+  .slot-dot.selected-dot { background: var(--gold); }
+  .slot-dot.booked-dot { background: rgba(255,255,255,0.2); }
+  .timeslot-loading {
+    grid-column: 1/-1; text-align: center; padding: 20px;
+    color: rgba(245,240,232,0.3); font-size: 0.8rem; letter-spacing: 0.1em;
+  }
+  @media(max-width:600px) { .timeslot-grid { grid-template-columns: repeat(3,1fr); } }
 </style>
 </head>
 <body class="lang-zh">
@@ -755,17 +816,37 @@
             data-ph-zh="手机号码 或 Email邮箱" data-ph-en="Phone number or Email address" required>
         </div>
 
-        <!-- Date + Time -->
-        <div class="form-group">
+        <!-- Date -->
+        <div class="form-group full-width">
           <label class="form-label" data-zh>预约日期 *</label>
           <label class="form-label" data-en>Date *</label>
-          <input class="form-input" id="f-date" type="date" required>
+          <input class="form-input" id="f-date" type="date" required onchange="loadSlots()">
         </div>
 
-        <div class="form-group">
-          <label class="form-label" data-zh>预约时间 *</label>
-          <label class="form-label" data-en>Time *</label>
-          <input class="form-input" id="f-time" type="time" required>
+        <!-- Time Slot Grid -->
+        <div class="form-group timeslot-section">
+          <div class="timeslot-header" data-zh>选择时间段 *</div>
+          <div class="timeslot-header" data-en>Select Time Slot *</div>
+          <div class="timeslot-tabs">
+            <button class="timeslot-tab active" onclick="filterSlots('all',this)" data-zh>全部</button>
+            <button class="timeslot-tab active" onclick="filterSlots('all',this)" data-en>All</button>
+            <button class="timeslot-tab" onclick="filterSlots('am',this)" data-zh>上午</button>
+            <button class="timeslot-tab" onclick="filterSlots('am',this)" data-en>Morning</button>
+            <button class="timeslot-tab" onclick="filterSlots('pm',this)" data-zh>下午</button>
+            <button class="timeslot-tab" onclick="filterSlots('pm',this)" data-en>Afternoon</button>
+            <button class="timeslot-tab" onclick="filterSlots('eve',this)" data-zh>傍晚/夜间</button>
+            <button class="timeslot-tab" onclick="filterSlots('eve',this)" data-en>Evening</button>
+          </div>
+          <div class="timeslot-grid" id="slotGrid">
+            <div class="timeslot-loading" data-zh>请先选择日期</div>
+            <div class="timeslot-loading" data-en>Please select a date first</div>
+          </div>
+          <div class="timeslot-note">
+            <span><span class="slot-dot available"></span><span data-zh>可预约</span><span data-en>Available</span></span>
+            <span><span class="slot-dot selected-dot"></span><span data-zh>已选择</span><span data-en>Selected</span></span>
+            <span><span class="slot-dot booked-dot"></span><span data-zh>已预约</span><span data-en>Booked</span></span>
+          </div>
+          <input type="hidden" id="f-time" required>
         </div>
 
         <!-- Group size -->
@@ -870,7 +951,7 @@
       </div>
 
       <div class="form-submit-row">
-        <button class="btn-submit" id="submitBtn" onclick="submitBooking()">
+        <button class="btn-submit" id="submitBtn" onclick="submitBookingWithSlot()">
           <span data-zh>确认预约</span>
           <span data-en>Confirm Booking</span>
         </button>
@@ -1160,6 +1241,126 @@
     el.style.transition = 'opacity 0.55s ease ' + (i * 0.05) + 's, transform 0.55s ease ' + (i * 0.05) + 's';
     obs.observe(el);
   });
+
+  // ── TIME SLOT SYSTEM ──
+  const TIME_SLOTS = [
+    {id:'10:00',label:'10:00',period:'am'},
+    {id:'11:00',label:'11:00',period:'am'},
+    {id:'12:00',label:'12:00',period:'am'},
+    {id:'13:00',label:'13:00',period:'pm'},
+    {id:'14:00',label:'14:00',period:'pm'},
+    {id:'15:00',label:'15:00',period:'pm'},
+    {id:'16:00',label:'16:00',period:'pm'},
+    {id:'17:00',label:'17:00',period:'pm'},
+    {id:'18:00',label:'18:00',period:'eve'},
+    {id:'19:00',label:'19:00',period:'eve'},
+    {id:'20:00',label:'20:00',period:'eve'},
+    {id:'21:00',label:'21:00',period:'eve'},
+    {id:'22:00',label:'22:00',period:'eve'},
+    {id:'23:00',label:'23:00',period:'eve'},
+  ];
+
+  let selectedSlot = null;
+  let currentFilter = 'all';
+  let bookedSlots = {}; // {date: {time: name}}
+
+  async function loadSlots() {
+    const date = document.getElementById('f-date').value;
+    if (!date) return;
+    selectedSlot = null;
+    document.getElementById('f-time').value = '';
+
+    const grid = document.getElementById('slotGrid');
+    const lang = body.classList.contains('lang-zh') ? 'zh' : 'en';
+    grid.innerHTML = `<div class="timeslot-loading">${lang==='zh'?'加载中…':'Loading…'}</div>`;
+
+    // Load from storage
+    try {
+      const key = 'bookings:' + date;
+      const result = await window.storage.get(key, true);
+      bookedSlots[date] = result ? JSON.parse(result.value) : {};
+    } catch(e) {
+      bookedSlots[date] = {};
+    }
+    renderSlots(date);
+  }
+
+  function renderSlots(date) {
+    const grid = document.getElementById('slotGrid');
+    const booked = bookedSlots[date] || {};
+    const lang = body.classList.contains('lang-zh') ? 'zh' : 'en';
+    grid.innerHTML = '';
+
+    TIME_SLOTS.forEach(slot => {
+      if (currentFilter !== 'all' && slot.period !== currentFilter) return;
+      const isBooked = !!booked[slot.id];
+      const isSelected = selectedSlot === slot.id;
+      const name = isBooked ? booked[slot.id] : '';
+
+      const div = document.createElement('div');
+      div.className = 'timeslot' + (isBooked?' booked':'') + (isSelected?' selected':'');
+      div.textContent = slot.label;
+      if (isBooked) {
+        div.setAttribute('data-by', name);
+        div.title = (lang==='zh'?'已被 ':'Booked by ') + name;
+      } else {
+        div.onclick = () => selectSlot(slot.id, date);
+      }
+      grid.appendChild(div);
+    });
+
+    if (!grid.children.length) {
+      grid.innerHTML = `<div class="timeslot-loading">${lang==='zh'?'该时段暂无可选时间':'No slots in this period'}</div>`;
+    }
+  }
+
+  function selectSlot(slotId, date) {
+    selectedSlot = slotId;
+    document.getElementById('f-time').value = slotId;
+    renderSlots(date);
+  }
+
+  function filterSlots(period, btn) {
+    currentFilter = period;
+    const lang = body.classList.contains('lang-zh') ? 'zh' : 'en';
+    // Update active tab (same period, same lang)
+    document.querySelectorAll('.timeslot-tab').forEach(t => {
+      const tLang = t.hasAttribute('data-zh') ? 'zh' : 'en';
+      if (tLang !== lang) return;
+      t.classList.remove('active');
+    });
+    btn.classList.add('active');
+    const date = document.getElementById('f-date').value;
+    if (date) renderSlots(date);
+  }
+
+  // Patch submitBooking to save slot
+  const _origSubmit = typeof submitBooking === 'function' ? submitBooking : null;
+  async function submitBookingWithSlot() {
+    const date = document.getElementById('f-date').value;
+    const time = document.getElementById('f-time').value;
+    const name = document.getElementById('f-name').value.trim();
+
+    if (!time) {
+      const lang = body.classList.contains('lang-zh') ? 'zh' : 'en';
+      alert(lang==='zh' ? '请选择一个时间段' : 'Please select a time slot');
+      return;
+    }
+
+    // Save booking to shared storage
+    if (date && time && name) {
+      try {
+        const key = 'bookings:' + date;
+        const existing = bookedSlots[date] || {};
+        existing[time] = name;
+        await window.storage.set(key, JSON.stringify(existing), true);
+        bookedSlots[date] = existing;
+      } catch(e) { console.warn('Storage save failed', e); }
+    }
+
+    if (_origSubmit) _origSubmit();
+  }
+
 </script>
 
 </body>
