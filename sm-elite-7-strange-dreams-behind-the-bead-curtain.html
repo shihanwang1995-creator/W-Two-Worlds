@@ -23,43 +23,59 @@
   .nav-title { font-family:'Noto Serif SC',serif; font-size:1rem; font-weight:900; letter-spacing:0.08em; }
   .nav-title span { color:var(--gold); font-style:italic; }
   #hero { min-height:52vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding-top:80px; }
-  .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 70% 70% at 50% 50%, rgba(20,10,5,0.85) 0%, transparent 75%); }
-  .hero-accent { position:absolute; inset:0; background:radial-gradient(ellipse 40% 40% at 80% 30%, #8a6a3a08 0%, transparent 60%); }
+  .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 70% 70% at 50% 50%, rgba(20,10,5,0.9) 0%, transparent 75%); }
+  .hero-accent { position:absolute; inset:0; background:radial-gradient(ellipse 40% 40% at 80% 30%, rgba(138,106,58,0.07) 0%, transparent 60%); }
   .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(201,168,76,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.025) 1px,transparent 1px); background-size:60px 60px; }
   .hero-content { position:relative; z-index:2; text-align:center; padding:0 24px; }
-  .hero-badge { display:inline-block; border:1px solid #8a6a3a80; color:#8a6a3a; font-size:0.68rem; letter-spacing:0.35em; padding:6px 22px; margin-bottom:28px; text-transform:uppercase; }
+  .hero-badge { display:inline-block; border:1px solid rgba(138,106,58,0.6); color:#8a6a3a; font-size:0.68rem; letter-spacing:0.35em; padding:6px 22px; margin-bottom:28px; text-transform:uppercase; }
   .hero-title { font-weight:900; line-height:1.05; margin-bottom:10px; }
   .hero-title.zh { font-family:'Noto Serif SC',serif; font-size:clamp(2.2rem,5.5vw,3.8rem); }
   .hero-title.en { font-family:'Playfair Display',serif; font-size:clamp(1.2rem,2.8vw,2rem); font-style:italic; color:rgba(245,240,232,0.6); margin-bottom:28px; }
   .hero-tags { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:32px; }
   .hero-tag { border:1px solid; font-size:0.72rem; padding:5px 14px; letter-spacing:0.1em; }
-  .info-bar { display:flex; gap:0; justify-content:center; flex-wrap:wrap; border:1px solid rgba(255,255,255,0.07); background:rgba(255,255,255,0.02); }
-  .info-item { padding:14px 28px; text-align:center; border-right:1px solid rgba(255,255,255,0.07); }
+  .info-bar { display:flex; gap:0; justify-content:center; flex-wrap:wrap; border:1px solid rgba(255,255,255,0.07); background:rgba(255,255,255,0.02); max-width:480px; margin:0 auto; }
+  .info-item { padding:14px 28px; text-align:center; border-right:1px solid rgba(255,255,255,0.07); flex:1; }
   .info-item:last-child { border-right:none; }
   .info-label { font-size:0.62rem; letter-spacing:0.25em; color:rgba(245,240,232,0.35); text-transform:uppercase; margin-bottom:5px; }
   .info-value { font-size:0.95rem; font-weight:700; color:var(--white); }
+  .info-value.price { color:var(--gold); }
+  .divider { height:1px; background:rgba(255,255,255,0.06); margin:0 60px; }
   .page-section { padding:64px 60px; max-width:960px; margin:0 auto; }
   .section-label { font-size:0.68rem; letter-spacing:0.42em; color:var(--accent); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:14px; }
   .section-label::before { content:''; display:block; width:38px; height:1px; background:var(--accent); flex-shrink:0; }
   .section-title { font-size:clamp(1.4rem,2.5vw,1.9rem); font-weight:900; line-height:1.2; margin-bottom:20px; }
   .section-title.zh { font-family:'Noto Serif SC',serif; }
   .section-title.en { font-family:'Playfair Display',serif; font-style:italic; }
-  .synopsis-text { font-size:0.9rem; line-height:2; color:rgba(245,240,232,0.7); border-left:2px solid #8a6a3a60; padding-left:20px; font-style:italic; }
-  .divider { height:1px; background:rgba(255,255,255,0.06); margin:0 60px; }
-  .roles-section { padding:64px 60px; max-width:960px; margin:0 auto; }
+  .synopsis-text { font-size:0.9rem; line-height:2.1; color:rgba(245,240,232,0.72); border-left:2px solid rgba(138,106,58,0.5); padding-left:20px; }
+  .synopsis-text p { margin-bottom:1em; }
+  .synopsis-text p:last-child { margin-bottom:0; }
   .roles-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:2px; margin-top:24px; }
-  .role-item { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:18px 20px; display:grid; grid-template-columns:36px 1fr; grid-template-rows:auto auto; gap:4px 12px; transition:background 0.2s; }
-  .role-item:hover { background:rgba(201,168,76,0.04); }
-  .role-num { grid-row:1/3; display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:900; color:#8a6a3a; font-family:'Playfair Display',serif; opacity:0.6; }
-  .role-name-zh { font-family:'Noto Serif SC',serif; font-size:0.92rem; font-weight:700; }
-  .role-name-en { font-family:'Playfair Display',serif; font-size:0.8rem; font-style:italic; color:rgba(245,240,232,0.45); }
-  .role-gender { font-size:0.72rem; color:rgba(245,240,232,0.35); letter-spacing:0.1em; }
-  .role-desc { grid-column:2; font-size:0.78rem; line-height:1.75; color:rgba(245,240,232,0.5); margin-top:6px; }
-  .placeholder-notice { border:1px dashed rgba(201,168,76,0.2); padding:20px 24px; background:rgba(201,168,76,0.02); font-size:0.8rem; color:rgba(245,240,232,0.35); line-height:1.8; margin-bottom:24px; }
-  @media(max-width:768px) { nav { padding:14px 20px; } .page-section,.roles-section { padding:48px 20px; } .roles-grid { grid-template-columns:1fr; } .info-item { padding:12px 16px; } }
+  .role-item { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:20px 22px; display:grid; grid-template-columns:36px 1fr; gap:4px 12px; transition:background 0.2s; }
+  .role-item:hover { background:rgba(138,106,58,0.05); }
+  .role-num { grid-row:1/4; display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:900; color:#8a6a3a; font-family:'Playfair Display',serif; opacity:0.7; }
+  .role-alias { font-size:0.68rem; letter-spacing:0.1em; color:rgba(245,240,232,0.3); margin-bottom:2px; }
+  .role-name-zh { font-family:'Noto Serif SC',serif; font-size:1rem; font-weight:700; }
+  .role-name-en { font-family:'Playfair Display',serif; font-size:0.8rem; font-style:italic; color:rgba(245,240,232,0.4); }
+  .role-gender { font-size:0.7rem; color:rgba(245,240,232,0.3); letter-spacing:0.12em; margin-top:2px; }
+  .role-desc { grid-column:2; font-size:0.78rem; line-height:1.8; color:rgba(245,240,232,0.52); margin-top:8px; }
+  .booking-bar { background:rgba(255,255,255,0.02); border-top:1px solid rgba(201,168,76,0.12); border-bottom:1px solid rgba(201,168,76,0.12); padding:32px 60px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+  .booking-title { font-family:'Noto Serif SC',serif; font-size:1.1rem; font-weight:700; margin-bottom:6px; }
+  .booking-sub { font-size:0.8rem; color:rgba(245,240,232,0.4); letter-spacing:0.1em; }
+  .booking-btn { display:inline-block; background:var(--gold); color:var(--black); padding:12px 36px; font-size:0.85rem; font-weight:700; letter-spacing:0.1em; text-decoration:none; clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition:background 0.3s; white-space:nowrap; }
+  .booking-btn:hover { background:#e8d08a; }
+  footer { padding:40px 60px; border-top:1px solid rgba(255,255,255,0.06); text-align:center; color:rgba(245,240,232,0.2); font-size:0.75rem; letter-spacing:0.15em; }
+  @media(max-width:768px) {
+    nav { padding:14px 20px; }
+    .page-section { padding:48px 20px; }
+    .roles-grid { grid-template-columns:1fr; }
+    .info-item { padding:12px 16px; }
+    .booking-bar { padding:28px 20px; flex-direction:column; text-align:center; }
+    .divider { margin:0 20px; }
+  }
 </style>
 </head>
 <body class="lang-zh">
+
 <nav>
   <div class="nav-left">
     <a href="scriptmurder.html" class="nav-back"><span>←</span><span data-zh>返回剧本杀</span><span data-en>Back</span></a>
@@ -78,12 +94,14 @@
   <div class="hero-accent"></div>
   <div class="hero-grid"></div>
   <div class="hero-content">
-    <div class="hero-badge"><span data-zh>剧本杀</span><span data-en>Script Murder Mystery</span></div>
-    <h1 class="hero-title zh" data-zh>豪门7：珠帘异梦</h1>
-    <h1 class="hero-title en" data-en>Elite 7: Strange Dreams Behind the Bead Curtain</h1>
+    <div class="hero-badge"><span data-zh>豪门系列 · 第七本</span><span data-en>Elite Series · No. 7</span></div>
+    <h1 class="hero-title zh" data-zh>珠帘异梦</h1>
+    <h1 class="hero-title en" data-en>Strange Dreams Behind the Bead Curtain</h1>
     <div class="hero-tags">
       <span class="hero-tag" style="color:#8a6a3a;border-color:#8a6a3a40;" data-zh>豪门</span>
-<span class="hero-tag" style="color:#8a6a3a;border-color:#8a6a3a40;" data-en>Elite</span>
+      <span class="hero-tag" style="color:#8a6a3a;border-color:#8a6a3a40;" data-en>Elite</span>
+      <span class="hero-tag" style="color:#5b8dd9;border-color:#5b8dd940;" data-zh>还原</span>
+      <span class="hero-tag" style="color:#5b8dd9;border-color:#5b8dd940;" data-en>Narrative</span>
     </div>
     <div class="info-bar">
       <div class="info-item">
@@ -100,7 +118,7 @@
       <div class="info-item">
         <div class="info-label" data-zh>价格</div>
         <div class="info-label" data-en>Price</div>
-        <div class="info-value">$45</div>
+        <div class="info-value price">$45</div>
       </div>
     </div>
   </div>
@@ -108,91 +126,153 @@
 
 <div class="divider"></div>
 
+<!-- SYNOPSIS -->
 <div class="page-section">
   <div class="section-label" data-zh>STORY · 剧情简介</div>
   <div class="section-label" data-en>STORY</div>
   <h2 class="section-title zh" data-zh>剧情简介</h2>
   <h2 class="section-title en" data-en>Synopsis</h2>
-  <p class="synopsis-text" data-zh>民国三年（1914年）8月21日，苏州“孟园”内，本该畅快游园的几个人却各怀心事，仿佛预感到即将看到的悲剧...</p>
-  <p class="synopsis-text" data-en>Coming soon…</p>
-</div>
-
-          <div class="role-desc">
-            <span data-zh>角色简介待补充。</span>
-            <span data-en>Character description coming soon.</span>
-          </div>
-        </div>
-        <div class="role-item">
-          <div class="role-num">2</div>
-          <div class="role-info">
-            <div class="role-name-zh" data-zh>角色 2</div>
-            <div class="role-name-en" data-en>Character 2</div>
-            <div class="role-gender" data-zh>性别待定</div>
-            <div class="role-gender" data-en>TBD</div>
-          </div>
-          <div class="role-desc">
-            <span data-zh>角色简介待补充。</span>
-            <span data-en>Character description coming soon.</span>
-          </div>
-        </div>
-        <div class="role-item">
-          <div class="role-num">3</div>
-          <div class="role-info">
-            <div class="role-name-zh" data-zh>角色 3</div>
-            <div class="role-name-en" data-en>Character 3</div>
-            <div class="role-gender" data-zh>性别待定</div>
-            <div class="role-gender" data-en>TBD</div>
-          </div>
-          <div class="role-desc">
-            <span data-zh>角色简介待补充。</span>
-            <span data-en>Character description coming soon.</span>
-          </div>
-        </div>
-        <div class="role-item">
-          <div class="role-num">4</div>
-          <div class="role-info">
-            <div class="role-name-zh" data-zh>角色 4</div>
-            <div class="role-name-en" data-en>Character 4</div>
-            <div class="role-gender" data-zh>性别待定</div>
-            <div class="role-gender" data-en>TBD</div>
-          </div>
-          <div class="role-desc">
-            <span data-zh>角色简介待补充。</span>
-            <span data-en>Character description coming soon.</span>
-          </div>
-        </div>
-        <div class="role-item">
-          <div class="role-num">5</div>
-          <div class="role-info">
-            <div class="role-name-zh" data-zh>角色 5</div>
-            <div class="role-name-en" data-en>Character 5</div>
-            <div class="role-gender" data-zh>性别待定</div>
-            <div class="role-gender" data-en>TBD</div>
-          </div>
-          <div class="role-desc">
-            <span data-zh>角色简介待补充。</span>
-            <span data-en>Character description coming soon.</span>
-          </div>
-        </div>
-        <div class="role-item">
-          <div class="role-num">6</div>
-          <div class="role-info">
-            <div class="role-name-zh" data-zh>角色 6</div>
-            <div class="role-name-en" data-en>Character 6</div>
-            <div class="role-gender" data-zh>性别待定</div>
-            <div class="role-gender" data-en>TBD</div>
-          </div>
-          <div class="role-desc">
-            <span data-zh>角色简介待补充。</span>
-            <span data-en>Character description coming soon.</span>
-          </div>
-        </div>
+  <div class="synopsis-text" data-zh>
+    <p>民国三年（公元1914年）8月21日。时值清宣统皇帝逊位后，中华改国体为共和，仿佛曙光初现，同时又逢西方诸国纷争，战火蔓延欧陆，无暇东顾，也给多难中华一次恢复国运的天赐良机。</p>
+    <p>这一年，民国政府实行省、道、县官制，分一省为数道，更于苏、常之地设苏常道，治所就在苏州——这座比邻太湖、长江的千古名城。说起苏州，就不能不提被誉为"江南园林甲天下，苏州园林甲江南"的各种私家园林——所谓藏山水美景于园内，无论官绅商贾，都对此情有独钟。</p>
+    <p>"孟园"就是这一百七十多处园林中的一座——这本是前清孟举人告老归乡的居所，世代相传，如今成了苏州"法朗商行"老板陈轻梧的私人别墅——每到月末，陈轻梧都会回到"孟园"休息数日，和妻子小聚，最近因为身体欠佳，这位在商海纵横十多年的前清秀才，第一次有了挑选继承人的念头……</p>
+    <p>民国三年（1914年）8月21日，苏州"孟园"内，本该畅快游园的几个人却各怀心事，仿佛预感到即将看到的悲剧……</p>
+  </div>
+  <div class="synopsis-text" data-en>
+    <p>August 21st, Year 3 of the Republic of China (1914). Following the abdication of the Qing Emperor Xuantong, China had transformed into a republic — a dawn of sorts. Meanwhile, the great powers of the West were consumed by war spreading across Europe, leaving China momentarily free from foreign pressure, presenting a rare opportunity to restore the nation's fortunes.</p>
+    <p>That same year, the Republican government reorganised the country into provinces, circuits, and counties. The Sucháng Circuit was established across Suzhou and Changzhou, with Suzhou as its seat — an ancient city nestled between Taihu Lake and the Yangtze River. Suzhou is inseparable from its legendary private gardens, said to be the finest in all of Jiangnan. Officials, merchants, and scholars alike were drawn to these sanctuaries where mountains and water were hidden within garden walls.</p>
+    <p>"Meng Garden" was one among those hundred and seventy-odd gardens. Once the retirement home of a Qing dynasty scholar named Meng, it had passed through generations until it became the private retreat of 陈轻梧, proprietor of the "Falong Trading Company" in Suzhou. Every month's end, 陈轻梧 would return to Meng Garden to rest for a few days and spend time with his wife. Recently, his health had begun to falter — and for the first time, this former Qing scholar who had navigated the commercial world for over a decade began to think about choosing an heir…</p>
+    <p>On August 21st, 1914, inside Suzhou's Meng Garden, a few guests had gathered for what should have been a leisurely tour of the grounds — yet each carried a secret weight, as though sensing the tragedy that was about to unfold…</p>
   </div>
 </div>
 
-<footer style="padding:40px 60px;border-top:1px solid rgba(255,255,255,0.06);text-align:center;color:rgba(245,240,232,0.2);font-size:0.75rem;letter-spacing:0.15em;">
-  <span data-zh>W两个世界 桌游工作室</span>
-  <span data-en>W Two Worlds Board Game Studio</span>
+<div class="divider"></div>
+
+<!-- CHARACTERS -->
+<div class="page-section">
+  <div class="section-label" data-zh>CAST · 人物简介</div>
+  <div class="section-label" data-en>CAST</div>
+  <h2 class="section-title zh" data-zh>人物简介</h2>
+  <h2 class="section-title en" data-en>Characters</h2>
+  <div class="roles-grid">
+
+    <div class="role-item">
+      <div class="role-num">01</div>
+      <div>
+        <div class="role-alias" data-zh>[陈家] 侄子</div>
+        <div class="role-alias" data-en>[Chen Family] Nephew</div>
+        <div class="role-name-zh" data-zh>陈奇舟</div>
+        <div class="role-name-en" data-en>陈奇舟</div>
+        <div class="role-gender" data-zh>男 · 二十九岁</div>
+        <div class="role-gender" data-en>Male · Age 29</div>
+      </div>
+      <div class="role-desc">
+        <span data-zh>分头，体格粗壮，满不在乎的样子，穿衣敞怀，腰里别着刀子。</span>
+        <span data-en>Side-parted hair, broad-shouldered and sturdy, with an air of careless ease. His jacket hangs open; a knife is tucked at his waist.</span>
+      </div>
+    </div>
+
+    <div class="role-item">
+      <div class="role-num">02</div>
+      <div>
+        <div class="role-alias" data-zh>私人医生</div>
+        <div class="role-alias" data-en>Private Physician</div>
+        <div class="role-name-zh" data-zh>蒋医生</div>
+        <div class="role-name-en" data-en>蒋医生</div>
+        <div class="role-gender" data-zh>男 · 三十三岁</div>
+        <div class="role-gender" data-en>Male · Age 33</div>
+      </div>
+      <div class="role-desc">
+        <span data-zh>个子不高，脸色有些发黄，披一件白大褂，喜欢抬起眼看人。</span>
+        <span data-en>Slightly built, with a sallow complexion. He wears a white coat and has a habit of looking up at people from beneath his brow.</span>
+      </div>
+    </div>
+
+    <div class="role-item">
+      <div class="role-num">03</div>
+      <div>
+        <div class="role-alias" data-zh>秘书</div>
+        <div class="role-alias" data-en>Secretary</div>
+        <div class="role-name-zh" data-zh>阿玉</div>
+        <div class="role-name-en" data-en>阿玉</div>
+        <div class="role-gender" data-zh>男 · 二十岁</div>
+        <div class="role-gender" data-en>Male · Age 20</div>
+      </div>
+      <div class="role-desc">
+        <span data-zh>俊俏斯文，衣着整洁，发型光鲜，说话声音不高，举止文质彬彬。</span>
+        <span data-en>Handsome and refined, with neat dress and well-groomed hair. He speaks quietly and carries himself with scholarly composure.</span>
+      </div>
+    </div>
+
+    <div class="role-item">
+      <div class="role-num">04</div>
+      <div>
+        <div class="role-alias" data-zh>[陈家] 太太</div>
+        <div class="role-alias" data-en>[Chen Family] Mistress</div>
+        <div class="role-name-zh" data-zh>如静</div>
+        <div class="role-name-en" data-en>如静</div>
+        <div class="role-gender" data-zh>女 · 年纪不详</div>
+        <div class="role-gender" data-en>Female · Age unknown</div>
+      </div>
+      <div class="role-desc">
+        <span data-zh>神情悠然，长发未曾梳理，身穿绣工精美的长袖衣裤，还抱着小猪。</span>
+        <span data-en>Unhurried and serene, her long hair left loose and uncombed. She wears an elaborately embroidered long-sleeved outfit — and holds a small pig in her arms.</span>
+      </div>
+    </div>
+
+    <div class="role-item">
+      <div class="role-num">05</div>
+      <div>
+        <div class="role-alias" data-zh>[陈家] 大小姐</div>
+        <div class="role-alias" data-en>[Chen Family] Eldest Daughter</div>
+        <div class="role-name-zh" data-zh>梦儿</div>
+        <div class="role-name-en" data-en>梦儿</div>
+        <div class="role-gender" data-zh>女 · 二十一岁</div>
+        <div class="role-gender" data-en>Female · Age 21</div>
+      </div>
+      <div class="role-desc">
+        <span data-zh>容貌苍白，秀美，鬓戴白花，身穿白衣，长发及腰。</span>
+        <span data-en>Pale and delicately beautiful, with a white flower pinned at her temple, dressed in white robes, her long hair falling to her waist.</span>
+      </div>
+    </div>
+
+    <div class="role-item">
+      <div class="role-num">06</div>
+      <div>
+        <div class="role-alias" data-zh>女性客人</div>
+        <div class="role-alias" data-en>Female Guest</div>
+        <div class="role-name-zh" data-zh>林雅珠</div>
+        <div class="role-name-en" data-en>林雅珠</div>
+        <div class="role-gender" data-zh>女 · 年纪不详</div>
+        <div class="role-gender" data-en>Female · Age unknown</div>
+      </div>
+      <div class="role-desc">
+        <span data-zh>穿裹身旗袍，外罩披肩，体态丰腴的美貌妇人。</span>
+        <span data-en>A full-figured and beautiful woman, dressed in a form-fitting qipao with a shawl draped over her shoulders.</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- BOOKING -->
+<div class="booking-bar">
+  <div>
+    <div class="booking-title" data-zh>立即预约 · 珠帘异梦</div>
+    <div class="booking-title" data-en>Book Now · Strange Dreams Behind the Bead Curtain</div>
+    <div class="booking-sub" data-zh>6人 · 4小时 · $45/人 · 建议提前预约</div>
+    <div class="booking-sub" data-en>6 players · 4 hrs · $45/person · Advance booking recommended</div>
+  </div>
+  <a href="index.html#booking" class="booking-btn">
+    <span data-zh>前往预约</span><span data-en>Reserve</span>
+  </a>
+</div>
+
+<footer>
+  <span data-zh>W两个世界 桌游工作室 · 731 Copeland St, Pittsburgh</span>
+  <span data-en>W Two Worlds Board Game Studio · 731 Copeland St, Pittsburgh</span>
 </footer>
 
 <script>
@@ -204,7 +284,16 @@
     body.className = isZh ? 'lang-en' : 'lang-zh';
     btnZh.classList.toggle('active', !isZh);
     btnEn.classList.toggle('active', isZh);
+    try { localStorage.setItem('wtwLang', isZh ? 'en' : 'zh'); } catch(e){}
   });
+  try {
+    const saved = localStorage.getItem('wtwLang');
+    if (saved) {
+      body.className = 'lang-' + saved;
+      btnZh.classList.toggle('active', saved === 'zh');
+      btnEn.classList.toggle('active', saved === 'en');
+    }
+  } catch(e){}
 </script>
 </body>
 </html>
